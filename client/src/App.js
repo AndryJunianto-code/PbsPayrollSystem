@@ -1,8 +1,12 @@
 import './App.css';
+import Theme from './assets/styles/theme';
+import Admin from './pages/Admin';
 
 function App() {
   return (
-    <h1>hello</h1>
+    <Theme>
+      <Admin/>
+    </Theme>
   );
 }
 
