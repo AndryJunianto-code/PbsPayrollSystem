@@ -35,13 +35,9 @@ import { getAllPosition } from "../../requests/positionRequest";
       joinedDate: "",
       position: "Probation",
     }
-
+    const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
-    const [fieldError, setFieldError] = useState({
-      name: false,
-      nik: false,
-      phoneNumber: false,
-    });
+    const [fieldError, setFieldError] = useState(initialFieldError);
   
     const handleInput = (e) => {
       setInput({ ...input, [e.target.name]: e.target.value });
@@ -52,8 +48,8 @@ import { getAllPosition } from "../../requests/positionRequest";
       if (input.name.trim() === "") {errors.name = true};
       if (input.nik.trim() === "") {errors.nik = true};
       if (input.phoneNumber.trim() === "") {errors.phoneNumber = true};
-      if (input.dob.trim() === "") {errors.dob = true}
-      if (input.joinedDate.trim() === "") {errors.joinedDate = true}
+      if (input.dob.toString().trim() === "" || input.dob.toString() === "Invalid Date") {errors.dob = true};
+      if (input.joinedDate.toString().trim() === "" || input.joinedDate.toString() === "Invalid Date") {errors.joinedDate = true};
       return errors;
     };
 
@@ -96,7 +92,10 @@ import { getAllPosition } from "../../requests/positionRequest";
           position: position_name,
         });
      }
-     return () => setInput(initialState)
+     return () => {
+      setInput(initialState)
+      setFieldError(initialFieldError)
+    }
     }, [data]);
     return (
       <Modal
@@ -183,7 +182,7 @@ import { getAllPosition } from "../../requests/positionRequest";
                   onChange={handleInput}
                 >
                   {positionSuccess && positionData !== null && positionData.map(position=> (
-                    <MenuItem value={position.title}>{position.title}</MenuItem>
+                    <MenuItem key={position.title} value={position.title}>{position.title}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

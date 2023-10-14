@@ -10,6 +10,7 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
         required:true,
+        unique: true,
       },
       salary: {
         type: DataTypes.INTEGER,

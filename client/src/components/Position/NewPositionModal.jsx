@@ -10,14 +10,14 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { basicModalStyle } from "../../assets/styles/styles";
 import { useMutation } from "react-query";
 import { createPosition } from "../../requests/positionRequest";
 
 const NewPositionModal = ({
   openPosModal,
-  handleClosePosModal,
+  setOpenPosModal,
   refetchPosition,
 }) => {
   const initialState = {
@@ -30,19 +30,22 @@ const NewPositionModal = ({
     quarterBonusFirstTier:0,
     quarterBonusSecondTier:0
   }
+  const initialFieldError = {title:false,salary:false}
   const [input,setInput] = useState(initialState)
-  const [fieldError,setFieldError] = useState({
-    title:false,salary:false
-  })
+  const [fieldError,setFieldError] = useState(initialFieldError)
 
   const handleInput = (e) => {
     setInput({...input,[e.target.name]:e.target.value});
   };
+  const handleClosePosModal = () => {
+    setOpenPosModal(false)
+    setFieldError(initialFieldError)
+  }
 
   const validateField = () => {
     const errors = {};
-    if (input.title.trim() === "") {errors.title = true};
-    if (input.salary.trim() === "" || parseInt(input.salary) <= 0) {errors.salary = true};
+    if (input.title.toString().trim() === "") {errors.title = true};
+    if (input.salary.toString().trim() === "" || parseInt(input.salary) <= 0) {errors.salary = true};
     return errors;
   }
   
@@ -67,7 +70,7 @@ const NewPositionModal = ({
      ) 
     }
   }
-
+  
   return (
     <Modal
       open={openPosModal}

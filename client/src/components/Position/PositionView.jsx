@@ -14,12 +14,23 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useQuery } from "react-query";
 import NewPositionModal from "./NewPositionModal";
 import { useViewContext } from "../../context/ViewContext";
+import UpdatePositionModal from "./UpdatePositionModal";
 
 const PositionView = () => {
   const {openDrawer} = useViewContext();
   const [openPosModal, setOpenPosModal] = useState(false);
+  const [openPosUpdateModal,setOpenPosUpdateModal] = useState(false)
+  const [prevUpdatedData, setPrevUpdatedData] = useState(null);
   const handleOpenPosModal = () => setOpenPosModal(true);
-  const handleClosePosModal = () => setOpenPosModal(false);
+
+  const handleOpenPosUpdateModal = (data) => {
+    setPrevUpdatedData(data);
+    setOpenPosUpdateModal(true);
+  };
+  const handleClosePosUpdateModal = () => {
+    setOpenPosUpdateModal(false);
+    setPrevUpdatedData(null);
+  };
 
   const {
     data: positionData,
@@ -93,6 +104,7 @@ const PositionView = () => {
             variant="contained"
             color="primary"
             sx={{ textTransform: "capitalize" }}
+            onClick={()=>handleOpenPosUpdateModal(cellValues.row)}
           >
             Edit
           </Button>
@@ -148,8 +160,14 @@ const PositionView = () => {
       </Box>
       <NewPositionModal
         openPosModal={openPosModal}
-        handleClosePosModal={handleClosePosModal}
+        setOpenPosModal={setOpenPosModal}
         refetchPosition={refetchPosition}
+      />
+      <UpdatePositionModal 
+      openPosUpdateModal={openPosUpdateModal}
+      handleClosePosUpdateModal={handleClosePosUpdateModal}
+      refetchPosition={refetchPosition}
+      data={prevUpdatedData}
       />
     </Box>
   );

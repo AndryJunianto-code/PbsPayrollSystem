@@ -5,7 +5,7 @@ const ViewContext = React.createContext({});
 
 
 const ViewContextProvider = ({ children }) => {
-  const [selectedView, setSelectedView] = useState('Position');
+  const [selectedView, setSelectedView] = useState('Employee');
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const setToEmployee = () => setSelectedView(VIEW_ENUM.EMPLOYEE_VIEW);

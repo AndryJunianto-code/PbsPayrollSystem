@@ -26,7 +26,6 @@ const EmployeeView = () => {
   const [openEmpUpdateModal, setOpenEmpUpdateModal] = useState(false);
   const [prevUpdatedData, setPrevUpdatedData] = useState(null);
   const handleOpenEmpModal = () => setOpenEmpModal(true);
-  const handleCloseEmpModal = () => setOpenEmpModal(false);
 
   const handleOpenEmpUpdateModal = (data) => {
     setPrevUpdatedData(data);
@@ -218,7 +217,7 @@ const EmployeeView = () => {
       </Box>
       <NewEmployeeModal
         openEmpModal={openEmpModal}
-        handleCloseEmpModal={handleCloseEmpModal}
+        setOpenEmpModal={setOpenEmpModal}
         refetchEmployee={refetchEmployee}
       />
       <UpdateEmployeeModal
