@@ -67,7 +67,7 @@ const EmployeeView = () => {
           <Box
             sx={{
               backgroundColor:
-                positionColor[cellValues.row.position_name.toLowerCase()],
+                positionColor[cellValues.row.position.title.toLowerCase().replace(' ', '_')],
               color: "white",
               padding: "0.5rem",
               width: "150px",
@@ -77,7 +77,7 @@ const EmployeeView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.position_name}
+            {cellValues.row.position?.title}
           </Box>
         );
       },

@@ -40,6 +40,15 @@ export const getAllPosition = async (req, res) => {
   }
 };
 
+export const getOnePosition = async(req,res)=> {
+  try {
+    const position = await Position.findOne({where:{title:req.body.title}});
+    res.status(200).json(position);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 export const updatePosition = async (req, res) => {
     const {
         title,

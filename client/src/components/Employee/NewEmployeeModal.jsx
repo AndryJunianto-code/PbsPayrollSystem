@@ -13,10 +13,11 @@ import {
   import React, { useState } from "react";
   import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
   import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-  import { useMutation } from "react-query";
+  import { useMutation, useQuery } from "react-query";
   import { createEmployee } from "../../requests/employeeRequest";
   import dayjs from "dayjs";
   import { basicModalStyle } from "../../assets/styles/styles";
+import { getAllPosition } from "../../requests/positionRequest";
   
   const NewEmployeeModal = ({
     openEmpModal,
@@ -30,7 +31,7 @@ import {
       dob: "",
       phoneNumber: "",
       joinedDate: '',
-      position: "Probation",
+      positionId: 1,
     }
     const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
@@ -53,6 +54,11 @@ import {
       if (input.joinedDate.toString().trim() === "" || input.joinedDate.toString() === "Invalid Date") {errors.joinedDate = true};
       return errors;
     };
+
+    const {
+      data: positionData,
+      isSuccess: positionSuccess,
+    } = useQuery(["getAllPosition"], getAllPosition, { retryDelay: 3000 });
   
     const { mutate: mutateEmployee } = useMutation(createEmployee);
   
@@ -63,9 +69,9 @@ import {
       
       if (!hasErrors) {
         e.preventDefault();
-        const { name, gender, nik, dob, phoneNumber, joinedDate,position } = input;
+        const { name, gender, nik, dob, phoneNumber, joinedDate,positionId } = input;
         mutateEmployee(
-          { name, gender, nik, dob, phoneNumber, joinedDate,position },
+          { name, gender, nik, dob, phoneNumber, joinedDate,positionId },
           {
             onSuccess: () => {
               refetchEmployee();
@@ -156,13 +162,15 @@ import {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={input.position}
+                  defaultValue={positionData && positionData[0].title}
+                  value={input.positionId}
                   label="Position"
-                  name="position"
+                  name="positionId"
                   onChange={handleInput}
                 >
-                  <MenuItem value={"Probation"}>Probation</MenuItem>
-                  <MenuItem value={"Admin"}>Admin</MenuItem>
+                  {positionSuccess && positionData !== null && positionData.map(position=> (
+                    <MenuItem key={position.id} value={position.id}>{position.title}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ flex: 2 }}>

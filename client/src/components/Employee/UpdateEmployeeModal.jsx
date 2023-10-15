@@ -33,7 +33,7 @@ import { getAllPosition } from "../../requests/positionRequest";
       dob: "",
       phoneNumber: "",
       joinedDate: "",
-      position: "Probation",
+      positionId: 1,
     }
     const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
@@ -66,9 +66,9 @@ import { getAllPosition } from "../../requests/positionRequest";
   
       if(!hasErrors) {
       e.preventDefault();
-      const { name, gender, nik, dob, phoneNumber, joinedDate, position } = input;
+      const { name, gender, nik, dob, phoneNumber, joinedDate, positionId } = input;
       mutateEmployee(
-        {id:data?.id, name, gender, nik, dob, phoneNumber, joinedDate, position },
+        {id:data?.id, name, gender, nik, dob, phoneNumber, joinedDate, positionId },
         {
           onSuccess: () => {
             refetchEmployee();
@@ -81,7 +81,7 @@ import { getAllPosition } from "../../requests/positionRequest";
 
     useEffect(() => {
      if(data !== null) {
-      const {name,gender,nik,dob,phone_number,joined_date,position_name} = data;
+      const {name,gender,nik,dob,phone_number,joined_date,positionId} = data;
       setInput({
           name,
           gender,
@@ -89,7 +89,7 @@ import { getAllPosition } from "../../requests/positionRequest";
           dob,
           phoneNumber: phone_number,
           joinedDate: joined_date,
-          position: position_name,
+          positionId,
         });
      }
      return () => {
@@ -176,13 +176,14 @@ import { getAllPosition } from "../../requests/positionRequest";
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={input.position}
+                  defaultValue={data?.position.title}
+                  value={input.positionId}
                   label="Position"
-                  name="position"
+                  name="positionId"
                   onChange={handleInput}
                 >
                   {positionSuccess && positionData !== null && positionData.map(position=> (
-                    <MenuItem key={position.title} value={position.title}>{position.title}</MenuItem>
+                    <MenuItem key={position.id} value={position.id}>{position.title}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

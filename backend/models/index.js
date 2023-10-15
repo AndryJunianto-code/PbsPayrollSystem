@@ -32,7 +32,9 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.employee = Employee(sequelize,DataTypes);
 db.position = Position(sequelize,DataTypes);
-//db.reviews = require("./reviewModel.js")(sequelize, DataTypes);
+
+db.employee.belongsTo(db.position);
+db.position.hasMany(db.employee);
 
 db.sequelize.sync({ force: false }).then(() => console.log("re-sync done"));
 

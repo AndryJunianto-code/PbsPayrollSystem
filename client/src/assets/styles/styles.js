@@ -13,10 +13,10 @@ export const basicModalStyle = {
   };
 
 export const positionColor = {
-  senior: "#e74c3c",
-  junior: "#f39c12",
+  senior_consultant: "#e74c3c",
+  junior_consultant: "#f39c12",
   probation: "#27ae60",
-  assistant: "#3498db",
+  assistant_manager: "#3498db",
   manager: "#9b59b6",
   admin: "#fe7c96"
 }
