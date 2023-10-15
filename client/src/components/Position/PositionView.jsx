@@ -15,6 +15,7 @@ import { useQuery } from "react-query";
 import NewPositionModal from "./NewPositionModal";
 import { useViewContext } from "../../context/ViewContext";
 import UpdatePositionModal from "./UpdatePositionModal";
+import ViewFirstBox from "../widgets/ViewFirstBox";
 
 const PositionView = () => {
   const {openDrawer} = useViewContext();
@@ -113,7 +114,7 @@ const PositionView = () => {
     },
   ];
   return (
-    <Box component={"main"} sx={{ flexGrow: 1, pt: "4rem", pr: "2rem", pl:openDrawer ? '16rem' : '6rem'} }>
+    <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
           mt:'2.5rem',
@@ -169,7 +170,7 @@ const PositionView = () => {
       refetchPosition={refetchPosition}
       data={prevUpdatedData}
       />
-    </Box>
+    </ViewFirstBox>
   );
 };
 

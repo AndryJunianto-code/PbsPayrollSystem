@@ -19,6 +19,7 @@ import { getAllEmployee } from "../../requests/employeeRequest";
 import UpdateEmployeeModal from "./UpdateEmployeeModal";
 import { positionColor } from "../../assets/styles/styles";
 import { useViewContext } from "../../context/ViewContext";
+import ViewFirstBox from "../widgets/ViewFirstBox";
 
 const EmployeeView = () => {
   const {openDrawer} = useViewContext();
@@ -170,7 +171,7 @@ const EmployeeView = () => {
   ];
 
   return (
-    <Box component={"main"} sx={{ flexGrow: 1, pt: "4rem", pr: "2rem", pl:openDrawer ? '16rem' : '6rem'} }>
+    <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
           mt:'2.5rem',
@@ -226,7 +227,7 @@ const EmployeeView = () => {
         refetchEmployee={refetchEmployee}
         data={prevUpdatedData}
       />
-    </Box>
+    </ViewFirstBox>
   );
 };
 

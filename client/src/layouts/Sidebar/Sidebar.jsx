@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Sidebar = () => {
   const theme = useTheme();
-  const {setToEmployee,setToPosition,selectedView,setOpenDrawer,openDrawer} = useViewContext();
+  const {setToDashboard,setToEmployee,setToPosition,selectedView,setOpenDrawer,openDrawer} = useViewContext();
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -129,7 +129,7 @@ const Sidebar = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} />
+          <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} handleView={setToDashboard} />
           <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge/>} handleView={setToEmployee}/>
           <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
           <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell/>}/>
