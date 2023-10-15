@@ -162,7 +162,7 @@ import { getAllPosition } from "../../requests/positionRequest";
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue={positionData && positionData[0].title}
+                  defaultValue={positionData && positionData[0]?.title}
                   value={input.positionId}
                   label="Position"
                   name="positionId"

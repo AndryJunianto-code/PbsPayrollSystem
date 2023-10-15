@@ -38,6 +38,7 @@ const PositionView = () => {
     isSuccess: positionSuccess,
     refetch: refetchPosition,
   } = useQuery(["getAllPosition"], getAllPosition, { retryDelay: 3000 });
+  
   const columns = [
     {
       field: "id",
@@ -64,31 +65,31 @@ const PositionView = () => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "promotion_target",
+      field: "promotionTarget",
       headerName: "Promotion",
       width: 110,
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "monthly_commision_first_tier",
+      field: "monthlyCommisionFirstTier",
       headerName: "1st Tier Comm",
       width: 135,
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "monthly_commision_second_tier",
+      field: "monthlyCommisionSecondTier",
       headerName: "2nd Tier Comm",
       width: 135,
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "quarter_bonus_first_tier",
+      field: "quarterBonusFirstTier",
       headerName: "1st Tier Quarter",
       width: 135,
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "quarter_bonus_second_tier",
+      field: "quarterBonusSecondTier",
       headerName: "2nd Tier Quarter",
       width: 140,
       headerClassName: "super-app-theme--header",
@@ -119,7 +120,6 @@ const PositionView = () => {
         sx={{
           mt:'2.5rem',
           mb:'0.5rem',
-          backgroundColor: "white",
         }}
       >
         <Stack direction="row" alignItems={"center"}>

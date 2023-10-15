@@ -4,27 +4,7 @@ const Position = db.position;
 
 export const addPosition = async (req, res) => {
   try {
-    const {
-      title,
-      salary,
-      target,
-      promotionTarget,
-      monthlyCommisionFirstTier,
-      monthlyCommisionSecondTier,
-      quarterBonusFirstTier,
-      quarterBonusSecondTier,
-    } = req.body;
-    let data = {
-      title,
-      salary,
-      target,
-      promotion_target: promotionTarget,
-      monthly_commision_first_tier: monthlyCommisionFirstTier,
-      monthly_commision_second_tier: monthlyCommisionSecondTier,
-      quarter_bonus_first_tier: quarterBonusFirstTier,
-      quarter_bonus_second_tier: quarterBonusSecondTier,
-    };
-    const newPosition = await Position.create(data);
+    const newPosition = await Position.create(req.body);
     res.status(200).json(newPosition);
   } catch (err) {
     res.status(500).json(err);
@@ -50,28 +30,8 @@ export const getOnePosition = async(req,res)=> {
 }
 
 export const updatePosition = async (req, res) => {
-    const {
-        title,
-        salary,
-        target,
-        promotionTarget,
-        monthlyCommFirst,
-        monthlyCommSecond,
-        quarterBonusFirst,
-        quarterBonusSecond,
-      } = req.body;
   let id = req.params.id;
-  let data = {
-    title,
-    salary,
-    target,
-    promotion_target: promotionTarget,
-    monthly_commision_first_tier: monthlyCommFirst,
-    monthly_commision_second_tier: monthlyCommSecond,
-    quarter_bonus_first_tier: quarterBonusFirst,
-    quarter_bonus_second_tier: quarterBonusSecond,
-  };
-  const updatedPosition = await Position.update(data, {
+  const updatedPosition = await Position.update(req.body, {
     where: { id },
     returning: true,
   });

@@ -86,28 +86,7 @@ const UpdatePositionModal = ({
   };
 
   useEffect(() => {
-    if (data !== null) {
-      const {
-        title,
-        salary,
-        target,
-        promotion_target,
-        monthly_commision_first_tier,
-        monthly_commision_second_tier,
-        quarter_bonus_first_tier,
-        quarter_bonus_second_tier,
-      } = data;
-      setInput({
-        title,
-        salary,
-        target,
-        promotionTarget: promotion_target,
-        monthlyCommisionFirstTier: monthly_commision_first_tier,
-        monthlyCommisionSecondTier: monthly_commision_second_tier,
-        quarterBonusFirstTier: quarter_bonus_first_tier,
-        quarterBonusSecondTier: quarter_bonus_second_tier,
-      });
-    }
+    if (data !== null) setInput(data);
     return () => {
       setInput(initialState)
       setFieldError(initialFieldError)

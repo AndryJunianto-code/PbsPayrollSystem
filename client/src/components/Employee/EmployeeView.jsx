@@ -3,10 +3,7 @@ import {
   Avatar,
   Box,
   Button,
-  IconButton,
   Stack,
-  TextField,
-  Typography,
 } from "@mui/material";
 import { AddOutlined} from "@mui/icons-material";
 import BoyImage from "../../assets/images/boy.png";
@@ -43,6 +40,7 @@ const EmployeeView = () => {
     isSuccess: employeeSuccess,
     refetch: refetchEmployee,
   } = useQuery(["getAllEmployee"], getAllEmployee, { retryDelay: 3000 });
+  
   const columns = [
     {
       field: "id",
@@ -59,7 +57,7 @@ const EmployeeView = () => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "position_name",
+      field: "positionName",
       headerName: "Position",
       width: 200,
       headerClassName: "super-app-theme--header",
@@ -112,13 +110,13 @@ const EmployeeView = () => {
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "phone_number",
+      field: "phoneNumber",
       headerName: "Telephone",
       width: 150,
       headerClassName: "super-app-theme--header",
     },
     {
-      field: "joined_date",
+      field: "joinedDate",
       headerName: "Joined Date",
       width: 135,
       headerClassName: "super-app-theme--header",
@@ -153,7 +151,6 @@ const EmployeeView = () => {
       field: "button",
       headerName: "",
       width: 100,
-
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -176,7 +173,6 @@ const EmployeeView = () => {
         sx={{
           mt:'2.5rem',
           mb:'0.5rem',
-          backgroundColor: "white",
         }}
       >
         <Stack direction="row" alignItems={"center"}>

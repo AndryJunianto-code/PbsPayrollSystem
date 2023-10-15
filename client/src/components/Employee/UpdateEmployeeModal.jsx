@@ -80,18 +80,7 @@ import { getAllPosition } from "../../requests/positionRequest";
     };
 
     useEffect(() => {
-     if(data !== null) {
-      const {name,gender,nik,dob,phone_number,joined_date,positionId} = data;
-      setInput({
-          name,
-          gender,
-          nik,
-          dob,
-          phoneNumber: phone_number,
-          joinedDate: joined_date,
-          positionId,
-        });
-     }
+     if(data !== null) setInput(data);
      return () => {
       setInput(initialState)
       setFieldError(initialFieldError)
@@ -176,7 +165,7 @@ import { getAllPosition } from "../../requests/positionRequest";
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue={data?.position.title}
+                  defaultValue={data?.position?.title}
                   value={input.positionId}
                   label="Position"
                   name="positionId"

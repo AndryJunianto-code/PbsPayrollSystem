@@ -26,12 +26,12 @@ export default (sequelize, DataTypes) => {
       allowNull: false,
       required:true,
     },
-    phone_number: {
+    phoneNumber: {
       type: DataTypes.STRING,
       allowNull: false,
       required:true,
     },
-    joined_date: {
+    joinedDate: {
       type: DataTypes.STRING,
       allowNull: false,
       required:true,

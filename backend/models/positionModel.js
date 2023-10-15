@@ -5,12 +5,13 @@ export default (sequelize, DataTypes) => {
       primaryKey:true,
       allowNull:false,
       autoIncrement:true,
+      primaryKey:true,
     },
     title: {
       type: DataTypes.STRING,
-      primaryKey:true,
       allowNull: false,
       required:true,
+      unique:true
     },
     salary: {
       type: DataTypes.INTEGER,
@@ -21,23 +22,23 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull:true
     },
-    promotion_target: {
+    promotionTarget: {
       type: DataTypes.INTEGER,
       allowNull:true
     },
-    monthly_commision_first_tier: {
+    monthlyCommisionFirstTier: {
       type: DataTypes.INTEGER,
       allowNull:true
     },
-    monthly_commision_second_tier: {
+    monthlyCommisionSecondTier: {
       type: DataTypes.INTEGER,
       allowNull:true
     },
-    quarter_bonus_first_tier: {
+    quarterBonusFirstTier: {
       type: DataTypes.INTEGER,
       allowNull:true
     },
-    quarter_bonus_second_tier: {
+    quarterBonusSecondTier: {
       type: DataTypes.INTEGER,
       allowNull:true
     }

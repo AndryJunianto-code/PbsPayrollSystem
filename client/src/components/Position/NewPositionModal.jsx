@@ -24,11 +24,11 @@ const NewPositionModal = ({
     title: "",
     salary: "",
     target: 0,
-    promotionTarget: 0,
-    monthlyCommisionFirstTier: 0,
-    monthlyCommisionSecondTier:0,
-    quarterBonusFirstTier:0,
-    quarterBonusSecondTier:0
+    promotionTarget: "",
+    monthlyCommisionFirstTier: "",
+    monthlyCommisionSecondTier:"",
+    quarterBonusFirstTier:"",
+    quarterBonusSecondTier:""
   }
   const initialFieldError = {title:false,salary:false}
   const [input,setInput] = useState(initialState)

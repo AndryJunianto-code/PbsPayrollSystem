@@ -11,8 +11,9 @@ const ViewContextProvider = ({ children }) => {
   const setToDashboard = () => setSelectedView(VIEW_ENUM.DASHBOARD_VIEW);
   const setToEmployee = () => setSelectedView(VIEW_ENUM.EMPLOYEE_VIEW);
   const setToPosition = () => setSelectedView(VIEW_ENUM.POSITION_VIEW);
+  const setToSales = () => setSelectedView(VIEW_ENUM.SALES_VIEW);
   return (
-    <ViewContext.Provider value={{ setToDashboard,setToEmployee,setToPosition,selectedView,openDrawer,setOpenDrawer }}>
+    <ViewContext.Provider value={{ setToDashboard,setToEmployee,setToPosition,setToSales,selectedView,openDrawer,setOpenDrawer }}>
       {children}
     </ViewContext.Provider>
   );

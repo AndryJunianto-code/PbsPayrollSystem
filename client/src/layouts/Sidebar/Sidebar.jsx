@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Sidebar = () => {
   const theme = useTheme();
-  const {setToDashboard,setToEmployee,setToPosition,selectedView,setOpenDrawer,openDrawer} = useViewContext();
+  const {setToDashboard,setToEmployee,setToPosition,setToSales,selectedView,setOpenDrawer,openDrawer} = useViewContext();
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -131,8 +131,8 @@ const Sidebar = () => {
         <List>
           <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} handleView={setToDashboard} />
           <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge/>} handleView={setToEmployee}/>
-          <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
-          <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell/>}/>
+          <SidebarItem open={openDrawer} name={'Position'} icon={<Eject sx={{width:'25px', height:'25px'}}/>} handleView={setToPosition}/>
+          <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell sx={{width:'22px', height:'22px',pl:'0.2rem'}}/>} handleView={setToSales}/>
           <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>}/>
           <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToReg/>}/>
         </List>
