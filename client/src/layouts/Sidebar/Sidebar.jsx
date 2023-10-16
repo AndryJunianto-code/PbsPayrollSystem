@@ -127,12 +127,12 @@ const Sidebar = () => {
             )}
           </IconButton>
         </DrawerHeader>
-        <Divider />
+        <Divider /> 
         <List>
           <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} handleView={setToDashboard} />
-          <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge/>} handleView={setToEmployee}/>
-          <SidebarItem open={openDrawer} name={'Position'} icon={<Eject sx={{width:'25px', height:'25px'}}/>} handleView={setToPosition}/>
-          <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell sx={{width:'22px', height:'22px',pl:'0.2rem'}}/>} handleView={setToSales}/>
+          <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge fontSize="small" sx={{ml:'0.25rem'}}/>} handleView={setToEmployee}/>
+          <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
+          <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell fontSize="small" sx={{ml:'0.25rem'}}/>} handleView={setToSales}/>
           <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>}/>
           <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToReg/>}/>
         </List>

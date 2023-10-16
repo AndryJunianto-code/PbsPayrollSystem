@@ -1,4 +1,4 @@
-import uid from "../utils/idGenerator.js";
+import generateId from "../utils/idGenerator.js";
 
 export default (sequelize, DataTypes) => {
     const Sales = sequelize.define("sales", {
@@ -6,34 +6,36 @@ export default (sequelize, DataTypes) => {
         type: DataTypes.STRING(100),
         primaryKey:true,
         allowNull:false,
-        defaultValue: uid
+        defaultValue: () => {
+          return generateId();
+        }
       },
-      sales_date: {
+      salesDate: {
         type: DataTypes.STRING,
         allowNull:false,
         required:true
       },
-      customer_name: {
+      customerName: {
         type: DataTypes.STRING,
         allowNull: false,
         required:true,
       },
-      company_name: {
+      companyName: {
         type: DataTypes.STRING,
         allowNull:false,
         defaultValue: '-'
       },
-      phone_number: {
+      phoneNumber: {
         type: DataTypes.STRING,
         allowNull: false,
         required:true,
       },
-      product_name: {
+      productName: {
         type: DataTypes.STRING,
         allowNull: false,
         required:true,
       },
-      sales_amount: {
+      salesAmount: {
         type: DataTypes.INTEGER,
         allowNull: false,
         required:true,

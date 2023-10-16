@@ -7,7 +7,21 @@ export const basicModalStyle = {
     bgcolor: "background.paper",
     borderRadius: "4px",
     outline: "none",
-    height: { xs: "40rem", lg: "30rem" },
+    height: { xs: "40rem", lg: "29rem" },
+    boxShadow: 24,
+    p: 5,
+  };
+
+  export const mediumModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -55%)",
+    width: { xs: "90vw", md: "60rem", lg: "50rem" },
+    bgcolor: "background.paper",
+    borderRadius: "4px",
+    outline: "none",
+    height: { xs: "42rem", lg: "33rem" },
     boxShadow: 24,
     p: 5,
   };

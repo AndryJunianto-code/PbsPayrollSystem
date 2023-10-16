@@ -4,13 +4,7 @@ const Sales = db.sales;
 
 export const addSales = async (req, res) => {
     try {
-      const {
-       salesDate,salesAmount,customerName,companyName,phoneNumber,productName,remarks,employeeId
-      } = req.body;
-      let data = {
-        sales_date:salesDate,sales_amount:salesAmount,customer_name:customerName,company_name:companyName,phone_number:phoneNumber,product_name:productName,remarks
-      };
-      const newSales = await Sales.create(data);
+      const newSales = await Sales.create(req.body);
       res.status(200).json(newSales);
     } catch (err) {
       res.status(500).json(err);
@@ -24,4 +18,13 @@ export const getAllSales = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
+};
+
+export const updateSales = async (req, res) => {
+  let id = req.params.id;
+  const updatedSales = await Sales.update(req.body, {
+    where: { id },
+    returning: true,
+  });
+  res.status(200).json(updatedSales);
 };

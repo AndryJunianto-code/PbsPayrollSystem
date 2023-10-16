@@ -1,6 +1,10 @@
 import ShortUniqueId from 'short-unique-id';
 
-const id = new ShortUniqueId();
-const uid = id.seq();
 
-export default uid;
+const generateId = () => {
+    let id = new ShortUniqueId({length:6});
+    const uid = id.rnd();
+    return uid
+}
+
+export default generateId;
