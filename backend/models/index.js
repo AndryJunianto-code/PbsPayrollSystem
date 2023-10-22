@@ -5,6 +5,8 @@ import Employee from './employeeModel.js';
 import Position from './positionModel.js';
 import Sales from './salesModel.js';
 import Attendance from './attendanceModel.js';
+import Payslip from './payslipModel.js';
+import ImmunityLog from './immunityLogModel.js';
 
 const sequelize = new Sequelize(
   database,
@@ -36,6 +38,8 @@ db.employee = Employee(sequelize,DataTypes);
 db.position = Position(sequelize,DataTypes);
 db.sales = Sales(sequelize,DataTypes);
 db.attendance = Attendance(sequelize,DataTypes);
+db.payslip = Payslip(sequelize,DataTypes);
+db.immunityLog = ImmunityLog(sequelize,DataTypes);
 
 db.employee.belongsTo(db.position);
 db.position.hasMany(db.employee);
@@ -45,6 +49,12 @@ db.employee.hasMany(db.sales)
 
 db.attendance.belongsTo(db.employee);
 db.employee.hasMany(db.attendance);
+
+db.payslip.belongsTo(db.employee);
+db.employee.hasMany(db.payslip);
+
+db.immunityLog.belongsTo(db.employee);
+db.employee.hasMany(db.immunityLog);
 
 db.sequelize.sync({ force: false }).then(() => console.log("re-sync done"));
 

@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SidebarItem from "./SidebarItem";
-import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell} from '@mui/icons-material';
+import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
 
 const drawerWidth = 240;
@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Sidebar = () => {
   const theme = useTheme();
-  const {setToDashboard,setToEmployee,setToPosition,setToSales,setToAttendance,selectedView,setOpenDrawer,openDrawer} = useViewContext();
+  const {setToDashboard,setToEmployee,setToPosition,setToSales,setToImmunityLog,setToPayslip,setToAttendance,setToAttendanceSummary,selectedView,setOpenDrawer,openDrawer} = useViewContext();
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -133,8 +133,10 @@ const Sidebar = () => {
           <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge fontSize="small"/>} handleView={setToEmployee}/>
           <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
           <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell fontSize="small" sx={{ml:'0.25rem'}}/>} handleView={setToSales}/>
-          <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>}/>
+          <SidebarItem open={openDrawer} name={'Immunity Log'} icon={<VaccinesOutlined/>} handleView={setToImmunityLog}/>
+          <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>} handleView={setToPayslip}/>
           <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToReg/>} handleView={setToAttendance}/>
+          <SidebarItem open={openDrawer} name={'Attendance Summary'} icon={<SummarizeOutlined/>} handleView={setToAttendanceSummary}/>
         </List>
       </Drawer>
     </Box>

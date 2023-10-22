@@ -30,7 +30,7 @@ export const getAllEmployee = async (req,res) => {
 export const getAllEmployeeId = async (req,res) => {
     try{
         const allEmployee = await Employee.findAll({
-            attributes:['id']
+            attributes:['id','name']
         })
         res.status(200).json(allEmployee);
     } catch(err) {

@@ -3,6 +3,9 @@ export const VIEW_ENUM = {
     EMPLOYEE_VIEW: "Employee",
     POSITION_VIEW: "Position",
     SALES_VIEW: "Sales",
-    ATTENDANCE_VIEW: "Attendance"
+    IMMUNITY_LOG_VIEW:"Immunity Log",
+    PAYSLIP_VIEW:"Payslip",
+    ATTENDANCE_VIEW: "Attendance",
+    ATTENDANCE_SUMMARY_VIEW:"Attendance Summary"
   };
   
