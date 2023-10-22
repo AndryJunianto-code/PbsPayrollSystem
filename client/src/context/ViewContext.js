@@ -5,15 +5,16 @@ const ViewContext = React.createContext({});
 
 
 const ViewContextProvider = ({ children }) => {
-  const [selectedView, setSelectedView] = useState('Dashboard');
+  const [selectedView, setSelectedView] = useState('Attendance');
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const setToDashboard = () => setSelectedView(VIEW_ENUM.DASHBOARD_VIEW);
   const setToEmployee = () => setSelectedView(VIEW_ENUM.EMPLOYEE_VIEW);
   const setToPosition = () => setSelectedView(VIEW_ENUM.POSITION_VIEW);
   const setToSales = () => setSelectedView(VIEW_ENUM.SALES_VIEW);
+  const setToAttendance = () => setSelectedView(VIEW_ENUM.ATTENDANCE_VIEW);
   return (
-    <ViewContext.Provider value={{ setToDashboard,setToEmployee,setToPosition,setToSales,selectedView,openDrawer,setOpenDrawer }}>
+    <ViewContext.Provider value={{ setToDashboard,setToEmployee,setToPosition,setToSales,setToAttendance,selectedView,openDrawer,setOpenDrawer }}>
       {children}
     </ViewContext.Provider>
   );

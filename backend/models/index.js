@@ -4,6 +4,7 @@ import { Sequelize, DataTypes } from "sequelize";
 import Employee from './employeeModel.js';
 import Position from './positionModel.js';
 import Sales from './salesModel.js';
+import Attendance from './attendanceModel.js';
 
 const sequelize = new Sequelize(
   database,
@@ -34,12 +35,16 @@ db.sequelize = sequelize;
 db.employee = Employee(sequelize,DataTypes);
 db.position = Position(sequelize,DataTypes);
 db.sales = Sales(sequelize,DataTypes);
+db.attendance = Attendance(sequelize,DataTypes);
 
 db.employee.belongsTo(db.position);
 db.position.hasMany(db.employee);
 
 db.sales.belongsTo(db.employee);
 db.employee.hasMany(db.sales)
+
+db.attendance.belongsTo(db.employee);
+db.employee.hasMany(db.attendance);
 
 db.sequelize.sync({ force: false }).then(() => console.log("re-sync done"));
 

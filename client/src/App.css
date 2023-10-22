@@ -24,6 +24,13 @@
   color: white;
 }
 
+.sticky-header {
+  position: sticky;
+  top: 0;
+  background-color: #3f4d67; /* Header background color */
+  z-index: 1; /* Ensure the header stays on top of the content */
+}
+
 .App-link {
   color: #61dafb;
 }

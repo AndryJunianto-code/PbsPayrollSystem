@@ -5,6 +5,11 @@ export const getAllEmployee = async(obj) => {
     return data;
 }
 
+export const getAllEmployeeId = async(obj) => {
+    const {data} = await axios.get('/employee/getAllEmployeeId')
+    return data;
+}
+
 export const createEmployee = async(obj) => {
     const {name,gender,nik,dob,phoneNumber,joinedDate,positionId} = obj
     const {data} = await axios.post('/employee', {

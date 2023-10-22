@@ -27,6 +27,17 @@ export const getAllEmployee = async (req,res) => {
     }
 }
 
+export const getAllEmployeeId = async (req,res) => {
+    try{
+        const allEmployee = await Employee.findAll({
+            attributes:['id']
+        })
+        res.status(200).json(allEmployee);
+    } catch(err) {
+        res.status(500).json(err);
+    }
+}
+
 export const updateEmployee = async(req,res) => {
     let id = req.params.id
     const updatedEmployee = await Employee.update(req.body, {where: {id},returning:true})
