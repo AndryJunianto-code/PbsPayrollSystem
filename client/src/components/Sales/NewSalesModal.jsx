@@ -18,7 +18,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 
-const NewSalesModal = ({ openSalesModal, setOpenSalesModal, refetchSales }) => {
+const NewSalesModal = ({ openSalesModal, setOpenSalesModal }) => {
   const initialState = {};
   const [input, setInput] = useState(initialState);
   const handleCloseSalesModal = () => {

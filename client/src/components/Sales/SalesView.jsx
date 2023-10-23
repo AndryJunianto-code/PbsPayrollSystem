@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ViewFirstBox from "../widgets/ViewFirstBox";
-import { Box, Button, Divider, ListItemIcon, ListItemText, MenuItem, MenuList, Paper, Stack, Typography } from "@mui/material";
-import { AddOutlined, Cloud, ContentCut, ContentPaste } from "@mui/icons-material";
+import { Box, Button, Stack } from "@mui/material";
+import { AddOutlined } from "@mui/icons-material";
 import { useViewContext } from "../../context/ViewContext";
 import { useQuery } from "react-query";
 import { getAllSales } from "../../requests/salesRequest";
@@ -127,7 +127,7 @@ const SalesView = () => {
         />
         )}
       </Box>
-      <SalesActionMenu actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
+      <SalesActionMenu viewRemarks={true} actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
       <NewSalesModal openSalesModal={openSalesModal} setOpenSalesModal={setOpenSalesModal} refetchSales={refetchSales}/>
     </ViewFirstBox>
   );

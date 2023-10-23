@@ -22,6 +22,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 const NewImmunityLogModal = ({
   openImmunityLogModal,
   setOpenImmunityLogModal,
+  refetchImmunityLog
 }) => {
   const initialState = {
     employeeId: "",
@@ -49,7 +50,8 @@ const NewImmunityLogModal = ({
   const handleCreateImmunityLog = () => {
     mutateImmunityLog(input, {
       onSuccess: (data) => {
-        console.log(data);
+        refetchImmunityLog();
+        handleCloseImmunityLogModal();
       },
     });
   };

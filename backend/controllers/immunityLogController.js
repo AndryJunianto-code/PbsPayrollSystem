@@ -25,8 +25,26 @@ export const addImmunityLog = async (req, res) => {
               },
         ]
       })
-      res.status(200).json(allImmunityLog);
+      const flattenedData = allImmunityLog.map(log=> {
+        const {id,date,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employee} = log;
+        return {
+          id,date,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employeeId:employee.id,employeeName:employee.name
+        }
+      })
+      
+      res.status(200).json(flattenedData);
     } catch (err) {
       res.status(500).json(err);
     }
   };
+
+  export const deleteImmunityLog = async (req,res) => {
+    try{
+      await ImmunityLog.destroy({where:{
+        id:req.params.id
+      }})
+      res.status(200).json("Success");
+    } catch(err) {
+      res.status(500).json(err);
+    }
+  }

@@ -11,3 +11,7 @@ export const getImmunityLogOnDate = async(obj) => {
     return data;
 }
 
+export const deleteImmunityLog = async(obj) => {
+    const {data} = await axios.delete(`/immunityLog/${obj.id}`);
+    return data;
+}
