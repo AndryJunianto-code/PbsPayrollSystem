@@ -5,7 +5,7 @@ const ViewContext = React.createContext({});
 
 
 const ViewContextProvider = ({ children }) => {
-  const [selectedView, setSelectedView] = useState('Immunity Log');
+  const [selectedView, setSelectedView] = useState('Payslip');
   const [openDrawer, setOpenDrawer] = useState(false);
 
   const setToDashboard = () => setSelectedView(VIEW_ENUM.DASHBOARD_VIEW);

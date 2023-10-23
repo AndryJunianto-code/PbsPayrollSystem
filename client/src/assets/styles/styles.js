@@ -40,6 +40,20 @@ export const basicModalStyle = {
     p: 5,
   };
 
+  export const payslipModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -55%)",
+    width: { xs: "90vw", md: "70rem", lg: "62rem" },
+    bgcolor: "background.paper",
+    borderRadius: "4px",
+    outline: "none",
+    height: { xs: "42rem", lg: "33rem" },
+    boxShadow: 24,
+    p: 5,
+  };
+
 export const positionColor = {
   senior_consultant: "#e74c3c",
   junior_consultant: "#f39c12",
