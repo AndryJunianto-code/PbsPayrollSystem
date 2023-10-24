@@ -18,7 +18,6 @@ export const getAllEmployee = async (req,res) => {
             include:[{
                 model:Position,
                 as:'position',
-                attributes: ['title']
             }]
         })
         res.status(200).json(allEmployee);

@@ -56,9 +56,7 @@ const NewImmunityLogModal = ({
     });
   };
 
-  useEffect(()=> {
-console.log(input)
-  },[input])
+
   return (
     <Modal
       open={openImmunityLogModal}

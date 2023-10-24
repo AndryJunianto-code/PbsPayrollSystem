@@ -3,7 +3,6 @@ import {
   Button,
   Divider,
   FormControl,
-  Grid,
   InputAdornment,
   InputLabel,
   MenuItem,
@@ -11,19 +10,65 @@ import {
   OutlinedInput,
   Select,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
-import {
-  largeModalStyle,
-  mediumModalStyle,
-  payslipModalStyle,
-  positionColor,
-} from "../../assets/styles/styles";
+import React, { useEffect, useState } from "react";
+import { payslipModalStyle } from "../../assets/styles/styles";
+import { getAllEmployee } from "../../requests/employeeRequest";
+import { useMutation, useQuery } from "react-query";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { createPayslip, getAllPayslip } from "../../requests/payslipRequest";
+import dayjs from "dayjs";
 
-const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
+const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }) => {
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [deductedAmount, setDeductedAmount] = useState(0);
+  const [date, setDate] = useState("");
+
   const handleClosePayslipModal = () => setOpenPayslipModal(false);
+
+  const handleSelectEmployeeId = (e) => {
+    setSelectedEmployeeId(e.target.value);
+  };
+
+  const {
+    data: employeeData,
+    isSuccess: employeeSuccess,
+  } = useQuery(["getAllEmployee"], getAllEmployee, { retryDelay: 3000 });
+
+  const { mutate: mutateCreatePayslip } = useMutation(createPayslip);
+  const handleCreatePayslip = () => {
+    if (selectedEmployee) {
+      mutateCreatePayslip(
+        {
+          date: dayjs(date).format("DD MMM YYYY"),
+          basicSalary: selectedEmployee?.position.salary,
+          totalCommision: 0,
+          totalDeduction: deductedAmount,
+          netSalary: selectedEmployee?.position?.salary - deductedAmount,
+          employeeId: selectedEmployee?.id,
+        },
+        {
+          onSuccess: (data) => {
+            handleClosePayslipModal();
+            refetchPayslip();
+          },
+        }
+      );
+    }
+  };
+
+
+  useEffect(() => {
+    if (employeeSuccess && employeeData !== null) {
+      let selected = employeeData.filter(
+        (employee) => employee.id === selectedEmployeeId
+      )[0];
+      setSelectedEmployee(selected);
+    }
+  }, [selectedEmployeeId, employeeData]);
 
   return (
     <Modal
@@ -44,14 +89,22 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
         >
           <Box sx={{ width: "50%", pr: "2rem" }}>
             <Stack direction="column">
-              <Select
-                label="Employee"
-                name="employeeId"
-                onChange={"handleInput"}
-                value={"Andry"}
-              >
-                <MenuItem value={"2231192"}>Andry</MenuItem>
-              </Select>
+              <FormControl sx={{ flex: 1, mr: "1rem" }}>
+                <InputLabel id="demo-simple-select-label">Employee</InputLabel>
+                <Select
+                  label="Employee"
+                  onChange={handleSelectEmployeeId}
+                  value={selectedEmployeeId}
+                >
+                  {employeeSuccess &&
+                    employeeData !== null &&
+                    employeeData.map((employee) => (
+                      <MenuItem key={employee.id} value={employee.id}>
+                        {employee.name}
+                      </MenuItem>
+                    ))}
+                </Select>
+              </FormControl>
               <Stack direction={"column"} mt="2rem">
                 <Typography>Position</Typography>
                 <Box
@@ -67,36 +120,24 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
                     borderRadius: "4px",
                   }}
                 >
-                  Junior Consultant
+                  {selectedEmployee
+                    ? selectedEmployee?.position?.title
+                    : "Probation"}
                 </Box>
               </Stack>
 
-              <Stack direction={"row"} mt="3rem" mb='2rem' sx={{ flex: 2 }}>
-                <FormControl
-                  required
-                  onChange={""}
-                  sx={{ flex: 1, mr: "1rem" }}
-                >
-                  <InputLabel htmlFor="outlined-adornment-amount">
-                    Working Hour
-                  </InputLabel>
-                  <OutlinedInput
-                    type="number"
-                    id="outlined-adornment-amount"
-                    label="Working Hour"
+              <Box mt={"3rem"} mb="2rem">
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    onChange={(value) =>
+                      setDate(dayjs(value).format("DD MMM YYYY"))
+                    }
+                    value={date}
+                    label={"Date*"}
+                    format="DD MMM YYYY"
                   />
-                </FormControl>
-                <FormControl required onChange={""} sx={{ flex: 1 }}>
-                  <InputLabel htmlFor="outlined-adornment-amount">
-                    Reimbursed Hour
-                  </InputLabel>
-                  <OutlinedInput
-                    type="number"
-                    id="outlined-adornment-amount"
-                    label="Reimbursed Hour"
-                  />
-                </FormControl>
-              </Stack>
+                </LocalizationProvider>
+              </Box>
 
               <FormControl required sx={{ flex: 2 }}>
                 <InputLabel htmlFor="outlined-adornment-amount">
@@ -104,6 +145,7 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
                 </InputLabel>
                 <OutlinedInput
                   type="number"
+                  onChange={(e) => setDeductedAmount(e.target.value)}
                   id="outlined-adornment-amount"
                   startAdornment={
                     <InputAdornment position="start">Rp</InputAdornment>
@@ -122,21 +164,27 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
               <Typography variant="h6" mr="5rem">
                 Basic Salary
               </Typography>
-              <Stack direction="column" justifyContent={'start'}>
-              <Typography variant="h6" color="#8bc34a">
-                Rp 7000000
-              </Typography>
-                <Typography color={"#616161"}>Junior Consultant</Typography>
+              <Stack direction="column" justifyContent={"start"}>
+                <Typography variant="h6" color="#8bc34a">
+                  Rp{" "}
+                  {selectedEmployee
+                    ? selectedEmployee?.position.salary
+                    : "7000000"}
+                </Typography>
+                <Typography color={"#616161"}>
+                  {selectedEmployee
+                    ? selectedEmployee?.position?.title
+                    : "Probation"}
+                </Typography>
               </Stack>
-              
             </Stack>
             <Stack direction="row" alignItems={"start"} my="1.5rem">
               <Typography variant="h6" mr="2.4rem">
                 Total Commision
               </Typography>
-              <Stack direction="column" justifyContent={'start'}>
+              <Stack direction="column" justifyContent={"start"}>
                 <Typography variant="h6" fontWeight={"bold"} color={"blue"}>
-                  Rp 1500000
+                  Rp 0
                 </Typography>
                 <Typography color={"#616161"}>RP 30000 x 1% x 1000</Typography>
               </Stack>
@@ -147,7 +195,7 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
               </Typography>
               <Stack direction={"column"}>
                 <Typography variant="h6" fontWeight={"bold"} color={"red"}>
-                  Rp 500000
+                  Rp {deductedAmount}
                 </Typography>
                 <Typography color={"#616161"}>Late 3x</Typography>
               </Stack>
@@ -157,10 +205,17 @@ const NewPayslipModal = ({ openPayslipModal, setOpenPayslipModal }) => {
                 Net Salary
               </Typography>
               <Typography variant="h6" fontWeight={"bold"} color={"green"}>
-                Rp 8000000
+                Rp{" "}
+                {(selectedEmployee
+                  ? selectedEmployee?.position?.salary
+                  : 7000000) - deductedAmount}
               </Typography>
             </Stack>
-            <Button variant="contained" sx={{mt:'2.4rem',textTransform:'capitalize',float:'right'}}>
+            <Button
+              onClick={handleCreatePayslip}
+              variant="contained"
+              sx={{ mt: "2.4rem", textTransform: "capitalize", float: "right" }}
+            >
               Create
             </Button>
           </Box>
