@@ -80,7 +80,7 @@ import { getAllPosition } from "../../requests/positionRequest";
     };
 
     useEffect(() => {
-     if(data !== null) setInput(data);
+     if(data !== null) setInput(data.row);
      return () => {
       setInput(initialState)
       setFieldError(initialFieldError)

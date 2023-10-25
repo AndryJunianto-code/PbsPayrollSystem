@@ -127,7 +127,7 @@ const SalesView = () => {
         />
         )}
       </Box>
-      <SalesActionMenu viewRemarks={true} actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
+      <SalesActionMenu actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
       <NewSalesModal openSalesModal={openSalesModal} setOpenSalesModal={setOpenSalesModal} refetchSales={refetchSales}/>
     </ViewFirstBox>
   );

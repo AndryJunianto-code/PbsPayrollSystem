@@ -1,8 +1,8 @@
 import React from 'react'
 import {  ListItemIcon, ListItemText, Menu, MenuItem, Paper } from "@mui/material";
-import { StickyNote2Outlined,UpgradeOutlined, DeleteOutlineOutlined} from "@mui/icons-material";
+import { StickyNote2Outlined,UpgradeOutlined, DeleteOutlineOutlined, PictureAsPdfOutlined} from "@mui/icons-material";
 
-const SalesActionMenu = ({actionAnchor,isActionMenuOpen,handleCloseActionMenu}) => {
+const EmployeeActionMenu = ({actionAnchor,isActionMenuOpen,handleCloseActionMenu,handleOpenEmpUpdateModal}) => {
   return (
     <Paper>
     <Menu anchorEl={actionAnchor} open={isActionMenuOpen} onClose={handleCloseActionMenu}>
@@ -10,9 +10,15 @@ const SalesActionMenu = ({actionAnchor,isActionMenuOpen,handleCloseActionMenu}) 
         <ListItemIcon>
           <StickyNote2Outlined fontSize="small" />
         </ListItemIcon>
-        <ListItemText>View remarks</ListItemText>
+        <ListItemText>View Details</ListItemText>
       </MenuItem>
       <MenuItem>
+          <ListItemIcon>
+            <PictureAsPdfOutlined fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Download PDF</ListItemText>
+        </MenuItem>
+      <MenuItem onClick={handleOpenEmpUpdateModal}>
         <ListItemIcon>
           <UpgradeOutlined fontSize="small" />
         </ListItemIcon>
@@ -29,4 +35,4 @@ const SalesActionMenu = ({actionAnchor,isActionMenuOpen,handleCloseActionMenu}) 
   )
 }
 
-export default SalesActionMenu
+export default EmployeeActionMenu

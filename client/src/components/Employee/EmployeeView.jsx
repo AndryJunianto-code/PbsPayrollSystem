@@ -1,11 +1,6 @@
 import { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  Stack,
-} from "@mui/material";
-import { AddOutlined} from "@mui/icons-material";
+import { Avatar, Box, Button, Stack } from "@mui/material";
+import { AddOutlined } from "@mui/icons-material";
 import BoyImage from "../../assets/images/boy.png";
 import GirlImage from "../../assets/images/girl.png";
 
@@ -17,22 +12,28 @@ import UpdateEmployeeModal from "./UpdateEmployeeModal";
 import { positionColor } from "../../assets/styles/styles";
 import { useViewContext } from "../../context/ViewContext";
 import ViewFirstBox from "../widgets/ViewFirstBox";
+import EmployeeActionMenu from "./EmployeeActionMenu";
 
 const EmployeeView = () => {
-  const {openDrawer} = useViewContext();
+  const { openDrawer } = useViewContext();
   const [openEmpModal, setOpenEmpModal] = useState(false);
   const [openEmpUpdateModal, setOpenEmpUpdateModal] = useState(false);
-  const [prevUpdatedData, setPrevUpdatedData] = useState(null);
   const handleOpenEmpModal = () => setOpenEmpModal(true);
 
-  const handleOpenEmpUpdateModal = (data) => {
-    setPrevUpdatedData(data);
-    setOpenEmpUpdateModal(true);
+  const [actionAnchor, setActionAnchor] = useState(null);
+  const isActionMenuOpen = Boolean(actionAnchor);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const handleCloseActionMenu = () => setActionAnchor(null);
+  const handleOpenActionMenu = (e,data) => {
+    setActionAnchor(e.currentTarget);
+    setSelectedRow(data)
   };
+
+  const handleOpenEmpUpdateModal = (data) => setOpenEmpUpdateModal(true);
 
   const handleCloseEmpUpdateModal = () => {
     setOpenEmpUpdateModal(false);
-    setPrevUpdatedData(null);
+    setSelectedRow(null)
   };
 
   const {
@@ -40,7 +41,7 @@ const EmployeeView = () => {
     isSuccess: employeeSuccess,
     refetch: refetchEmployee,
   } = useQuery(["getAllEmployee"], getAllEmployee, { retryDelay: 3000 });
-  
+
   const columns = [
     {
       field: "id",
@@ -66,7 +67,9 @@ const EmployeeView = () => {
           <Box
             sx={{
               backgroundColor:
-                positionColor[cellValues.row.position.title.toLowerCase().replace(' ', '_')],
+                positionColor[
+                  cellValues.row.position.title.toLowerCase().replace(" ", "_")
+                ],
               color: "white",
               padding: "0.5rem",
               width: "150px",
@@ -106,7 +109,7 @@ const EmployeeView = () => {
     {
       field: "phoneNumber",
       headerName: "Telephone",
-      width: 150,
+      width: 135,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -118,7 +121,7 @@ const EmployeeView = () => {
     {
       field: "status",
       headerName: "Status",
-      width: 140,
+      width: 146,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -152,9 +155,9 @@ const EmployeeView = () => {
             variant="contained"
             color="primary"
             sx={{ textTransform: "capitalize" }}
-            onClick={() => handleOpenEmpUpdateModal(cellValues.row)}
+            onClick={(e) => handleOpenActionMenu(e, cellValues)}
           >
-            Edit
+            Action
           </Button>
         );
       },
@@ -165,8 +168,8 @@ const EmployeeView = () => {
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
-          mt:'2.5rem',
-          mb:'0.5rem',
+          mt: "2.5rem",
+          mb: "0.5rem",
         }}
       >
         <Stack direction="row" alignItems={"center"}>
@@ -215,7 +218,13 @@ const EmployeeView = () => {
         openEmpUpdateModal={openEmpUpdateModal}
         handleCloseEmpUpdateModal={handleCloseEmpUpdateModal}
         refetchEmployee={refetchEmployee}
-        data={prevUpdatedData}
+        data={selectedRow}
+      />
+      <EmployeeActionMenu
+      handleOpenEmpUpdateModal={handleOpenEmpUpdateModal}
+        actionAnchor={actionAnchor}
+        isActionMenuOpen={isActionMenuOpen}
+        handleCloseActionMenu={handleCloseActionMenu}
       />
     </ViewFirstBox>
   );
