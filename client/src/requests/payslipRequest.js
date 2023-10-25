@@ -7,7 +7,7 @@ export const createPayslip = async(obj) => {
 }
 
 export const generatePayslipPdf = async(obj) => {
-    const {data} = await axios.post('/payslip/generatePdf' , obj, {responseType:'blob'});
+    const {data} = await axios.post('/payslip/generatePdf' , {html:obj.html}, {responseType:'blob'});
     return data;
 }
 

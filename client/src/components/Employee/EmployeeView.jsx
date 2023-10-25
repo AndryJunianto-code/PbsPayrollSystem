@@ -83,12 +83,6 @@ const EmployeeView = () => {
       valueGetter: (cellValues) => cellValues.row.position,
     },
     {
-      field: "nik",
-      headerName: "NIK",
-      width: 180,
-      headerClassName: "super-app-theme--header",
-    },
-    {
       field: "gender",
       headerName: "Gender",
       width: 85,

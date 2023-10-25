@@ -12,27 +12,29 @@ import {
   PictureAsPdfOutlined,
 } from "@mui/icons-material";
 import { useMutation } from "react-query";
-import { deleteImmunityLog } from "../../requests/immunityLogRequest";
-import axios from "axios";
 import { generatePayslipPdf } from "../../requests/payslipRequest";
+import PayslipPdf from "./PayslipPdf";
+import { renderToStaticMarkup } from 'react-dom/server'; 
+
 
 const PayslipActionMenu = ({
   selectedRow,
-  refetchImmunityLog,
+  refetchPayslip,
   actionAnchor,
   isActionMenuOpen,
   handleCloseActionMenu,
 }) => {
   const { mutate: mutateGeneratePayslip } = useMutation(generatePayslipPdf);
   const handleDownloadPdf = async () => {
+   
+    const htmlContent = renderToStaticMarkup(<PayslipPdf payslipData={selectedRow.row}/>);
     mutateGeneratePayslip(
       {
-        employeeName: "John Doe",
-        employeeID: "12345",
-        netSalary: "Rp 100000",
+        html: htmlContent
       },
       {
         onSuccess: (data) => {
+          handleCloseActionMenu();
           const blob = new Blob([data], { type: "application/pdf" });
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");
@@ -45,7 +47,9 @@ const PayslipActionMenu = ({
       }
     );
   };
-
+useEffect(()=> {
+console.log(selectedRow)
+},[selectedRow])
   return (
     <Paper>
       <Menu
