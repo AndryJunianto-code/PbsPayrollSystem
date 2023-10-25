@@ -1,4 +1,5 @@
 import db from '../models/index.js';
+import puppeteer from "puppeteer";
 
 const Employee = db.employee;
 const Position = db.position;
@@ -11,6 +12,27 @@ export const addEmployee = async (req,res) => {
         res.status(500).json(err);
     }
 }
+
+export const generateEmployeePdf = async (req, res) => {
+    try {
+      const browser = await puppeteer.launch();
+      const page = await browser.newPage();
+      const employeeHtml = req.body.html;
+      await page.setContent(employeeHtml, { waitUntil: "domcontentloaded" });
+  
+      const pdfBuffer = await page.pdf({
+        format: "A4",
+        printBackground: true,
+      });
+  
+      await browser.close();
+      res.setHeader("Content-Type", "application/pdf");
+      res.setHeader("Content-Disposition", "attachment; filename=employee.pdf");
+      res.send(pdfBuffer);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  };
 
 export const getAllEmployee = async (req,res) => {
     try{

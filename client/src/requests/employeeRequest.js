@@ -18,6 +18,11 @@ export const createEmployee = async(obj) => {
     return data;
 }
 
+export const generateEmployeePdf = async(obj) => {
+    const {data} = await axios.post('/employee/generatePdf' , {html:obj.html}, {responseType:'blob'});
+    return data;
+}
+
 export const updateEmployee = async(obj) => {
     const {name,gender,nik,dob,phoneNumber,joinedDate,positionId} = obj
     const {data} = await axios.put(`/employee/${obj.id}`, {

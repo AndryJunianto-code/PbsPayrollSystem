@@ -108,7 +108,7 @@ const SalesView = () => {
       <Box
         sx={{
           height: "78vh",
-          width: "100%",
+          width: "fit-content",
           backgroundColor: "white",
           "& .super-app-theme--header": {
             backgroundColor: "rgb(63, 77, 103)",

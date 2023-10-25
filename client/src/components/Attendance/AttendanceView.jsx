@@ -145,7 +145,7 @@ const AttendanceView = () => {
 
       <TableContainer
         component={Paper}
-        sx={{ height: "76vh", width: "100%" }}
+        sx={{ height: "76vh", width: {lg:"100%", xs:'fit-content'} }}
       >
         <Table>
           <TableHead>

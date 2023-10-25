@@ -47,9 +47,7 @@ const PayslipActionMenu = ({
       }
     );
   };
-useEffect(()=> {
-console.log(selectedRow)
-},[selectedRow])
+
   return (
     <Paper>
       <Menu

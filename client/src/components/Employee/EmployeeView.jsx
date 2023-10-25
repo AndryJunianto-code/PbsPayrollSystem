@@ -29,7 +29,9 @@ const EmployeeView = () => {
     setSelectedRow(data)
   };
 
-  const handleOpenEmpUpdateModal = (data) => setOpenEmpUpdateModal(true);
+  const handleOpenEmpUpdateModal = (data) => {
+    handleCloseActionMenu();
+    setOpenEmpUpdateModal(true)};
 
   const handleCloseEmpUpdateModal = () => {
     setOpenEmpUpdateModal(false);
@@ -190,7 +192,7 @@ const EmployeeView = () => {
       <Box
         sx={{
           height: "78vh",
-          width: "100%",
+          width: "fit-content",
           backgroundColor: "white",
           "& .super-app-theme--header": {
             backgroundColor: "rgb(63, 77, 103)",
@@ -225,6 +227,7 @@ const EmployeeView = () => {
         actionAnchor={actionAnchor}
         isActionMenuOpen={isActionMenuOpen}
         handleCloseActionMenu={handleCloseActionMenu}
+        selectedRow={selectedRow}
       />
     </ViewFirstBox>
   );
