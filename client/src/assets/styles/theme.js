@@ -8,6 +8,7 @@ const theme = createTheme({
     palette: {
       primary: {
         main: '#42d2bf',
+        second: "#ffc312"
       },
       secondary: {
         main: '#ffcc80',

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import { Avatar, Box, Button, Stack } from "@mui/material";
 import { AddOutlined } from "@mui/icons-material";
 import BoyImage from "../../assets/images/boy.png";
@@ -15,6 +16,7 @@ import ViewFirstBox from "../widgets/ViewFirstBox";
 import EmployeeActionMenu from "./EmployeeActionMenu";
 
 const EmployeeView = () => {
+  const theme = useTheme();
   const { openDrawer } = useViewContext();
   const [openEmpModal, setOpenEmpModal] = useState(false);
   const [openEmpUpdateModal, setOpenEmpUpdateModal] = useState(false);

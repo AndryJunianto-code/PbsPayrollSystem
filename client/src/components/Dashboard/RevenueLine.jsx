@@ -9,7 +9,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
+import {SubheaderTypography} from './DashboardCustomWidget';
 const months = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -30,11 +31,11 @@ const RevenueLine = () => {
         <Typography fontSize={'18px'}>Revenue</Typography>
         <Stack direction='row' mb='1rem'>
           <Stack direction='column' mr='3rem'>
-            <Typography color={"#7a7e8f"}>Current year</Typography>
+            <SubheaderTypography>Current year</SubheaderTypography>
             <Typography color={'#34be8d'} fontSize={'24px'}>$82,124</Typography>
           </Stack>
           <Stack direction='column'>
-            <Typography color={"#7a7e8f"}>Previous year</Typography>
+            <SubheaderTypography>Previous year</SubheaderTypography>
             <Typography color={'#7a7e8f'} fontSize={'24px'}>$52,102</Typography>
           </Stack>
         </Stack>

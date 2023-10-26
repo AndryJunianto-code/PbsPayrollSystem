@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SidebarItem from "./SidebarItem";
-import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined} from '@mui/icons-material';
+import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
 
 const drawerWidth = 240;
@@ -130,13 +130,12 @@ const Sidebar = () => {
         <Divider /> 
         <List>
           <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} handleView={setToDashboard} />
-          <SidebarItem open={openDrawer} name={'Employee'} icon={<Badge fontSize="small"/>} handleView={setToEmployee}/>
+          <SidebarItem open={openDrawer} name={'Employee'} icon={<BadgeOutlined />} handleView={setToEmployee}/>
           <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
-          <SidebarItem open={openDrawer} name={'Sales'} icon={<Sell fontSize="small" sx={{ml:'0.25rem'}}/>} handleView={setToSales}/>
-          <SidebarItem open={openDrawer} name={'Immunity Log'} icon={<VaccinesOutlined/>} handleView={setToImmunityLog}/>
+          <SidebarItem open={openDrawer} name={'Sales'} icon={<SellOutlined/>} handleView={setToSales}/>
+          <SidebarItem open={openDrawer} name={'Immunity Log'} icon={<Vaccines/>} handleView={setToImmunityLog}/>
           <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>} handleView={setToPayslip}/>
-          <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToReg/>} handleView={setToAttendance}/>
-          <SidebarItem open={openDrawer} name={'Attendance Summary'} icon={<SummarizeOutlined/>} handleView={setToAttendanceSummary}/>
+          <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToRegOutlined/>} handleView={setToAttendance}/>
         </List>
       </Drawer>
     </Box>
