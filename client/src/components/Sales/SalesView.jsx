@@ -30,19 +30,25 @@ const SalesView = () => {
     {
       field: "salesDate",
       headerName: "Sales Date",
-      width: 150,
+      width: 140,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "customerName",
       headerName: "Customer Name",
-      width: 240,
+      width: 170,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "companyName",
       headerName: "Company Name",
-      width: 270,
+      width: 180,
+      headerClassName: "super-app-theme--header",
+    },
+    {
+      field: "employeeName",
+      headerName: "Employee",
+      width: 180,
       headerClassName: "super-app-theme--header",
     },
     {

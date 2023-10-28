@@ -1,6 +1,7 @@
 import db from "../models/index.js";
 
 const Sales = db.sales;
+const Employee = db.employee;
 
 export const addSales = async (req, res) => {
     try {
@@ -13,8 +14,22 @@ export const addSales = async (req, res) => {
 
 export const getAllSales = async (req, res) => {
   try {
-    const allSales = await Sales.findAll();
-    res.status(200).json(allSales);
+    const allSales = await Sales.findAll({
+      include: [
+        {
+          model: Employee,
+          as: "employee",
+        },
+      ],
+    });
+
+    const flattenedData = allSales.map(log=> {
+      const {id,salesDate,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employee} = log;
+      return {
+        id,salesDate,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employeeId:employee.id,employeeName:employee.name
+      }
+    })
+    res.status(200).json(flattenedData);
   } catch (err) {
     res.status(500).json(err);
   }

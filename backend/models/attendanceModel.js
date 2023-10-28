@@ -12,13 +12,13 @@ export default (sequelize, DataTypes) => {
         required:true,
       },
       workingHour: {
-        type: DataTypes.FLOAT(2,1),
+        type: DataTypes.FLOAT(3,1),
         allowNull:false,
         required:true,
         defaultValue:9
       },
       reimbursedHour: {
-        type: DataTypes.FLOAT(2,1),
+        type: DataTypes.FLOAT(3,1),
         allowNull:false,
         required:true,
         defaultValue: 0,

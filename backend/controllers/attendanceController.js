@@ -2,6 +2,7 @@ import db from "../models/index.js";
 
 const Employee = db.employee;
 const Attendance = db.attendance;
+const sequelize = db.sequelize;
 
 export const checkAttendanceDateExist = async (req, res) => {
   try {
@@ -46,13 +47,24 @@ export const getAttendanceOnDate = async (req, res) => {
 };
 
 export const updateAllAttendance = async (req, res) => {
+  const t = await sequelize.transaction(); // Start a new transaction
+
   try {
-    const allAttendance = Attendance.bulkCreate(req.body.allAttendance, {
+    // Perform bulk update within the transaction
+    const allAttendance = await Attendance.bulkCreate(req.body.allAttendance, {
       updateOnDuplicate: ["date", "workingHour", "reimbursedHour", "status"],
       returning: true,
+      transaction: t, // Pass the transaction object
     });
+
+    // Commit the transaction if successful
+    await t.commit();
+
     res.status(200).json(allAttendance);
   } catch (err) {
+    // Roll back the transaction if there's an error
+    await t.rollback();
+
     res.status(500).json(err);
   }
 };

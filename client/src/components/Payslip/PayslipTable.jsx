@@ -21,31 +21,31 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
         {
           field: "basicSalary",
           headerName: "Basic Salary",
-          width: 145,
+          width: 150,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "totalCommision",
           headerName: "Total Commision",
-          width: 145,
+          width: 150,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "totalDeduction",
           headerName: "Total Deduction",
-          width: 145,
+          width: 150,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "netSalary",
           headerName: "Net Salary",
-          width: 145,
+          width: 150,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "status",
           headerName: "Status",
-          width: 100,
+          width: 120,
           headerClassName: "super-app-theme--header",
         },
         {

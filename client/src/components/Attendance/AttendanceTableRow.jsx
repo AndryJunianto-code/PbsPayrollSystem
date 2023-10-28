@@ -37,9 +37,9 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
     },[isConfirm])
   return (
     <TableRow key={attendance.id}>
-                    <AttendanceTableCell width={'25%'}>{attendance?.employee.name}</AttendanceTableCell>
+                    <AttendanceTableCell width={'25%'}>{attendance?.employee?.name}</AttendanceTableCell>
 
-                    <AttendanceTableCell width={'15%'}>
+                    <AttendanceTableCell>
                       <Stack direction="row" alignItems={"center"}>
                         <CalendarTodayOutlined
                           sx={{ color: "gray", fontSize: "16px", mr: "0.3rem" }}
@@ -48,7 +48,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       </Stack>
                     </AttendanceTableCell>
                     
-                    <AttendanceTableCell width={'15%'}>
+                    <AttendanceTableCell>
                       <OutlinedInput
                         sx={{ fontSize: "12px", width: "100px" }}
                         type="number"
@@ -65,7 +65,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       />
                     </AttendanceTableCell>
 
-                    <AttendanceTableCell width={'15%'}>
+                    <AttendanceTableCell>
                       <OutlinedInput
                         sx={{ fontSize: "12px", width: "100px" }}
                         type="number"
@@ -82,7 +82,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       />
                     </AttendanceTableCell>
                     
-                    <AttendanceTableCell maxWidth={'15%'}>
+                    <AttendanceTableCell >
                       <Select fullWidth name='status' onChange={handleInput} value={input.status}>
                         <MenuItem value='Present'>Present</MenuItem>
                         <MenuItem value='Paid Leave'>Paid Leave</MenuItem>

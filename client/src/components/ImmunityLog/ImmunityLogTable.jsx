@@ -15,37 +15,37 @@ const ImmunityLogTable = ({immunityLogData,immunityLogSuccess,handleOpenActionMe
     {
       field: "promotionPoint",
       headerName: "Promotion Point",
-      width: 155,
+      width: 165,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "immunity",
       headerName: "Immunity",
-      width: 100,
+      width: 130,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "coreWallet",
       headerName: "Core Wallet",
-      width: 120,
+      width: 140,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "supplementWallet",
       headerName: "Supplement Wallet",
-      width: 165,
+      width: 175,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "revenuePoint",
       headerName: "Revenue Point",
-      width: 155,
+      width: 165,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "lead",
       headerName: "Lead",
-      width: 75,
+      width: 95,
       headerClassName: "super-app-theme--header",
     },
     {

@@ -73,31 +73,103 @@ const PositionView = () => {
     {
       field: "monthlyCommisionFirstTier",
       headerName: "1st Tier Comm",
-      width: 135,
+      width: 140,
       headerClassName: "super-app-theme--header",
+      renderCell: (cellValues) => {
+        return (
+          <Box
+            sx={{
+              backgroundColor:'orange',
+              color: "white",
+              padding: "0.5rem",
+              width: "150px",
+              letterSpacing: "1px",
+              fontSize: "13px",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            {cellValues.row.monthlyCommisionFirstTier}
+          </Box>
+        )
+      }
     },
     {
       field: "monthlyCommisionSecondTier",
       headerName: "2nd Tier Comm",
-      width: 135,
+      width: 140,
       headerClassName: "super-app-theme--header",
+      renderCell: (cellValues) => {
+        return (
+          <Box
+            sx={{
+              backgroundColor:'red',
+              color: "white",
+              padding: "0.5rem",
+              width: "150px",
+              letterSpacing: "1px",
+              fontSize: "13px",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            {cellValues.row.monthlyCommisionSecondTier}
+          </Box>
+        )
+      }
     },
     {
       field: "quarterBonusFirstTier",
       headerName: "1st Tier Quarter",
-      width: 135,
+      width: 140,
       headerClassName: "super-app-theme--header",
+      renderCell: (cellValues) => {
+        return (
+          <Box
+            sx={{
+              backgroundColor:'#207af7',
+              color: "white",
+              padding: "0.5rem",
+              width: "150px",
+              letterSpacing: "1px",
+              fontSize: "13px",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            {cellValues.row.quarterBonusFirstTier}
+          </Box>
+        )
+      }
     },
     {
       field: "quarterBonusSecondTier",
       headerName: "2nd Tier Quarter",
       width: 140,
       headerClassName: "super-app-theme--header",
+      renderCell: (cellValues) => {
+        return (
+          <Box
+            sx={{
+              backgroundColor:'#b222f0',
+              color: "white",
+              padding: "0.5rem",
+              width: "150px",
+              letterSpacing: "1px",
+              fontSize: "13px",
+              textAlign: "center",
+              borderRadius: "4px",
+            }}
+          >
+            {cellValues.row.quarterBonusSecondTier}
+          </Box>
+        )
+      }
     },
     {
       field: "button",
       headerName: "",
-      width: 105,
+      width: 140,
 
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {

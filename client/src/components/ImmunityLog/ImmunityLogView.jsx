@@ -39,7 +39,6 @@ const ImmunityLogView = () => {
 
   return (
     <ViewFirstBox openDrawer={openDrawer}>
-      <Box sx={{ width: "71.5rem" }}>
         <Box sx={{ mt: "1rem", mb: "0.5rem" }}>
           <Stack
             direction="row"
@@ -73,7 +72,7 @@ const ImmunityLogView = () => {
           sx={{
             mt: "0.5rem",
             height: "77vh",
-            width: "100%",
+            width: "fit-content",
             backgroundColor: "white",
             "& .super-app-theme--header": {
               backgroundColor: "rgb(63, 77, 103)",
@@ -87,7 +86,6 @@ const ImmunityLogView = () => {
             handleOpenActionMenu={handleOpenActionMenu}
           />
         </Box>
-      </Box>
       <NewImmunityLogModal
         openImmunityLogModal={openImmunityLogModal}
         setOpenImmunityLogModal={setOpenImmunityLogModal}

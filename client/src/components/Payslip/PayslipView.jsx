@@ -56,7 +56,7 @@ const {
         sx={{
           mt:'0.5rem',
           height: "77vh",
-          width: "100%",
+          width: "fit-content",
           backgroundColor: "white",
           "& .super-app-theme--header": {
             backgroundColor: "rgb(63, 77, 103)",
