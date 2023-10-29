@@ -2,6 +2,7 @@ import db from "../models/index.js";
 
 const ImmunityLog = db.immunityLog;
 const Employee = db.employee;
+const sequelize = db.sequelize;
 
 export const addImmunityLog = async (req, res) => {
     try {
@@ -38,13 +39,22 @@ export const addImmunityLog = async (req, res) => {
     }
   };
 
-  export const deleteImmunityLog = async (req,res) => {
-    try{
-      await ImmunityLog.destroy({where:{
-        id:req.params.id
-      }})
-      res.status(200).json("Success");
-    } catch(err) {
+  export const deleteImmunityLog = async (req, res) => {
+    const t = await sequelize.transaction();
+  
+    try {
+      await ImmunityLog.destroy({
+        where: {
+          id: req.params.id
+        },
+        transaction: t
+      });
+  
+      await t.commit();
+      res.status(200).json("Success: Record deleted");
+    } catch (err) {
+      await t.rollback();
       res.status(500).json(err);
     }
-  }
+  };
+  
