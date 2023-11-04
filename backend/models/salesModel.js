@@ -15,6 +15,11 @@ export default (sequelize, DataTypes) => {
         allowNull:false,
         required:true
       },
+      salesWeek: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        required:true
+      },
       customerName: {
         type: DataTypes.STRING,
         allowNull: false,

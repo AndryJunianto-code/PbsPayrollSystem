@@ -13,10 +13,10 @@ export const addImmunityLog = async (req, res) => {
     }
   };
 
-  export const getImmunityLogOnDate = async (req, res) => {
+  export const getImmunityLogOnWeek = async (req, res) => {
     try {
       const allImmunityLog = await ImmunityLog.findAll({
-        where: {date:req.params.date},
+        where: {week:req.params.week},
         attributes: { exclude: ["createdAt", "updatedAt"]},
         include: [
             {
@@ -27,9 +27,9 @@ export const addImmunityLog = async (req, res) => {
         ]
       })
       const flattenedData = allImmunityLog.map(log=> {
-        const {id,date,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employee} = log;
+        const {id,date,week,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employee} = log;
         return {
-          id,date,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employeeId:employee.id,employeeName:employee.name
+          id,date,week,immunity,coreWallet,supplementWallet,promotionPoint,revenuePoint,lead,employeeId:employee.id,employeeName:employee.name
         }
       })
       

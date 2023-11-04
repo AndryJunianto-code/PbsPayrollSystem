@@ -100,7 +100,7 @@ const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }
                     employeeData !== null &&
                     employeeData.map((employee) => (
                       <MenuItem key={employee.id} value={employee.id}>
-                        {employee.name}
+                        {`${employee.name} | ${employee.id}`}
                       </MenuItem>
                     ))}
                 </Select>

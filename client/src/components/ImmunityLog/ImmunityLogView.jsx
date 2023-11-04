@@ -8,10 +8,9 @@ import ImmunityLogTable from "./ImmunityLogTable";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
-import { useQuery } from "react-query";
-import { getImmunityLogOnDate } from "../../requests/immunityLogRequest";
 import ImmunityLogActionMenu from "./ImmunityLogActionMenu";
 import TableBoxContainer from '../widgets/TableBoxContainer';
+import useGetImmunityLog from "../../hooks/useGetImmunityLog";
 
 const ImmunityLogView = () => {
   const { openDrawer } = useViewContext();
@@ -34,13 +33,11 @@ const ImmunityLogView = () => {
     data: immunityLogData,
     isSuccess: immunityLogSuccess,
     refetch: refetchImmunityLog,
-  } = useQuery(["getImmunityLogOnDate", selectedDate], getImmunityLogOnDate, {
-    retryDelay: 3000,
-  });
+  } = useGetImmunityLog(selectedDate);
 
   return (
     <ViewFirstBox openDrawer={openDrawer}>
-        <Box sx={{ mt: "1rem", mb: "0.5rem", width: openDrawer ? '79.5vw' : '90vw' }}>
+        <Box sx={{ mt: "1rem", mb: "0.5rem", width: openDrawer ? '80vw' : '91vw' }}>
           <Stack
             direction="row"
             alignItems={"center"}
@@ -55,7 +52,6 @@ const ImmunityLogView = () => {
                 format="DD MMM YYYY"
               />
             </LocalizationProvider>
-            <Box sx={{ flexGrow: 1 }} textAlign="right">
             <Button
               aria-label="add"
               variant="contained"
@@ -69,7 +65,6 @@ const ImmunityLogView = () => {
             >
               Add
             </Button>
-            </Box>
           </Stack>
         </Box>
         <TableBoxContainer>

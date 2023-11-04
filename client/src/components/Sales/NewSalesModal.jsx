@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { createSales } from "../../requests/salesRequest";
 import { useMutation, useQuery } from "react-query";
 import { getAllEmployee } from "../../requests/employeeRequest";
+import getWeekNumber from '../../utils/getWeekNumber';
 
 const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
   const initialState = {
@@ -27,6 +28,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
     productName: "Business Loan",
   };
   const [input, setInput] = useState(initialState);
+  const [weekNumber,setWeekNumber] = useState("");
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
 
   const handleCloseSalesModal = () => {
@@ -40,6 +42,14 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
   const handleSelectEmployeeId = (e) => {
     setSelectedEmployeeId(e.target.value);
   };
+
+  const handleSalesDate = (selectedDate) => {
+    setInput({
+      ...input,
+      salesDate: dayjs(selectedDate).format("DD MMM YYYY"),
+    })
+    setWeekNumber(getWeekNumber(selectedDate));
+  }
 
   const {
     data: employeeData,
@@ -66,6 +76,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
         remarks,
         salesAmount,
         salesDate,
+        salesWeek : weekNumber,
         productName,
         employeeId:selectedEmployeeId
       },
@@ -78,9 +89,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
       }
     );
   };
-  useEffect(() => {
-    console.log(input);
-  }, [input]);
+  
   return (
     <Modal
       open={openSalesModal}
@@ -128,7 +137,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
                     employeeData !== null &&
                     employeeData.map((employee) => (
                       <MenuItem key={employee.id} value={employee.id}>
-                        {employee.name}
+                        {`${employee.name} | ${employee.id}`}
                       </MenuItem>
                     ))}
               </Select>
@@ -138,12 +147,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
           <Stack direction="row" justifyContent={"space-between"} mb="1.5rem">
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
-                onChange={(value) =>
-                  setInput({
-                    ...input,
-                    salesDate: dayjs(value).format("DD MMM YYYY"),
-                  })
-                }
+                onChange={(value) => handleSalesDate(value)}
                 value={dayjs(input.salesDate).format("DD MMM YYYY")}
                 label={"Date*"}
                 format="DD MMM YYYY"

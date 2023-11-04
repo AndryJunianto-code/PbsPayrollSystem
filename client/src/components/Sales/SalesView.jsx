@@ -35,6 +35,12 @@ const SalesView = () => {
       headerClassName: "super-app-theme--header",
     },
     {
+      field: "employeeName",
+      headerName: "Employee",
+      width: openDrawer ? 180 : 200,
+      headerClassName: "super-app-theme--header",
+    },
+    {
       field: "customerName",
       headerName: "Customer Name",
       width: openDrawer ? 170 : 190,
@@ -44,12 +50,6 @@ const SalesView = () => {
       field: "companyName",
       headerName: "Company Name",
       width: openDrawer ? 180 : 255,
-      headerClassName: "super-app-theme--header",
-    },
-    {
-      field: "employeeName",
-      headerName: "Employee",
-      width: openDrawer ? 180 : 200,
       headerClassName: "super-app-theme--header",
     },
     {

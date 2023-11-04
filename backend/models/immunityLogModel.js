@@ -11,6 +11,11 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         required:true,
       },
+      week: {
+        type: DataTypes.STRING,
+        allowNull:false,
+        required:true,
+      },
       immunity: {
         type: DataTypes.INTEGER,
         allowNull: false,

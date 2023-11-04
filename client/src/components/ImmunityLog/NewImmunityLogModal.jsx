@@ -18,11 +18,13 @@ import { createImmunityLog } from "../../requests/immunityLogRequest";
 import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import useGetImmunityLog from "../../hooks/useGetImmunityLog";
+import getWeekNumber from "../../utils/getWeekNumber";
 
 const NewImmunityLogModal = ({
   openImmunityLogModal,
   setOpenImmunityLogModal,
-  refetchImmunityLog
+  refetchImmunityLog,
 }) => {
   const initialState = {
     employeeId: "",
@@ -35,6 +37,7 @@ const NewImmunityLogModal = ({
     revenuePoint: 0,
   };
   const [input, setInput] = useState(initialState);
+  const [weekNumber, setWeekNumber] = useState("");
 
   const handleCloseImmunityLogModal = () => setOpenImmunityLogModal(false);
   const handleInput = (e) =>
@@ -48,14 +51,59 @@ const NewImmunityLogModal = ({
 
   const { mutate: mutateImmunityLog } = useMutation(createImmunityLog);
   const handleCreateImmunityLog = () => {
-    mutateImmunityLog(input, {
-      onSuccess: (data) => {
-        refetchImmunityLog();
-        handleCloseImmunityLogModal();
+    const {
+      employeeId,
+      date,
+      immunity,
+      coreWallet,
+      supplementWallet,
+      promotionPoint,
+      revenuePoint,
+      lead,
+    } = input;
+    mutateImmunityLog(
+      {
+        employeeId,
+        date,
+        week: weekNumber,
+        immunity,
+        coreWallet,
+        supplementWallet,
+        promotionPoint,
+        revenuePoint,
+        lead,
       },
-    });
+      {
+        onSuccess: (data) => {
+          refetchImmunityLog();
+          handleCloseImmunityLogModal();
+        },
+      }
+    );
   };
 
+  const getMondayDateInSameWeek = (selectedDate) => {
+    const date = new Date(selectedDate);
+    const day = date.getDay();
+    const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Find the date of Monday in the current week
+    // Set the new date to the Monday of the week
+    const mondayDate = new Date(date.setDate(diff));
+
+    return mondayDate;
+  };
+
+  const handleImmunityLogDate = (selectedDate) => {
+    let mondayDate = getMondayDateInSameWeek(selectedDate);
+    setInput({
+      ...input,
+      date: dayjs(mondayDate).format("DD MMM YYYY"),
+    });
+    setWeekNumber(getWeekNumber(selectedDate));
+  };
+
+  /* const {
+    data: immunityLogDataPrevWeek,
+  } = useGetImmunityLog(lastWeek); */
 
   return (
     <Modal
@@ -90,15 +138,12 @@ const NewImmunityLogModal = ({
             </FormControl>
             <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ flex: 1 }}>
               <DatePicker
-                onChange={(value) =>
-                  setInput({
-                    ...input,
-                    date: dayjs(value).format("DD MMM YYYY"),
-                  })
-                }
-                value={dayjs(input.date).format("DD MMM YYYY")}
+                onChange={(value) => {
+                  handleImmunityLogDate(value);
+                }}
+                value={dayjs(input.date)}
                 label={"Date"}
-                name='date'
+                name="date"
                 format="DD MMM YYYY"
               />
             </LocalizationProvider>

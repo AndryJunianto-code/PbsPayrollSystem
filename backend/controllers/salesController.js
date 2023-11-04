@@ -24,9 +24,9 @@ export const getAllSales = async (req, res) => {
     });
 
     const flattenedData = allSales.map(log=> {
-      const {id,salesDate,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employee} = log;
+      const {id,salesDate,salesWeek,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employee} = log;
       return {
-        id,salesDate,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employeeId:employee.id,employeeName:employee.name
+        id,salesDate,salesWeek,customerName,companyName,phoneNumber,productName,salesAmount,remarks,employeeId:employee.id,employeeName:employee.name
       }
     })
     res.status(200).json(flattenedData);

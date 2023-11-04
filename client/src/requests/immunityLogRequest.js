@@ -6,8 +6,8 @@ export const createImmunityLog = async(obj) => {
     return data;
 }
 
-export const getImmunityLogOnDate = async(obj) => {
-    const {data} = await axios.get(`/immunityLog/onDate/${obj.queryKey[1]}`);
+export const getImmunityLogOnWeek = async(obj) => {
+    const {data} = await axios.get(`/immunityLog/onWeek/${obj.queryKey[1]}`);
     return data;
 }
 

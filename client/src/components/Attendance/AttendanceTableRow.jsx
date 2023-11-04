@@ -35,6 +35,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
       }
       return () => setIsConfirm(false);
     },[isConfirm])
+    console.log(attendance)
   return (
     <TableRow key={attendance.id}>
                     <AttendanceTableCell>
@@ -46,7 +47,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       </Stack>
                     </AttendanceTableCell>
                     
-                    <AttendanceTableCell>{attendance?.employee?.name}</AttendanceTableCell>
+                    <AttendanceTableCell>{attendance?.employee?.name} ({attendance?.employeeId})</AttendanceTableCell>
 
                     <AttendanceTableCell>
                       <OutlinedInput
