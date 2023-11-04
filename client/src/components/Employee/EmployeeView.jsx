@@ -13,6 +13,7 @@ import UpdateEmployeeModal from "./UpdateEmployeeModal";
 import { positionColor } from "../../assets/styles/styles";
 import { useViewContext } from "../../context/ViewContext";
 import ViewFirstBox from "../widgets/ViewFirstBox";
+import TableBoxContainer from '../widgets/TableBoxContainer';
 import EmployeeActionMenu from "./EmployeeActionMenu";
 
 const EmployeeView = () => {
@@ -50,13 +51,13 @@ const EmployeeView = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 60,
+      width: openDrawer ?60 :90,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "name",
       headerName: "Name",
-      width: 230,
+      width: openDrawer ? 230 : 280,
       minWidth: 250,
       maxWidth: 300,
       headerClassName: "super-app-theme--header",
@@ -64,7 +65,7 @@ const EmployeeView = () => {
     {
       field: "positionName",
       headerName: "Position",
-      width: 200,
+      width:  200,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -92,7 +93,7 @@ const EmployeeView = () => {
     {
       field: "gender",
       headerName: "Gender",
-      width: 85,
+      width: openDrawer ? 85 : 100,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -107,25 +108,25 @@ const EmployeeView = () => {
     {
       field: "dob",
       headerName: "DOB",
-      width: 135,
+      width: openDrawer ? 135 : 165,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "phoneNumber",
       headerName: "Telephone",
-      width: 135,
+      width: openDrawer ? 135 : 165,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "joinedDate",
       headerName: "Joined Date",
-      width: 135,
+      width: openDrawer ? 135 : 165,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "status",
       headerName: "Status",
-      width: 146,
+      width: 140,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -191,17 +192,7 @@ const EmployeeView = () => {
           </Button>
         </Stack>
       </Box>
-      <Box
-        sx={{
-          height: "78vh",
-          width: "fit-content",
-          backgroundColor: "white",
-          "& .super-app-theme--header": {
-            backgroundColor: "rgb(63, 77, 103)",
-            color: "white",
-          },
-        }}
-      >
+     <TableBoxContainer>
         {employeeSuccess && employeeData !== null && (
           <DataGrid
             sx={{
@@ -212,7 +203,7 @@ const EmployeeView = () => {
             disableRowSelectionOnClick={true}
           />
         )}
-      </Box>
+      </TableBoxContainer>
       <NewEmployeeModal
         openEmpModal={openEmpModal}
         setOpenEmpModal={setOpenEmpModal}

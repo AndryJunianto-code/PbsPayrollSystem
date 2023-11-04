@@ -17,8 +17,7 @@ import TopProducerList from "./TopProducerList";
 const DashboardView = () => {
   const { openDrawer } = useViewContext();
   return (
-    <ViewFirstBox openDrawer={openDrawer}>
-      <Box sx={{ pb: "2rem" }}>
+      <Box sx={{ pb: "2rem",pt:'4rem',pl: { xs: "1rem", lg: openDrawer ? "16rem" : "6rem" },pr: { xs: "1rem", lg:"2rem" }, }}>
         <Grid container columnSpacing={4}>
           <Grid item xs={6}>
             <RevenueLine />
@@ -76,7 +75,6 @@ const DashboardView = () => {
           </Grid>
         </Grid>
       </Box>
-    </ViewFirstBox>
   );
 };
 

@@ -16,6 +16,7 @@ import NewPositionModal from "./NewPositionModal";
 import { useViewContext } from "../../context/ViewContext";
 import UpdatePositionModal from "./UpdatePositionModal";
 import ViewFirstBox from "../widgets/ViewFirstBox";
+import TableBoxContainer from "../widgets/TableBoxContainer";
 
 const PositionView = () => {
   const {openDrawer} = useViewContext();
@@ -49,7 +50,7 @@ const PositionView = () => {
     {
       field: "title",
       headerName: "Title",
-      width: 180,
+      width:  openDrawer ? 180 : 190,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -61,7 +62,7 @@ const PositionView = () => {
     {
       field: "target",
       headerName: "Target",
-      width: 100,
+      width: openDrawer ? 100 : 115,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -73,7 +74,7 @@ const PositionView = () => {
     {
       field: "monthlyCommisionFirstTier",
       headerName: "1st Tier Comm",
-      width: 140,
+      width: openDrawer ? 145 : 180,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -97,7 +98,7 @@ const PositionView = () => {
     {
       field: "monthlyCommisionSecondTier",
       headerName: "2nd Tier Comm",
-      width: 140,
+      width: openDrawer ? 145 : 180,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -121,7 +122,7 @@ const PositionView = () => {
     {
       field: "quarterBonusFirstTier",
       headerName: "1st Tier Quarter",
-      width: 140,
+      width: openDrawer ? 145 : 180,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -145,7 +146,7 @@ const PositionView = () => {
     {
       field: "quarterBonusSecondTier",
       headerName: "2nd Tier Quarter",
-      width: 140,
+      width: openDrawer ? 145 : 180,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -169,7 +170,7 @@ const PositionView = () => {
     {
       field: "button",
       headerName: "",
-      width: 140,
+      width: 100,
 
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
@@ -209,17 +210,7 @@ const PositionView = () => {
           </Button>
         </Stack>
       </Box>
-      <Box
-        sx={{
-          height: "78vh",
-          width: "fit-content",
-          backgroundColor: "white",
-          "& .super-app-theme--header": {
-            backgroundColor: "rgb(63, 77, 103)",
-            color: "white",
-          },
-        }}
-      >
+      <TableBoxContainer>
         {positionSuccess && positionData !== null && (
           <DataGrid
             sx={{
@@ -230,7 +221,7 @@ const PositionView = () => {
             disableRowSelectionOnClick={true}
           />
         )}
-      </Box>
+      </TableBoxContainer>
       <NewPositionModal
         openPosModal={openPosModal}
         setOpenPosModal={setOpenPosModal}

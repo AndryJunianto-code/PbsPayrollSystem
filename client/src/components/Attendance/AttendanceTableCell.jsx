@@ -1,9 +1,9 @@
 import { TableCell } from '@mui/material'
 import React from 'react'
 
-const AttendanceTableCell = ({children,isWhite}) => {
+const AttendanceTableCell = ({children,isWhite,width}) => {
   return (
-    <TableCell sx={{color: isWhite?'white':'black', fontSize:'16px', width:'200px'}}>{children}</TableCell>
+    <TableCell sx={{color: isWhite?'white':'black', fontSize:'16px', width:width}}>{children}</TableCell>
   )
 }
 

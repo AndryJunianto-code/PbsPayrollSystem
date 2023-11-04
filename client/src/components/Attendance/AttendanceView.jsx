@@ -133,7 +133,6 @@ const AttendanceView = () => {
             onClick={handleSubmitAttendance}
             variant="contained"
             sx={{
-              float: "right",
               textTransform: "capitalize",
               backgroundColor: isChanged ? "#42d2bf" : "#9e9e9e",
             }}
@@ -145,20 +144,23 @@ const AttendanceView = () => {
 
       <TableContainer
         component={Paper}
-        sx={{ height: "76vh", width: {lg:"100%", xs:'fit-content'} }}
+        sx={{ height: "76vh", width: {
+          lg: "fit-content",
+          xs: "90vw",
+        }, }}
       >
         <Table>
           <TableHead>
             <TableRow className="sticky-header" sx={{ backgroundColor: "#3f4d67"}}>
-              <AttendanceTableCell isWhite={true}>Name</AttendanceTableCell>
-              <AttendanceTableCell isWhite={true}>Date</AttendanceTableCell>
-              <AttendanceTableCell isWhite={true}>
+              <AttendanceTableCell width={ openDrawer ? '200px' : '250px'} isWhite={true}>Date</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '290px' : '340px'} isWhite={true}>Name</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>
                 Working Hour
               </AttendanceTableCell>
-              <AttendanceTableCell isWhite={true}>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>
                 Reimbursed Hour
               </AttendanceTableCell>
-              <AttendanceTableCell isWhite={true}>Status</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>Status</AttendanceTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

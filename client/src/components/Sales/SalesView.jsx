@@ -8,6 +8,7 @@ import { getAllSales } from "../../requests/salesRequest";
 import { DataGrid } from "@mui/x-data-grid";
 import SalesActionMenu from "./SalesActionMenu";
 import NewSalesModal from "./NewSalesModal";
+import TableBoxContainer from "../widgets/TableBoxContainer";
 
 const SalesView = () => {
   const { openDrawer } = useViewContext();
@@ -30,25 +31,25 @@ const SalesView = () => {
     {
       field: "salesDate",
       headerName: "Sales Date",
-      width: 140,
+      width: openDrawer ? 140 : 160,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "customerName",
       headerName: "Customer Name",
-      width: 170,
+      width: openDrawer ? 170 : 190,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "companyName",
       headerName: "Company Name",
-      width: 180,
+      width: openDrawer ? 180 : 255,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "employeeName",
       headerName: "Employee",
-      width: 180,
+      width: openDrawer ? 180 : 200,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -60,7 +61,7 @@ const SalesView = () => {
     {
       field: "productName",
       headerName: "Product Name",
-      width: 160,
+      width: openDrawer ? 160 : 190,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -72,7 +73,7 @@ const SalesView = () => {
     {
       field: "Action",
       headerName: "",
-      width: 116,
+      width: 100,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -111,17 +112,7 @@ const SalesView = () => {
           </Button>
         </Stack>
       </Box>
-      <Box
-        sx={{
-          height: "78vh",
-          width: "fit-content",
-          backgroundColor: "white",
-          "& .super-app-theme--header": {
-            backgroundColor: "rgb(63, 77, 103)",
-            color: "white",
-          },
-        }}
-      >
+      <TableBoxContainer>
         {salesSuccess && salesData !== null && (
           <DataGrid
           sx={{
@@ -132,7 +123,7 @@ const SalesView = () => {
           disableRowSelectionOnClick={true}
         />
         )}
-      </Box>
+      </TableBoxContainer>
       <SalesActionMenu actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
       <NewSalesModal openSalesModal={openSalesModal} setOpenSalesModal={setOpenSalesModal} refetchSales={refetchSales}/>
     </ViewFirstBox>

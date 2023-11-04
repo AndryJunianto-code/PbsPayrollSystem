@@ -1,57 +1,57 @@
 import { Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
+import { useViewContext } from '../../context/ViewContext';
 
 const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
+  const {openDrawer} = useViewContext();
     const columns = [
         {
             field: "date",
             headerName: "Date",
-            width: 155,
+            width: openDrawer ? 150 : 170,
             headerClassName: "super-app-theme--header",
           },
         {
           field: "employeeName",
           headerName: "Name",
-          width: 230,
-          minWidth: 250,
-          maxWidth: 300,
+          width: openDrawer ? 230 : 255,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "basicSalary",
           headerName: "Basic Salary",
-          width: 150,
+          width: openDrawer ? 150 : 180,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "totalCommision",
           headerName: "Total Commision",
-          width: 150,
+          width: openDrawer ? 150 : 180,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "totalDeduction",
           headerName: "Total Deduction",
-          width: 150,
+          width: openDrawer ? 170 : 190,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "netSalary",
           headerName: "Net Salary",
-          width: 150,
+          width: openDrawer ? 170 : 190,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "status",
           headerName: "Status",
-          width: 120,
+          width: openDrawer ? 120 : 140,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "Action",
           headerName: "",
-          width: 122,
+          width: 100,
           headerClassName: "super-app-theme--header",
           renderCell: (cellValues) => {
             return (

@@ -11,6 +11,7 @@ import dayjs from "dayjs";
 import { useQuery } from "react-query";
 import { getImmunityLogOnDate } from "../../requests/immunityLogRequest";
 import ImmunityLogActionMenu from "./ImmunityLogActionMenu";
+import TableBoxContainer from '../widgets/TableBoxContainer';
 
 const ImmunityLogView = () => {
   const { openDrawer } = useViewContext();
@@ -39,11 +40,11 @@ const ImmunityLogView = () => {
 
   return (
     <ViewFirstBox openDrawer={openDrawer}>
-        <Box sx={{ mt: "1rem", mb: "0.5rem" }}>
+        <Box sx={{ mt: "1rem", mb: "0.5rem", width: openDrawer ? '79.5vw' : '90vw' }}>
           <Stack
             direction="row"
             alignItems={"center"}
-            justifyContent={"space-between"}
+            justifyContent={'space-between'}
           >
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
@@ -54,38 +55,30 @@ const ImmunityLogView = () => {
                 format="DD MMM YYYY"
               />
             </LocalizationProvider>
+            <Box sx={{ flexGrow: 1 }} textAlign="right">
             <Button
               aria-label="add"
               variant="contained"
               sx={{
                 borderRadius: "50px",
                 textTransform: "capitalize",
+                float:'right'
               }}
               startIcon={<AddOutlined />}
               onClick={handleOpenImmunityLogModal}
             >
               Add
             </Button>
+            </Box>
           </Stack>
         </Box>
-        <Box
-          sx={{
-            mt: "0.5rem",
-            height: "77vh",
-            width: "fit-content",
-            backgroundColor: "white",
-            "& .super-app-theme--header": {
-              backgroundColor: "rgb(63, 77, 103)",
-              color: "white",
-            },
-          }}
-        >
+        <TableBoxContainer>
           <ImmunityLogTable
             immunityLogData={immunityLogData}
             immunityLogSuccess={immunityLogSuccess}
             handleOpenActionMenu={handleOpenActionMenu}
           />
-        </Box>
+        </TableBoxContainer>
       <NewImmunityLogModal
         openImmunityLogModal={openImmunityLogModal}
         setOpenImmunityLogModal={setOpenImmunityLogModal}

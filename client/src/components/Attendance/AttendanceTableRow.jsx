@@ -37,8 +37,6 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
     },[isConfirm])
   return (
     <TableRow key={attendance.id}>
-                    <AttendanceTableCell width={'25%'}>{attendance?.employee?.name}</AttendanceTableCell>
-
                     <AttendanceTableCell>
                       <Stack direction="row" alignItems={"center"}>
                         <CalendarTodayOutlined
@@ -48,9 +46,11 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       </Stack>
                     </AttendanceTableCell>
                     
+                    <AttendanceTableCell>{attendance?.employee?.name}</AttendanceTableCell>
+
                     <AttendanceTableCell>
                       <OutlinedInput
-                        sx={{ fontSize: "12px", width: "100px" }}
+                        sx={{ fontSize: "12px"}}
                         type="number"
                         name='workingHour'
                         onChange={handleInput}
@@ -65,9 +65,9 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       />
                     </AttendanceTableCell>
 
-                    <AttendanceTableCell>
+                    <AttendanceTableCell width={200}>
                       <OutlinedInput
-                        sx={{ fontSize: "12px", width: "100px" }}
+                        sx={{ fontSize: "12px"}}
                         type="number"
                         name='reimbursedHour'
                         onChange={handleInput}

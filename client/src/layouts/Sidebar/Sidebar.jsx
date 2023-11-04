@@ -16,7 +16,7 @@ import SidebarItem from "./SidebarItem";
 import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -106,7 +106,7 @@ const Sidebar = () => {
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 5,
+              marginRight: {xs:2,lg:5},
               ...(openDrawer && { display: "none" }),
             }}
           >
@@ -117,7 +117,7 @@ const Sidebar = () => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={openDrawer}>
+      <Drawer variant="permanent" open={openDrawer} sx={{display: {md:'block',xs:openDrawer ? 'block' : 'none'}}}>
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (

@@ -1,13 +1,15 @@
 import React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Button } from "@mui/material";
+import { useViewContext } from "../../context/ViewContext";
 
 const ImmunityLogTable = ({immunityLogData,immunityLogSuccess,handleOpenActionMenu}) => {
+  const {openDrawer} = useViewContext();
   const columns = [
     {
       field: "employeeName",
       headerName: "Name",
-      width: 230,
+      width: openDrawer ? 230 : 280,
       minWidth: 250,
       maxWidth: 300,
       headerClassName: "super-app-theme--header",
@@ -15,31 +17,31 @@ const ImmunityLogTable = ({immunityLogData,immunityLogSuccess,handleOpenActionMe
     {
       field: "promotionPoint",
       headerName: "Promotion Point",
-      width: 165,
+      width: openDrawer ? 165 : 185,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "immunity",
       headerName: "Immunity",
-      width: 130,
+      width: openDrawer ? 130 : 150,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "coreWallet",
       headerName: "Core Wallet",
-      width: 140,
+      width: openDrawer ? 145 : 180,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "supplementWallet",
       headerName: "Supplement Wallet",
-      width: 175,
+      width: openDrawer ? 180 : 220,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "revenuePoint",
       headerName: "Revenue Point",
-      width: 165,
+      width: openDrawer ? 175 : 195,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -51,7 +53,7 @@ const ImmunityLogTable = ({immunityLogData,immunityLogSuccess,handleOpenActionMe
     {
       field: "Action",
       headerName: "",
-      width: 122,
+      width: 100,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
