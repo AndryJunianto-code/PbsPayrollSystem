@@ -17,7 +17,6 @@ import TableBoxContainer from '../widgets/TableBoxContainer';
 import EmployeeActionMenu from "./EmployeeActionMenu";
 
 const EmployeeView = () => {
-  const theme = useTheme();
   const { openDrawer } = useViewContext();
   const [openEmpModal, setOpenEmpModal] = useState(false);
   const [openEmpUpdateModal, setOpenEmpUpdateModal] = useState(false);

@@ -82,21 +82,11 @@ const NewImmunityLogModal = ({
     );
   };
 
-  const getMondayDateInSameWeek = (selectedDate) => {
-    const date = new Date(selectedDate);
-    const day = date.getDay();
-    const diff = date.getDate() - day + (day === 0 ? -6 : 1); // Find the date of Monday in the current week
-    // Set the new date to the Monday of the week
-    const mondayDate = new Date(date.setDate(diff));
-
-    return mondayDate;
-  };
 
   const handleImmunityLogDate = (selectedDate) => {
-    let mondayDate = getMondayDateInSameWeek(selectedDate);
     setInput({
       ...input,
-      date: dayjs(mondayDate).format("DD MMM YYYY"),
+      date: dayjs(selectedDate).format("DD MMM YYYY"),
     });
     setWeekNumber(getWeekNumber(selectedDate));
   };
