@@ -1,47 +1,48 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import React from "react";
+import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
+import ImmunityLogTableCell from "./ImmunityLogTableCell";
 
-
-function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-    createData('Gingerbread', 356, 16.0, 49, 3.9),
-  ];
-const ImmunityLogMiniTable = () => {
+const ImmunityLogMiniTable = ({employeeTrackRecordsData}) => {
+  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData);
   return (
-    <TableContainer sx={{height:'300px',maxHeight:'300px', overflowY:'scroll', backgroundColor:'#f4f4f4', borderRadius:'4px'}}>
-      <Table  aria-label="simple table">
+    <TableContainer>
+      <Table aria-label="simple table">
       <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <ImmunityLogTableCell fontWeight={'bold'}>Employee</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Position</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Immunity</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Core Wallet</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Supplement Wallet</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Promotion Point</ImmunityLogTableCell>
+            <ImmunityLogTableCell>Revenue Point</ImmunityLogTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {modifiedEmployeeTrackRecords.map((emp) => (
             <TableRow
-              key={row.name}
+              key={emp.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <ImmunityLogTableCell sx={{fontWeight:'bold'}}>{emp.name}</ImmunityLogTableCell>
+              <ImmunityLogTableCell >{emp.position.title}</ImmunityLogTableCell>
+              <ImmunityLogTableCell >
+                {emp.immunityLog.immunity} 
+              <span>+{emp.earned.immunityEarned}</span>
+              <span> = {emp.earned.finalImmunity}</span>
+              </ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp.earned.coreWalletLeft}</ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp.immunityLog.supplementWallet}</ImmunityLogTableCell>
+              <ImmunityLogTableCell >
+                {emp.immunityLog.immunity} 
+              <span>+{emp.earned.immunityEarned}</span>
+              <span> = {emp.earned.finalImmunity}</span>
+              </ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp.immunityLog.revenuePoint}
+              <span>+{emp.earned.revenuePointEarned}</span>
+              <span> = {emp.earned.finalRevenuePoint}</span>
+              </ImmunityLogTableCell>
             </TableRow>
           ))}
         </TableBody>

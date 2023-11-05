@@ -4,6 +4,14 @@
     padding: 0;
  }
 
+ .success {
+  color: #34be8d;
+ }
+
+ .error {
+  color: #ff4961;
+ }
+ 
  ::-webkit-scrollbar {
   width: 5px;
 }

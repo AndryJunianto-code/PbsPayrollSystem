@@ -10,6 +10,11 @@ export const getAllEmployeeId = async(obj) => {
     return data;
 }
 
+export const getAllEmployeeTrackRecords = async(obj) => {
+    const {data} = await axios.get(`/employee/getAllEmployeeTrackRecords/${obj.queryKey[1]}`)
+    return data;
+}
+
 export const createEmployee = async(obj) => {
     const {name,gender,nik,dob,phoneNumber,joinedDate,positionId} = obj
     const {data} = await axios.post('/employee', {

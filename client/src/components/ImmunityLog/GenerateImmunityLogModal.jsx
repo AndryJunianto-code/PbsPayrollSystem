@@ -1,5 +1,5 @@
-import { Box, Modal, Typography, useTheme } from "@mui/material";
-import { useState } from "react";
+import { Box, Modal, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { largeModalStyle } from "../../assets/styles/styles";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -7,14 +7,16 @@ import dayjs from "dayjs";
 import useGetImmunityLog from "../../hooks/useGetImmunityLog";
 import ImmunityLogMiniTable from "./ImmunityLogMiniTable";
 import SecondaryButton from "../widgets/SecondaryButton";
+import useGetSalesByWeek from "../../hooks/useGetSalesByWeek";
+import useGetAllEmployeeTrackRecords from "../../hooks/useGetAllEmployeeTrackRecords";
+import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
 
 const GenerateImmunityLogModal = ({
   openGenerateImmunityLogModal,
   setOpenGenerateImmunityLogModal,
 }) => {
-  const theme = useTheme();
   const [selectedDate, setSelectedDate] = useState(dayjs());
-  const [lastWeekDate, setLastWeekDate] = useState("");
+  const [lastWeekDate, setLastWeekDate] = useState(dayjs());
   const handleCloseGenerateImmunityLogModal = () =>
     setOpenGenerateImmunityLogModal(false);
 
@@ -27,8 +29,15 @@ const GenerateImmunityLogModal = ({
     setLastWeekDate(weekBefore);
   };
 
-  const { data: prevImmunityLogData, isSuccess: prevImmunityLogSuccess } =
+  const { data: prevImmunityLogData, isSuccess: prevImmunityLogSuccess} =
     useGetImmunityLog(lastWeekDate);
+
+  const {data: employeeTrackRecordsData,isSuccess:employeeTrackRecordsSuccess} = useGetAllEmployeeTrackRecords(lastWeekDate);
+
+  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData);
+  const handleGenerateImmunityLog = () => {
+    
+  }
 
   return (
     <Modal
@@ -53,14 +62,15 @@ const GenerateImmunityLogModal = ({
               format="DD MMM YYYY"
             />
           </LocalizationProvider>
-          <Box mt="2rem">
-            {prevImmunityLogSuccess && prevImmunityLogData !== null && (
-              <ImmunityLogMiniTable />
+          <Typography mt='1rem'>Preview</Typography>
+          <Box mt="0.5rem" height='310px' maxHeight='310px' sx={{backgroundColor:'#4c4c4c', borderRadius:'4px',overflowY:'scroll',}}>
+            {employeeTrackRecordsSuccess && employeeTrackRecordsData !== null && (
+              <ImmunityLogMiniTable employeeTrackRecordsData={employeeTrackRecordsData}/>
             )}
           </Box>
         </Box>
 
-        <SecondaryButton sx={{float:'right', mt:'2.5rem'}}>Generate</SecondaryButton>
+        <SecondaryButton onClick={handleGenerateImmunityLog} sx={{float:'right', mt:'2rem'}}>Generate</SecondaryButton>
       </Box>
     </Modal>
   );
