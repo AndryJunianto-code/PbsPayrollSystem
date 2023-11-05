@@ -13,6 +13,12 @@ export default (sequelize, DataTypes) => {
       required:true,
       unique:true
     },
+    rank: {
+      type: DataTypes.INTEGER,
+      allowNull:false,
+      required:true,
+      unique:true
+    },
     salary: {
       type: DataTypes.INTEGER,
       allowNull: false,

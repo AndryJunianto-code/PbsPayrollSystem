@@ -41,8 +41,9 @@ db.attendance = Attendance(sequelize,DataTypes);
 db.payslip = Payslip(sequelize,DataTypes);
 db.immunityLog = ImmunityLog(sequelize,DataTypes);
 
-db.employee.belongsTo(db.position);
-db.position.hasMany(db.employee);
+db.employee.belongsTo(db.position, {
+  foreignKey:'rank'
+});
 
 db.sales.belongsTo(db.employee);
 db.employee.hasMany(db.sales)

@@ -31,7 +31,7 @@ const UpdatePositionModal = ({
     quarterBonusFirstTier: 0,
     quarterBonusSecondTier: 0,
   };
-  const initialFieldError = {title:false,salary:false}
+  const initialFieldError = { title: false, salary: false };
   const [input, setInput] = useState(initialState);
   const [fieldError, setFieldError] = useState(initialFieldError);
   const handleInput = (e) => {
@@ -39,10 +39,17 @@ const UpdatePositionModal = ({
   };
   const validateField = () => {
     const errors = {};
-    if (input.title.toString().trim() === "") {errors.title = true};
-    if (input.salary.toString().trim() === "" || parseInt(input.salary) <= 0) {errors.salary = true};
+    if (input.title.toString().trim() === "") {
+      errors.title = true;
+    }
+    if (input.rank.toString().trim() === "") {
+      errors.rank = true;
+    }
+    if (input.salary.toString().trim() === "" || parseInt(input.salary) <= 0) {
+      errors.salary = true;
+    }
     return errors;
-  }
+  };
 
   const { mutate: mutatePosition } = useMutation(updatePosition);
   const handleUpdatePosition = (e) => {
@@ -54,6 +61,7 @@ const UpdatePositionModal = ({
       e.preventDefault();
       const {
         title,
+        rank,
         salary,
         target,
         promotionTarget,
@@ -64,8 +72,9 @@ const UpdatePositionModal = ({
       } = input;
       mutatePosition(
         {
-          id:data?.id,
+          id: data?.id,
           title,
+          rank,
           salary,
           target,
           promotionTarget,
@@ -88,8 +97,8 @@ const UpdatePositionModal = ({
   useEffect(() => {
     if (data !== null) setInput(data);
     return () => {
-      setInput(initialState)
-      setFieldError(initialFieldError)
+      setInput(initialState);
+      setFieldError(initialFieldError);
     };
   }, [data]);
   return (
@@ -104,16 +113,29 @@ const UpdatePositionModal = ({
           Update Position
         </Typography>
         <Box mt="2rem">
-          <TextField
-            required
-            fullWidth
-            error={fieldError.title}
-            id="outlined-required"
-            label="Title"
-            name="title"
-            onChange={handleInput}
-            value={input.title}
-          />
+        <Stack direction="row" my="2rem" flex={5}>
+            <TextField
+              required
+              error={fieldError.title}
+              id="outlined-required"
+              label="Title"
+              name="title"
+              onChange={handleInput}
+              sx={{ flex: 3, mr: "1rem" }}
+              value={input.title}
+            />
+            <TextField
+              required
+              error={fieldError.rank}
+              id="outlined"
+              label="Rank"
+              type="number"
+              onChange={handleInput}
+              name="rank"
+              sx={{ flex: 2 }}
+              value={input.rank}
+            />
+          </Stack>
           <Stack direction="row" my="2rem" flex={5}>
             <FormControl
               required

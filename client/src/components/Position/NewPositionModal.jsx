@@ -26,51 +26,78 @@ const NewPositionModal = ({
     target: 0,
     promotionTarget: "",
     monthlyCommisionFirstTier: "",
-    monthlyCommisionSecondTier:"",
-    quarterBonusFirstTier:"",
-    quarterBonusSecondTier:""
-  }
-  const initialFieldError = {title:false,salary:false}
-  const [input,setInput] = useState(initialState)
-  const [fieldError,setFieldError] = useState(initialFieldError)
+    monthlyCommisionSecondTier: "",
+    quarterBonusFirstTier: "",
+    quarterBonusSecondTier: "",
+  };
+  const initialFieldError = { title: false, salary: false };
+  const [input, setInput] = useState(initialState);
+  const [fieldError, setFieldError] = useState(initialFieldError);
 
   const handleInput = (e) => {
-    setInput({...input,[e.target.name]:e.target.value});
+    setInput({ ...input, [e.target.name]: e.target.value });
   };
   const handleClosePosModal = () => {
-    setOpenPosModal(false)
-    setFieldError(initialFieldError)
-  }
+    setOpenPosModal(false);
+    setFieldError(initialFieldError);
+  };
 
   const validateField = () => {
     const errors = {};
-    if (input.title.toString().trim() === "") {errors.title = true};
-    if (input.salary.toString().trim() === "" || parseInt(input.salary) <= 0) {errors.salary = true};
+    if (input.title.toString().trim() === "") {
+      errors.title = true;
+    }
+    if (input.rank.toString().trim() === "") {
+      errors.rank = true;
+    }
+    if (input.salary.toString().trim() === "" || parseInt(input.salary) <= 0) {
+      errors.salary = true;
+    }
     return errors;
-  }
-  
-  const {mutate:mutatePosition} = useMutation(createPosition)
+  };
+
+  const { mutate: mutatePosition } = useMutation(createPosition);
   const handleCreatePosition = (e) => {
     const errors = validateField();
     setFieldError(errors);
     const hasErrors = Object.values(errors).some((error) => error === true);
 
-    if(!hasErrors) {
+    if (!hasErrors) {
       e.preventDefault();
-      const {title,salary,target,promotionTarget,monthlyCommisionFirstTier,monthlyCommisionSecondTier,quarterBonusFirstTier,quarterBonusSecondTier} = input
+      const {
+        title,
+        rank,
+        salary,
+        target,
+        promotionTarget,
+        monthlyCommisionFirstTier,
+        monthlyCommisionSecondTier,
+        quarterBonusFirstTier,
+        quarterBonusSecondTier,
+      } = input;
       mutatePosition(
-      {title,salary,target,promotionTarget,monthlyCommisionFirstTier,monthlyCommisionSecondTier,quarterBonusFirstTier,quarterBonusSecondTier},
-      {
-        onSuccess: (data) => {
-          refetchPosition();
-          handleClosePosModal();
-          setInput(initialState)
+        {
+          title,
+          rank,
+          salary,
+          target,
+          promotionTarget,
+          monthlyCommisionFirstTier,
+          monthlyCommisionSecondTier,
+          quarterBonusFirstTier,
+          quarterBonusSecondTier,
+        },
+        {
+          onSuccess: (data) => {
+            refetchPosition();
+            handleClosePosModal();
+            setInput(initialState);
+          },
         }
-      }
-     ) 
+      );
     }
-  }
-  
+  };
+
   return (
     <Modal
       open={openPosModal}
@@ -83,17 +110,34 @@ const NewPositionModal = ({
           New Position
         </Typography>
         <Box mt="2rem">
-          <TextField
-            required
-            fullWidth
-            error={fieldError.title}
-            id="outlined-required"
-            label="Title"
-            name="title"
-            onChange={handleInput}
-          />
           <Stack direction="row" my="2rem" flex={5}>
-            <FormControl required sx={{ flex: 2 }} onChange={handleInput} error={fieldError.salary}>
+            <TextField
+              required
+              error={fieldError.title}
+              id="outlined-required"
+              label="Title"
+              name="title"
+              onChange={handleInput}
+              sx={{ flex: 3, mr: "1rem" }}
+            />
+            <TextField
+              required
+              error={fieldError.rank}
+              id="outlined"
+              label="Rank"
+              type="number"
+              onChange={handleInput}
+              name="rank"
+              sx={{ flex: 2 }}
+            />
+          </Stack>
+          <Stack direction="row" my="2rem" flex={5}>
+            <FormControl
+              required
+              sx={{ flex: 2 }}
+              onChange={handleInput}
+              error={fieldError.salary}
+            >
               <InputLabel htmlFor="outlined-adornment-amount">
                 Salary
               </InputLabel>
@@ -104,10 +148,10 @@ const NewPositionModal = ({
                   <InputAdornment position="start">Rp</InputAdornment>
                 }
                 label="Amount"
-                name='salary'
+                name="salary"
               />
             </FormControl>
-            <FormControl sx={{ flex:2,mx:'1rem' }} onChange={handleInput}>
+            <FormControl sx={{ flex: 2, mx: "1rem" }} onChange={handleInput}>
               <InputLabel htmlFor="outlined-adornment-amount">
                 Target
               </InputLabel>
@@ -118,7 +162,7 @@ const NewPositionModal = ({
                   <InputAdornment position="start">$</InputAdornment>
                 }
                 label="Amount"
-                name='target'
+                name="target"
               />
             </FormControl>
             <TextField
@@ -127,7 +171,7 @@ const NewPositionModal = ({
               type="number"
               name="promotionTarget"
               onChange={handleInput}
-              sx={{flex:1}}
+              sx={{ flex: 1 }}
             />
           </Stack>
           <Stack direction="row">
@@ -136,14 +180,14 @@ const NewPositionModal = ({
               label="1st Tier Comm"
               type="number"
               onChange={handleInput}
-              name='monthlyCommisionFirstTier'
+              name="monthlyCommisionFirstTier"
             />
             <TextField
               id="outlined"
               label="2nd Tier Comm"
               type="number"
               onChange={handleInput}
-              name='monthlyCommisionSecondTier'
+              name="monthlyCommisionSecondTier"
               sx={{ mx: "1rem" }}
             />
             <TextField
@@ -151,7 +195,7 @@ const NewPositionModal = ({
               label="1st Tier Quarter"
               type="number"
               onChange={handleInput}
-              name='quarterBonusFirstTier'
+              name="quarterBonusFirstTier"
               sx={{ mr: "1rem" }}
             />
             <TextField
@@ -159,7 +203,7 @@ const NewPositionModal = ({
               label="2nd Tier Quarter"
               type="number"
               onChange={handleInput}
-              name='quarterBonusSecondTier'
+              name="quarterBonusSecondTier"
             />
           </Stack>
         </Box>

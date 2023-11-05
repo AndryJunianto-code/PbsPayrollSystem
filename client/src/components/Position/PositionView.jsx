@@ -42,15 +42,15 @@ const PositionView = () => {
   
   const columns = [
     {
-      field: "id",
-      headerName: "ID",
-      width: 50,
+      field: "rank",
+      headerName: "Rank",
+      width: 60,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "title",
       headerName: "Title",
-      width:  openDrawer ? 180 : 190,
+      width:  openDrawer ? 170 : 180,
       headerClassName: "super-app-theme--header",
     },
     {
