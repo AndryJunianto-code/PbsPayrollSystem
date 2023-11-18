@@ -55,7 +55,16 @@ export default (sequelize, DataTypes) => {
         defaultValue: 0,
       },
     },
-    { initialAutoIncrement: 1000 }
+    {
+      initialAutoIncrement: 1000,
+      indexes: [
+        {
+          unique: true,
+          fields: ["week", "employeeId"],
+          name: "uniqueWeekPerEmployee", // Add unique constraint
+        },
+      ],
+    }
   );
   return ImmunityLog;
 };

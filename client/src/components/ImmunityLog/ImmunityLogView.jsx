@@ -40,7 +40,6 @@ const ImmunityLogView = () => {
     isSuccess: immunityLogSuccess,
     refetch: refetchImmunityLog,
   } = useGetImmunityLog(selectedDate);
-
   return (
     <ViewFirstBox openDrawer={openDrawer}>
       <Box

@@ -7,3 +7,9 @@ export const createEmployeePositionHistory = async(obj) => {
     })
     return data;
 }
+
+export const createBulkEmployeePositionHistory = async(obj) => {
+    const {data} = await axios.post('/employeePositionHistory/bulk', obj)
+    return data;
+}
+

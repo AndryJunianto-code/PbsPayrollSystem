@@ -7,19 +7,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import React, { useEffect } from "react";
-import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
+import React from "react";
 import ImmunityLogTableCell from "./ImmunityLogTableCell";
 
-const ImmunityLogMiniTable = ({weekNumber,selectedDate,employeeTrackRecordsData,setAllEmployeeTrackRecords }) => {
-  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(
-    employeeTrackRecordsData,weekNumber,selectedDate
-  );
-
-  useEffect(()=> {
-    setAllEmployeeTrackRecords(modifiedEmployeeTrackRecords);
-    return () => setAllEmployeeTrackRecords([]);
-  },[modifiedEmployeeTrackRecords])
+const ImmunityLogMiniTable = ({modifiedEmployeeTrackRecords }) => {
+ 
   return (
     <TableContainer>
       <Table aria-label="simple table">
@@ -58,7 +50,7 @@ const ImmunityLogMiniTable = ({weekNumber,selectedDate,employeeTrackRecordsData,
                 )}
                 <span> {emp?.immunity}</span>
               </ImmunityLogTableCell>
-              <ImmunityLogTableCell>{emp?.coreWallet}</ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp.coreWallet}</ImmunityLogTableCell>
               <ImmunityLogTableCell>{emp?.supplementWallet}</ImmunityLogTableCell>
               <ImmunityLogTableCell>
                 {emp?.promotionStatus === "None" && (

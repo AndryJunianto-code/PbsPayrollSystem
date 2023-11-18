@@ -1,6 +1,14 @@
+import { useMutation } from "react-query";
+import { createEmployeePositionHistory } from "../requests/employeePositionHistoryRequest";
+
+
 
 const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDate) => {
-  const data =  employeeTrackRecordsData?.map(emp=> {
+  const { mutate: mutateEmployeePositionHistory } = useMutation(
+    createEmployeePositionHistory
+  );
+  const data = [];
+  employeeTrackRecordsData?.map(emp=> {
     if(!emp.immunityLog) {
       return null;
     } else {
@@ -10,7 +18,7 @@ const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDa
       let immunityEarned = 0;
       let rank = emp.position.rank;
       let promotionStatus = 'None';
-      let revenuePoint = emp.immunityLog.revenuePoint;
+      let revenuePoint = 0;
       if(emp.totalSalesAmount === 0) { //nosales
         currentImmunity -= 1;
         currentPromotion = currentPromotion - 1 < 0 ? 0 : currentPromotion - 1;
@@ -48,7 +56,7 @@ const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDa
               }
           }
       }
-      return {
+      data.push ({
         name:emp.name,
         position:emp.position.title,
         immunity:currentImmunity, 
@@ -64,8 +72,7 @@ const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDa
         lead:emp.immunityLog.lead,
         week:weekNumber,
         date:selectedDate
-      }
-
+      })
     }
   })
   return data;

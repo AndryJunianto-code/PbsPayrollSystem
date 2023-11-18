@@ -7,7 +7,7 @@ export const createImmunityLog = async(obj) => {
 }
 
 export const bulkCreateImmunityLog = async(obj) => {
-    const {data} = await axios.post('/immunityLog/bulk', obj.allEmployeeTrackRecords);
+    const {data} = await axios.post('/immunityLog/bulk', obj);
     return data;
 }
 

@@ -14,8 +14,8 @@ export const addImmunityLog = async (req, res) => {
 }
 
 export const addBulkImmunityLog = async(req,res)=> {
+  console.log(req.body)
   try{
-    console.log(req.body)
     const newImmunityLog = await ImmunityLog.bulkCreate(req.body);
     res.status(200).json(newImmunityLog);
   } catch(err) {

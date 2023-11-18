@@ -17,6 +17,7 @@ import { useViewContext } from "../../context/ViewContext";
 import UpdatePositionModal from "./UpdatePositionModal";
 import ViewFirstBox from "../widgets/ViewFirstBox";
 import TableBoxContainer from "../widgets/TableBoxContainer";
+import useGetAllPosition from "../../hooks/useGetAllPosition";
 
 const PositionView = () => {
   const {openDrawer} = useViewContext();
@@ -38,7 +39,7 @@ const PositionView = () => {
     data: positionData,
     isSuccess: positionSuccess,
     refetch: refetchPosition,
-  } = useQuery(["getAllPosition"], getAllPosition, { retryDelay: 3000 });
+  } = useGetAllPosition();
   
   const columns = [
     {

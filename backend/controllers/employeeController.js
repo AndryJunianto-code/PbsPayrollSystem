@@ -55,6 +55,9 @@ export const getAllEmployee = async (req, res) => {
       ],
       order: [
         [
+          "createdAt","DESC"
+        ],
+        [
           { model: EmployeePositionHistory, as: "employeePositionHistory" },
           "createdAt",
           "DESC",
@@ -70,11 +73,15 @@ export const getAllEmployee = async (req, res) => {
 export const getAllEmployeeTrackRecords = async (req, res) => {
   try {
     const allEmployee = await Employee.findAll({
-      attributes: ["id", "name"],
       include: [
         {
-          model: Position,
-          attributes: ["title", "target", "promotionTarget", "rank"],
+          model: EmployeePositionHistory,
+          as: "employeePositionHistory",
+          include: [
+            {
+              model: Position,
+            },
+          ],
         },
         {
           model: ImmunityLog,
@@ -91,6 +98,16 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
           required: false,
         },
       ],
+      order: [
+        [
+          "createdAt","DESC"
+        ],
+        [
+          { model: EmployeePositionHistory, as: "employeePositionHistory" },
+          "createdAt",
+          "DESC",
+        ],
+      ],
     });
 
     const allEmployeeModified = allEmployee.map((employee) => {
@@ -103,7 +120,7 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
       return {
         id: employee.id,
         name: employee.name,
-        position: employee.position,
+        position: employee.employeePositionHistory[0].position,
         immunityLog: immunityLog,
         totalSalesAmount,
       };

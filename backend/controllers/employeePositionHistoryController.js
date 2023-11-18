@@ -36,5 +36,14 @@ export const addEmployeePositionHistory = async (req, res) => {
     }
 }
 
+export const addBulkEmployeePositionHistory = async(req,res)=> {
+  try{
+    const newEmployeePositionHistory = await EmployeePositionHistory.bulkCreate(req.body);
+    res.status(200).json(newEmployeePositionHistory);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+}
+
 
   

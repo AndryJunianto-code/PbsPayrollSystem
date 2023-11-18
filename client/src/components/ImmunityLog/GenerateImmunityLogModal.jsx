@@ -13,6 +13,8 @@ import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
 import { useMutation } from "react-query";
 import { bulkCreateImmunityLog } from "../../requests/immunityLogRequest";
 import getWeekNumber from "../../utils/getWeekNumber";
+import useGetAllPosition from '../../hooks/useGetAllPosition';
+import { createBulkEmployeePositionHistory } from "../../requests/employeePositionHistoryRequest";
 
 const GenerateImmunityLogModal = ({
   refetchImmunityLog,
@@ -22,7 +24,8 @@ const GenerateImmunityLogModal = ({
   const [selectedDate, setSelectedDate] = useState(dayjs().format('DD MMM YYYY'));
   const [lastWeekDate, setLastWeekDate] = useState(dayjs());
   const [weekNumber,setWeekNumber] = useState(getWeekNumber(selectedDate));
-  const [allEmployeeTrackRecords,setAllEmployeeTrackRecords] = useState([]);
+  
+
   const handleCloseGenerateImmunityLogModal = () =>
     setOpenGenerateImmunityLogModal(false);
 
@@ -40,18 +43,32 @@ const GenerateImmunityLogModal = ({
     useGetImmunityLog(lastWeekDate);
 
   const {data: employeeTrackRecordsData,isSuccess:employeeTrackRecordsSuccess} = useGetAllEmployeeTrackRecords(lastWeekDate);
-
-  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData);
-
+  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData,weekNumber,selectedDate);
+  
   const {mutate:mutateGenerateImmunityLog} = useMutation(bulkCreateImmunityLog, {
     onSuccess: (data)=>console.log(data)
   })
+
+  const {data: positionData} = useGetAllPosition();
+  const { mutate: mutateBulkEmployeePositionHistory } = useMutation(
+    createBulkEmployeePositionHistory
+  );
+  
+
+
   const handleGenerateImmunityLog = () => {
-    if(allEmployeeTrackRecords?.length > 0) {
-      console.log(allEmployeeTrackRecords);
-      mutateGenerateImmunityLog({
-        allEmployeeTrackRecords
-      }, {
+    if(modifiedEmployeeTrackRecords?.length > 0) {
+      let promotedEmployee = modifiedEmployeeTrackRecords.filter(emp=>emp.promotionStatus === 'Promote').map(emp=> {
+        let promotedPositionId = positionData.filter(pos=>pos.rank === emp.rank)[0]?.id
+        return {employeeId:emp.employeeId,positionId:promotedPositionId}
+      })
+      if(promotedEmployee.length > 0) {
+        mutateBulkEmployeePositionHistory(promotedEmployee)
+      }
+
+      mutateGenerateImmunityLog(
+        modifiedEmployeeTrackRecords
+      , {
         onSuccess: () => {
           handleCloseGenerateImmunityLogModal();
             refetchImmunityLog();
@@ -86,8 +103,8 @@ const GenerateImmunityLogModal = ({
           </LocalizationProvider>
           <Typography mt='1rem'>Preview</Typography>
           <Box mt="0.5rem" height='310px' maxHeight='310px' sx={{backgroundColor:'#4c4c4c', borderRadius:'4px',overflowY:'scroll',}}>
-            {employeeTrackRecordsSuccess && employeeTrackRecordsData !== null && (
-              <ImmunityLogMiniTable weekNumber={weekNumber} selectedDate={selectedDate} setAllEmployeeTrackRecords={setAllEmployeeTrackRecords} employeeTrackRecordsData={employeeTrackRecordsData}/>
+            { modifiedEmployeeTrackRecords !== null && (
+              <ImmunityLogMiniTable modifiedEmployeeTrackRecords={modifiedEmployeeTrackRecords}/>
             )}
           </Box>
         </Box>
