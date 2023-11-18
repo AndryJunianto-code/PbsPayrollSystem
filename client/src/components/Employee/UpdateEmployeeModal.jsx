@@ -18,13 +18,14 @@ import {
   import {basicModalStyle} from '../../assets/styles/styles'
   import dayjs from "dayjs";
 import { getAllPosition } from "../../requests/positionRequest";
+import { createEmployeePositionHistory } from "../../requests/employeePositionHistoryRequest";
   
   
   const UpdateEmployeeModal = ({
     openEmpUpdateModal,
     handleCloseEmpUpdateModal,
     refetchEmployee,
-    data
+    selectedRow
   }) => {
     const initialState = {
       name: "",
@@ -34,7 +35,7 @@ import { getAllPosition } from "../../requests/positionRequest";
       phoneNumber: "",
       joinedDate: "",
       positionId: 1,
-    }
+    };
     const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
     const [fieldError, setFieldError] = useState(initialFieldError);
@@ -59,6 +60,10 @@ import { getAllPosition } from "../../requests/positionRequest";
     } = useQuery(["getAllPosition"], getAllPosition, { retryDelay: 3000 });
   
     const { mutate: mutateEmployee } = useMutation(updateEmployee);
+    const { mutate: mutateEmployeePositionHistory } = useMutation(
+      createEmployeePositionHistory
+    );
+    
     const handleUpdateEmployee = (e) => {
       const errors = validateField();
       setFieldError(errors);
@@ -68,11 +73,16 @@ import { getAllPosition } from "../../requests/positionRequest";
       e.preventDefault();
       const { name, gender, nik, dob, phoneNumber, joinedDate, positionId } = input;
       mutateEmployee(
-        {id:data?.id, name, gender, nik, dob, phoneNumber, joinedDate, positionId },
+        {id:selectedRow?.id, name, gender, nik, dob, phoneNumber, joinedDate },
         {
           onSuccess: () => {
-            refetchEmployee();
             handleCloseEmpUpdateModal();
+            if(selectedRow.positionId !== positionId) { //promotion changed 
+              mutateEmployeePositionHistory({employeeId:selectedRow.id,positionId}, {
+                onSuccess:()=>refetchEmployee()
+              })
+            } 
+            refetchEmployee();
           },
         }
       );
@@ -80,12 +90,12 @@ import { getAllPosition } from "../../requests/positionRequest";
     };
 
     useEffect(() => {
-     if(data !== null) setInput(data.row);
+     if(selectedRow !== null) setInput(selectedRow);
      return () => {
       setInput(initialState)
       setFieldError(initialFieldError)
     }
-    }, [data]);
+    }, [selectedRow]);
     return (
       <Modal
         open={openEmpUpdateModal}
@@ -165,7 +175,6 @@ import { getAllPosition } from "../../requests/positionRequest";
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  defaultValue={data?.position?.title}
                   value={input.positionId}
                   label="Position"
                   name="positionId"

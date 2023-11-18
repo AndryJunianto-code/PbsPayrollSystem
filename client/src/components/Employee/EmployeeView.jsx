@@ -28,7 +28,8 @@ const EmployeeView = () => {
   const handleCloseActionMenu = () => setActionAnchor(null);
   const handleOpenActionMenu = (e,data) => {
     setActionAnchor(e.currentTarget);
-    setSelectedRow(data)
+    let modifiedData = {...data.row,positionId:data.row.employeePositionHistory[0].positionId}
+    setSelectedRow(modifiedData);
   };
 
   const handleOpenEmpUpdateModal = (data) => {
@@ -68,11 +69,11 @@ const EmployeeView = () => {
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
-          <Box
+           <Box
             sx={{
               backgroundColor:
                 positionColor[
-                  cellValues.row.position?.title.toLowerCase().replace(" ", "_")
+                 cellValues.row.employeePositionHistory[0]?.position.title.toLowerCase().replace(" ", "_")
                 ],
               color: "white",
               padding: "0.5rem",
@@ -83,7 +84,7 @@ const EmployeeView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.position?.title}
+            {cellValues.row.employeePositionHistory[0]?.position.title }
           </Box>
         );
       },
@@ -212,7 +213,7 @@ const EmployeeView = () => {
         openEmpUpdateModal={openEmpUpdateModal}
         handleCloseEmpUpdateModal={handleCloseEmpUpdateModal}
         refetchEmployee={refetchEmployee}
-        data={selectedRow}
+        selectedRow={selectedRow}
       />
       <EmployeeActionMenu
       handleOpenEmpUpdateModal={handleOpenEmpUpdateModal}

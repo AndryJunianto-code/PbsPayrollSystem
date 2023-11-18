@@ -31,7 +31,7 @@ export const generateEmployeePdf = async(obj) => {
 export const updateEmployee = async(obj) => {
     const {name,gender,nik,dob,phoneNumber,joinedDate,positionId} = obj
     const {data} = await axios.put(`/employee/${obj.id}`, {
-        name,gender,nik,dob,phoneNumber,joinedDate,positionId
+        name,gender,nik,dob,phoneNumber,joinedDate
     })
     return data;
 }

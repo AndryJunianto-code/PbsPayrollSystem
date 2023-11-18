@@ -1,11 +1,12 @@
 import db from "../models/index.js";
 import puppeteer from "puppeteer";
+import { Op, Sequelize } from "sequelize";
 
 const Employee = db.employee;
 const Position = db.position;
 const ImmunityLog = db.immunityLog;
 const Sales = db.sales;
-const sequelize = db.sequelize;
+const EmployeePositionHistory = db.employeePositionHistory;
 
 export const addEmployee = async (req, res) => {
   try {
@@ -39,15 +40,28 @@ export const generateEmployeePdf = async (req, res) => {
 
 export const getAllEmployee = async (req, res) => {
   try {
-    const allEmployee = await Employee.findAll({
+    const employeesWithLatestPosition = await Employee.findAll({
       include: [
         {
-          model: Position,
-          as: "position",
+          model: EmployeePositionHistory,
+          as: "employeePositionHistory",
+          include: [
+            {
+              model: Position,
+              attributes: ["title"],
+            },
+          ],
         },
       ],
+      order: [
+        [
+          { model: EmployeePositionHistory, as: "employeePositionHistory" },
+          "createdAt",
+          "DESC",
+        ],
+      ],
     });
-    res.status(200).json(allEmployee);
+    res.status(200).json(employeesWithLatestPosition);
   } catch (err) {
     res.status(500).json(err);
   }
@@ -60,36 +74,40 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
       include: [
         {
           model: Position,
-          attributes: ["title", "target", "promotionTarget","rank"],
+          attributes: ["title", "target", "promotionTarget", "rank"],
         },
         {
           model: ImmunityLog,
           where: {
             week: req.params.week,
           },
-          limit:1
+          limit: 1,
         },
         {
           model: Sales,
           where: {
             salesWeek: req.params.week,
           },
-          required:false,
+          required: false,
         },
       ],
     });
 
-    const allEmployeeModified = allEmployee.map(employee => {
-      const immunityLog = employee.immunityLogs.length >  0 ? employee.immunityLogs[0] : null;
-        const totalSalesAmount = employee.sales.reduce((total, sale) => total + sale.salesAmount, 0);
-        return {
-          id: employee.id,
-          name: employee.name,
-          position: employee.position,
-          immunityLog: immunityLog,
-          totalSalesAmount
-        };
-      });
+    const allEmployeeModified = allEmployee.map((employee) => {
+      const immunityLog =
+        employee.immunityLogs.length > 0 ? employee.immunityLogs[0] : null;
+      const totalSalesAmount = employee.sales.reduce(
+        (total, sale) => total + sale.salesAmount,
+        0
+      );
+      return {
+        id: employee.id,
+        name: employee.name,
+        position: employee.position,
+        immunityLog: immunityLog,
+        totalSalesAmount,
+      };
+    });
     res.status(200).json(allEmployeeModified);
   } catch (err) {
     res.status(500).json(err);

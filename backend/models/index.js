@@ -43,8 +43,6 @@ db.payslip = Payslip(sequelize,DataTypes);
 db.immunityLog = ImmunityLog(sequelize,DataTypes);
 db.employeePositionHistory = EmployeePositionHistory(sequelize,DataTypes);
 
-db.employee.belongsTo(db.position);
-
 db.sales.belongsTo(db.employee);
 db.employee.hasMany(db.sales)
 
@@ -59,6 +57,8 @@ db.employee.hasMany(db.immunityLog);
 
 db.employeePositionHistory.belongsTo(db.employee);
 db.employeePositionHistory.belongsTo(db.position);
+db.employee.hasMany(db.employeePositionHistory, {foreignKey: 'employeeId', as:'employeePositionHistory'});1
+db.position.hasMany(db.employeePositionHistory, {foreignKey: 'positionId'});
 
 db.sequelize.sync({ force: false }).then(() => console.log("re-sync done"));
 

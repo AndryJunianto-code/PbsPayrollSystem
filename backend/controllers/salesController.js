@@ -1,5 +1,4 @@
 import db from "../models/index.js";
-import { Op } from "sequelize";
 
 const Sales = db.sales;
 const Employee = db.employee;
