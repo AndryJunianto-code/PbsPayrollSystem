@@ -7,6 +7,7 @@ import salesRouter from './routes/salesRouter.js';
 import attendanceRouter from './routes/attendanceRouter.js';
 import immunityLogRouter from './routes/immunityLogRouter.js';
 import payslipRouter from './routes/payslipRouter.js';
+import employeePositionHistoryRouter from './routes/employeePositionHistoryRouter.js';
 import dotenv from 'dotenv'
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api/sales', salesRouter);
 app.use('/api/attendance', attendanceRouter)
 app.use('/api/immunityLog', immunityLogRouter);
 app.use('/api/payslip', payslipRouter);
+app.use('/api/employeePositionHistory', employeePositionHistoryRouter);
 
 app.listen(8800, () => {
     console.log('connected');

@@ -31,7 +31,7 @@ import { getAllPosition } from "../../requests/positionRequest";
       dob: "",
       phoneNumber: "",
       joinedDate: '',
-      positionRank: 5,
+      positionId: 1,
     }
     const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
@@ -69,9 +69,9 @@ import { getAllPosition } from "../../requests/positionRequest";
       
       if (!hasErrors) {
         e.preventDefault();
-        const { name, gender, nik, dob, phoneNumber, joinedDate,positionRank } = input;
+        const { name, gender, nik, dob, phoneNumber, joinedDate,positionId } = input;
         mutateEmployee(
-          { name, gender, nik, dob, phoneNumber, joinedDate,positionRank },
+          { name, gender, nik, dob, phoneNumber, joinedDate,positionId },
           {
             onSuccess: () => {
               refetchEmployee();
@@ -163,13 +163,13 @@ import { getAllPosition } from "../../requests/positionRequest";
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   defaultValue={positionData && positionData[0]?.title}
-                  value={input.positionRank}
+                  value={input.rank}
                   label="Position"
-                  name="positionRank"
+                  name="rank"
                   onChange={handleInput}
                 >
                   {positionSuccess && positionData !== null && positionData.map(position=> (
-                    <MenuItem key={position.id} value={position.rank}>{position.title}</MenuItem>
+                    <MenuItem key={position.id} value={position.id}>{position.title}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

@@ -11,7 +11,17 @@ export const addImmunityLog = async (req, res) => {
     } catch (err) {
       res.status(500).json(err);
     }
-  };
+}
+
+export const addBulkImmunityLog = async(req,res)=> {
+  try{
+    console.log(req.body)
+    const newImmunityLog = await ImmunityLog.bulkCreate(req.body);
+    res.status(200).json(newImmunityLog);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+}
 
   export const getImmunityLogOnWeek = async (req, res) => {
     try {

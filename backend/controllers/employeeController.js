@@ -60,7 +60,7 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
       include: [
         {
           model: Position,
-          attributes: ["title", "target", "promotionTarget"],
+          attributes: ["title", "target", "promotionTarget","rank"],
         },
         {
           model: ImmunityLog,
@@ -74,6 +74,7 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
           where: {
             salesWeek: req.params.week,
           },
+          required:false,
         },
       ],
     });

@@ -1,16 +1,33 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
-import React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import React, { useEffect } from "react";
 import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
 import ImmunityLogTableCell from "./ImmunityLogTableCell";
 
-const ImmunityLogMiniTable = ({employeeTrackRecordsData}) => {
-  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData);
+const ImmunityLogMiniTable = ({weekNumber,selectedDate,employeeTrackRecordsData,setAllEmployeeTrackRecords }) => {
+  const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(
+    employeeTrackRecordsData,weekNumber,selectedDate
+  );
+
+  useEffect(()=> {
+    setAllEmployeeTrackRecords(modifiedEmployeeTrackRecords);
+    return () => setAllEmployeeTrackRecords([]);
+  },[modifiedEmployeeTrackRecords])
   return (
     <TableContainer>
       <Table aria-label="simple table">
-      <TableHead>
+        <TableHead>
           <TableRow>
-            <ImmunityLogTableCell fontWeight={'bold'}>Employee</ImmunityLogTableCell>
+            <ImmunityLogTableCell fontWeight={"bold"}>
+              Employee
+            </ImmunityLogTableCell>
             <ImmunityLogTableCell>Position</ImmunityLogTableCell>
             <ImmunityLogTableCell>Immunity</ImmunityLogTableCell>
             <ImmunityLogTableCell>Core Wallet</ImmunityLogTableCell>
@@ -20,29 +37,42 @@ const ImmunityLogMiniTable = ({employeeTrackRecordsData}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {modifiedEmployeeTrackRecords.map((emp) => (
+          {modifiedEmployeeTrackRecords  !== null && modifiedEmployeeTrackRecords.map((emp) => (
             <TableRow
-              key={emp.id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              key={emp?.employeeId}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <ImmunityLogTableCell sx={{fontWeight:'bold'}}>{emp.name}</ImmunityLogTableCell>
-              <ImmunityLogTableCell >{emp.position.title}</ImmunityLogTableCell>
-              <ImmunityLogTableCell >
-                {emp.immunityLog.immunity} 
-              <span>+{emp.earned.immunityEarned}</span>
-              <span> = {emp.earned.finalImmunity}</span>
+              <ImmunityLogTableCell sx={{ fontWeight: "bold" }}>
+                {emp?.name}
               </ImmunityLogTableCell>
-              <ImmunityLogTableCell>{emp.earned.coreWalletLeft}</ImmunityLogTableCell>
-              <ImmunityLogTableCell>{emp.immunityLog.supplementWallet}</ImmunityLogTableCell>
-              <ImmunityLogTableCell >
-                {emp.immunityLog.immunity} 
-              <span>+{emp.earned.immunityEarned}</span>
-              <span> = {emp.earned.finalImmunity}</span>
+              <ImmunityLogTableCell>{emp?.promotionStatus === "None" ? emp?.position : emp?.promotionStatus}</ImmunityLogTableCell>
+              <ImmunityLogTableCell>
+                {emp?.promotionStatus === "None" && (
+                  <span>
+                    {emp?.prevImmunity}
+                    <span>
+                      {emp?.immunityEarned === 0 ? '-1 ' : `+${emp?.immunityEarned} `} 
+                      =
+                    </span>
+                  </span>
+                )}
+                <span> {emp?.immunity}</span>
               </ImmunityLogTableCell>
-              <ImmunityLogTableCell>{emp.immunityLog.revenuePoint}
-              <span>+{emp.earned.revenuePointEarned}</span>
-              <span> = {emp.earned.finalRevenuePoint}</span>
+              <ImmunityLogTableCell>{emp?.coreWallet}</ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp?.supplementWallet}</ImmunityLogTableCell>
+              <ImmunityLogTableCell>
+                {emp?.promotionStatus === "None" && (
+                  <span>
+                    {emp?.prevPromotion}
+                    <span>
+                      {emp?.immunityEarned === 0 ? '-1 ' : `+${emp?.immunityEarned} `} 
+                      =
+                    </span>
+                  </span>
+                )}
+                <span> {emp?.promotionPoint}</span>
               </ImmunityLogTableCell>
+              <ImmunityLogTableCell>{emp?.revenuePoint}</ImmunityLogTableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -72,7 +72,7 @@ const EmployeeView = () => {
             sx={{
               backgroundColor:
                 positionColor[
-                  cellValues.row.position.title.toLowerCase().replace(" ", "_")
+                  cellValues.row.position?.title.toLowerCase().replace(" ", "_")
                 ],
               color: "white",
               padding: "0.5rem",

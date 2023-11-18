@@ -10,13 +10,19 @@ import SecondaryButton from "../widgets/SecondaryButton";
 import useGetSalesByWeek from "../../hooks/useGetSalesByWeek";
 import useGetAllEmployeeTrackRecords from "../../hooks/useGetAllEmployeeTrackRecords";
 import useTrackRecordsAlgorithm from "../../hooks/useTrackRecordsAlgorithm";
+import { useMutation } from "react-query";
+import { bulkCreateImmunityLog } from "../../requests/immunityLogRequest";
+import getWeekNumber from "../../utils/getWeekNumber";
 
 const GenerateImmunityLogModal = ({
+  refetchImmunityLog,
   openGenerateImmunityLogModal,
   setOpenGenerateImmunityLogModal,
 }) => {
-  const [selectedDate, setSelectedDate] = useState(dayjs());
+  const [selectedDate, setSelectedDate] = useState(dayjs().format('DD MMM YYYY'));
   const [lastWeekDate, setLastWeekDate] = useState(dayjs());
+  const [weekNumber,setWeekNumber] = useState(getWeekNumber(selectedDate));
+  const [allEmployeeTrackRecords,setAllEmployeeTrackRecords] = useState([]);
   const handleCloseGenerateImmunityLogModal = () =>
     setOpenGenerateImmunityLogModal(false);
 
@@ -27,6 +33,7 @@ const GenerateImmunityLogModal = ({
     const weekBefore = new Date(currentDate);
     weekBefore.setDate(currentDate.getDate() - 7); // previous week
     setLastWeekDate(weekBefore);
+    setWeekNumber(getWeekNumber(date));
   };
 
   const { data: prevImmunityLogData, isSuccess: prevImmunityLogSuccess} =
@@ -35,8 +42,23 @@ const GenerateImmunityLogModal = ({
   const {data: employeeTrackRecordsData,isSuccess:employeeTrackRecordsSuccess} = useGetAllEmployeeTrackRecords(lastWeekDate);
 
   const modifiedEmployeeTrackRecords = useTrackRecordsAlgorithm(employeeTrackRecordsData);
+
+  const {mutate:mutateGenerateImmunityLog} = useMutation(bulkCreateImmunityLog, {
+    onSuccess: (data)=>console.log(data)
+  })
   const handleGenerateImmunityLog = () => {
-    
+    if(allEmployeeTrackRecords?.length > 0) {
+      console.log(allEmployeeTrackRecords);
+      mutateGenerateImmunityLog({
+        allEmployeeTrackRecords
+      }, {
+        onSuccess: () => {
+          handleCloseGenerateImmunityLogModal();
+            refetchImmunityLog();
+        }
+      })
+    }
+   
   }
 
   return (
@@ -65,7 +87,7 @@ const GenerateImmunityLogModal = ({
           <Typography mt='1rem'>Preview</Typography>
           <Box mt="0.5rem" height='310px' maxHeight='310px' sx={{backgroundColor:'#4c4c4c', borderRadius:'4px',overflowY:'scroll',}}>
             {employeeTrackRecordsSuccess && employeeTrackRecordsData !== null && (
-              <ImmunityLogMiniTable employeeTrackRecordsData={employeeTrackRecordsData}/>
+              <ImmunityLogMiniTable weekNumber={weekNumber} selectedDate={selectedDate} setAllEmployeeTrackRecords={setAllEmployeeTrackRecords} employeeTrackRecordsData={employeeTrackRecordsData}/>
             )}
           </Box>
         </Box>

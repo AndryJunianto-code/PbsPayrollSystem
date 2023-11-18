@@ -101,6 +101,7 @@ const ImmunityLogView = () => {
       <GenerateImmunityLogModal
         openGenerateImmunityLogModal={openGenerateImmunityLogModal}
         setOpenGenerateImmunityLogModal={setOpenGenerateImmunityLogModal}
+        refetchImmunityLog={refetchImmunityLog}
       />
       <ImmunityLogActionMenu
         selectedRow={selectedRow}

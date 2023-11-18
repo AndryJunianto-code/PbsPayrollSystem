@@ -6,6 +6,11 @@ export const createImmunityLog = async(obj) => {
     return data;
 }
 
+export const bulkCreateImmunityLog = async(obj) => {
+    const {data} = await axios.post('/immunityLog/bulk', obj.allEmployeeTrackRecords);
+    return data;
+}
+
 export const getImmunityLogOnWeek = async(obj) => {
     const {data} = await axios.get(`/immunityLog/onWeek/${obj.queryKey[1]}`);
     return data;

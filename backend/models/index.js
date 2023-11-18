@@ -7,6 +7,7 @@ import Sales from './salesModel.js';
 import Attendance from './attendanceModel.js';
 import Payslip from './payslipModel.js';
 import ImmunityLog from './immunityLogModel.js';
+import EmployeePositionHistory from './employeePositionHistoryModel.js'
 
 const sequelize = new Sequelize(
   database,
@@ -40,10 +41,9 @@ db.sales = Sales(sequelize,DataTypes);
 db.attendance = Attendance(sequelize,DataTypes);
 db.payslip = Payslip(sequelize,DataTypes);
 db.immunityLog = ImmunityLog(sequelize,DataTypes);
+db.employeePositionHistory = EmployeePositionHistory(sequelize,DataTypes);
 
-db.employee.belongsTo(db.position, {
-  foreignKey:'rank'
-});
+db.employee.belongsTo(db.position);
 
 db.sales.belongsTo(db.employee);
 db.employee.hasMany(db.sales)
@@ -56,6 +56,9 @@ db.employee.hasMany(db.payslip);
 
 db.immunityLog.belongsTo(db.employee);
 db.employee.hasMany(db.immunityLog);
+
+db.employeePositionHistory.belongsTo(db.employee);
+db.employeePositionHistory.belongsTo(db.position);
 
 db.sequelize.sync({ force: false }).then(() => console.log("re-sync done"));
 
