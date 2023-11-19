@@ -32,9 +32,11 @@ const DashboardView = () => {
                 title={"Total Sales / Week"}
                 content={"$82,102"}
                 contentColor={"#34be8d"}
+                fromColor={'#3ad2bc'}
+                toColor={'#86d9d3'}
                 icon={
                   <LocalAtmOutlined
-                    sx={{ width: "50px", height: "50px", color: "#34be8d" }}
+                    sx={{ width: "35px", height: "35px", color: "white" }}
                   />
                 }
               />
@@ -44,9 +46,11 @@ const DashboardView = () => {
                 title={"Total Lead / Week"}
                 content={"12"}
                 contentColor={"#ffa87d"}
+                fromColor={'#3297e7'}
+                toColor={'#85c4f7'}
                 icon={
                   <DraftsOutlined
-                    sx={{ width: "46px", height: "46px", color: "#ffa87d" }}
+                    sx={{ width: "32px", height: "32px", color: "white" }}
                   />
                 }
               />
@@ -56,9 +60,11 @@ const DashboardView = () => {
                 title={"Total Closure / Week"}
                 content={"6"}
                 contentColor={"#1880ff"}
+                fromColor={'#fe8a96'}
+                toColor={'#ffbc96'}
                 icon={
                   <FileDownloadDoneOutlined
-                    sx={{ width: "46px", height: "46px", color: "#1880ff" }}
+                    sx={{ width: "32px", height: "32px", color: "white" }}
                   />
                 }
               />

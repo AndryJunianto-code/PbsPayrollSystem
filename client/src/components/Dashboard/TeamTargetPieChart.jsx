@@ -14,7 +14,7 @@ const TeamTargetPieChart = () => {
       sx={{
         mt: "2rem",
         padding: "1rem",
-        background: "#ff3954",
+        background: "#fe7096",
         height: "350px",
         position:'relative'
       }}

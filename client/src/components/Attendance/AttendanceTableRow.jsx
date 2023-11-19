@@ -10,6 +10,7 @@ import {
   } from "@mui/material";
 import { CalendarTodayOutlined } from "@mui/icons-material";
 import AttendanceTableCell from './AttendanceTableCell';
+import dayjs from 'dayjs';
 
 
 const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfirm,setIsConfirm}) => {
@@ -43,7 +44,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                         <CalendarTodayOutlined
                           sx={{ color: "gray", fontSize: "16px", mr: "0.3rem" }}
                         />
-                        <Typography>{attendance.date}</Typography>
+                        <Typography>{dayjs(attendance.date).format('DD MMM YYYY')}</Typography>
                       </Stack>
                     </AttendanceTableCell>
                     

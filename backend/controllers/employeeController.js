@@ -28,7 +28,7 @@ export const generateEmployeePdf = async (req, res) => {
       format: "A4",
       printBackground: true,
     });
-
+    
     await browser.close();
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader("Content-Disposition", "attachment; filename=employee.pdf");

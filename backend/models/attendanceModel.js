@@ -7,7 +7,7 @@ export default (sequelize, DataTypes) => {
         autoIncrement:true,
       },
       date: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false,
         required:true,
       },

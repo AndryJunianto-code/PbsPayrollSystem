@@ -12,8 +12,8 @@ const EmployeePieChart = () => {
     { name: "Male", value: 7 },
     { name: "Female", value: 3 },
   ];
-  const COLORS = ["#1880ff", "#fb6f92"];
-  const COLORSPOSITION = ["#27ae60","#f39c12","#e74c3c"]
+  const COLORS = ["#3699e8", "#fe8c96"];
+  const COLORSPOSITION = ["#3fc7b5","#fe7096","#65bcee"]
   return (
     <Paper
       sx={{

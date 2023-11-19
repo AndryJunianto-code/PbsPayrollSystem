@@ -11,6 +11,11 @@ export const getAttendanceOnDate = async(obj) => {
     return data;
 }
 
+export const getAttendanceOnMonth = async(obj) => {
+    const {data} = await axios.get(`/attendance/onMonth/${obj.queryKey[1]}`);
+    return data;
+}
+
 export const updateAllAttendance = async(obj) => {
     const allAttendance = obj.allAttendance;
     const {data} = await axios.put('/attendance/updateAll', {

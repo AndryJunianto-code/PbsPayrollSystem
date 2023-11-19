@@ -1,21 +1,9 @@
+import { Op } from "sequelize";
 import db from "../models/index.js";
 
 const Employee = db.employee;
 const Attendance = db.attendance;
 const sequelize = db.sequelize;
-
-export const checkAttendanceDateExist = async (req, res) => {
-  try {
-    const isAttendanceExist = await Attendance.findOne({
-      where: { date: req.params.date },
-    });
-    if (!isAttendanceExist) {
-      res.status(200).json(null);
-    } else {
-      res.status(200).json("Existed");
-    }
-  } catch (err) {}
-};
 
 export const addAttendance = async (req, res) => {
   try {
@@ -31,6 +19,31 @@ export const getAttendanceOnDate = async (req, res) => {
   try {
     const allAttendance = await Attendance.findAll({
       where: { date: req.params.date },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: [
+        {
+          model: Employee,
+          as: "employee",
+          attributes: ["name"],
+        },
+      ],
+    });
+    res.status(200).json(allAttendance);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export const getAttendanceOnMonth = async (req, res) => {
+  try {
+    const allAttendance = await Attendance.findAll({
+      where: {
+        [Op.and]: [
+          sequelize.where(sequelize.fn('MONTH', sequelize.col('date')), req.params.month),
+          sequelize.where(sequelize.fn('YEAR', sequelize.col('date')), req.params.year),
+          { employeeId: req.params.employeeId },
+        ],
+      },
       attributes: { exclude: ["createdAt", "updatedAt"] },
       include: [
         {
