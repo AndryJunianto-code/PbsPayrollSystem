@@ -49,9 +49,9 @@ export const basicModalStyle = {
     bgcolor: "background.paper",
     borderRadius: "4px",
     outline: "none",
-    height: { xs: "42rem", lg: "33rem" },
+    height: { xs: "42rem", lg: "35rem" },
     boxShadow: 24,
-    p: 5,
+    p: 4,
   };
 
 export const positionColor = {

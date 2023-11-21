@@ -1,7 +1,8 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useViewContext } from '../../context/ViewContext';
+import dayjs from 'dayjs';
 
 const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
   const {openDrawer} = useViewContext();
@@ -9,43 +10,57 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
         {
             field: "date",
             headerName: "Date",
-            width: openDrawer ? 150 : 170,
+            width: openDrawer ? 120 : 140,
             headerClassName: "super-app-theme--header",
+            renderCell: (cellValues) => {
+              return (
+                <Typography
+                >
+                  {dayjs(cellValues.row.date).format('DD MMM YYYY')}
+                </Typography>
+              );
+            },
           },
         {
           field: "employeeName",
           headerName: "Name",
-          width: openDrawer ? 230 : 255,
+          width: openDrawer ? 220 : 245,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "basicSalary",
           headerName: "Basic Salary",
-          width: openDrawer ? 150 : 180,
+          width: openDrawer ? 130 : 150,
           headerClassName: "super-app-theme--header",
         },
         {
-          field: "totalCommision",
+          field: "commision",
           headerName: "Total Commision",
-          width: openDrawer ? 150 : 180,
+          width: openDrawer ? 150 : 160,
           headerClassName: "super-app-theme--header",
         },
         {
-          field: "totalDeduction",
+          field: "deduction",
           headerName: "Total Deduction",
-          width: openDrawer ? 170 : 190,
+          width: openDrawer ? 150 : 170,
+          headerClassName: "super-app-theme--header",
+        },
+        {
+          field: "netAdjustment",
+          headerName: "Adjustment",
+          width: openDrawer ? 130 : 160,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "netSalary",
           headerName: "Net Salary",
-          width: openDrawer ? 170 : 190,
+          width: openDrawer ? 140 : 160,
           headerClassName: "super-app-theme--header",
         },
         {
           field: "status",
           headerName: "Status",
-          width: openDrawer ? 120 : 140,
+          width: openDrawer ? 100 : 120,
           headerClassName: "super-app-theme--header",
         },
         {

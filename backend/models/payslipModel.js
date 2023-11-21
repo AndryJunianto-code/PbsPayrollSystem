@@ -7,8 +7,13 @@ export default (sequelize, DataTypes) => {
         autoIncrement:true,
       },
       date: {
-        type: DataTypes.STRING,
+        type: DataTypes.DATE,
         allowNull: false,
+        required:true,
+      },
+      monthYear: {
+        type: DataTypes.STRING,
+        allowNull:false,
         required:true,
       },
       basicSalary: {
@@ -16,15 +21,17 @@ export default (sequelize, DataTypes) => {
         allowNull: false,
         required: true,
       },
-      totalCommision: {
+      commision: {
         type: DataTypes.FLOAT(10,1),
         allowNull: false,
         required:true,
+        default: 0,
       },
-      totalDeduction: {
+      deduction: {
         type: DataTypes.FLOAT(10,1),
         allowNull: false,
         required:true,
+        default: 0,
       },
       netSalary: {
         type: DataTypes.FLOAT(10,1),
@@ -37,7 +44,16 @@ export default (sequelize, DataTypes) => {
         required:true,
         defaultValue: 'Paid'
       }
-    },{initialAutoIncrement:1});
+    },{
+      initialAutoIncrement:1,
+      indexes: [
+        {
+          unique: true,
+          fields: ["monthYear", "employeeId"],
+          name: "uniquePayslip", // Add unique constraint
+        },
+      ],
+    });
     return Payslip;
   };
   

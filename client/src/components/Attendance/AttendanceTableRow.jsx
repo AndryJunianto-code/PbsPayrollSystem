@@ -36,7 +36,6 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
       }
       return () => setIsConfirm(false);
     },[isConfirm])
-    console.log(attendance)
   return (
     <TableRow key={attendance.id}>
                     <AttendanceTableCell>

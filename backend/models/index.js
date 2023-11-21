@@ -8,6 +8,7 @@ import Attendance from './attendanceModel.js';
 import Payslip from './payslipModel.js';
 import ImmunityLog from './immunityLogModel.js';
 import EmployeePositionHistory from './employeePositionHistoryModel.js'
+import Adjustment from './adjustmentModel.js';
 
 const sequelize = new Sequelize(
   database,
@@ -40,6 +41,7 @@ db.position = Position(sequelize,DataTypes);
 db.sales = Sales(sequelize,DataTypes);
 db.attendance = Attendance(sequelize,DataTypes);
 db.payslip = Payslip(sequelize,DataTypes);
+db.adjustment = Adjustment(sequelize,DataTypes);
 db.immunityLog = ImmunityLog(sequelize,DataTypes);
 db.employeePositionHistory = EmployeePositionHistory(sequelize,DataTypes);
 
@@ -48,6 +50,9 @@ db.employee.hasMany(db.sales)
 
 db.attendance.belongsTo(db.employee);
 db.employee.hasMany(db.attendance);
+
+db.adjustment.belongsTo(db.payslip);
+db.payslip.hasMany(db.adjustment);
 
 db.payslip.belongsTo(db.employee);
 db.employee.hasMany(db.payslip);

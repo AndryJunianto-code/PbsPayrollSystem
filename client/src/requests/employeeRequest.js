@@ -15,6 +15,14 @@ export const getAllEmployeeTrackRecords = async(obj) => {
     return data;
 }
 
+export const getSingleEmployeeTrackRecordsOnMonth = async(obj) => {
+    const employeeId = obj.queryKey[1];
+    const year = obj.queryKey[2];
+    const month = obj.queryKey[3];
+    const {data} = await axios.get(`/employee/getSingleEmployeeTrackRecordsOnMonth/${employeeId}/${year}/${month}`)
+    return data;
+}
+
 export const createEmployee = async(obj) => {
     const {name,gender,nik,dob,phoneNumber,joinedDate,positionId} = obj
     const {data} = await axios.post('/employee', {

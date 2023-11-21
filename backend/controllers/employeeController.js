@@ -1,11 +1,13 @@
 import db from "../models/index.js";
 import puppeteer from "puppeteer";
 import { Op, Sequelize } from "sequelize";
+import attendanceModel from "../models/attendanceModel.js";
 
 const Employee = db.employee;
 const Position = db.position;
 const ImmunityLog = db.immunityLog;
 const Sales = db.sales;
+const Attendance = db.attendance;
 const EmployeePositionHistory = db.employeePositionHistory;
 
 export const addEmployee = async (req, res) => {
@@ -48,7 +50,6 @@ export const getAllEmployee = async (req, res) => {
           include: [
             {
               model: Position,
-              attributes: ["title"],
             },
           ],
         },
@@ -58,7 +59,7 @@ export const getAllEmployee = async (req, res) => {
           "createdAt","DESC"
         ],
         [
-          { model: EmployeePositionHistory, as: "employeePositionHistory" },
+          { model: EmployeePositionHistory, as: "employeePositionHistory"},
           "createdAt",
           "DESC",
         ],
@@ -130,6 +131,74 @@ export const getAllEmployeeTrackRecords = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+export const getSingleEmployeeTrackRecordsOnMonth = async(req,res)=> {
+  try{
+    const employee = await Employee.findByPk(req.params.employeeId, {
+      include: [
+        {
+          model: EmployeePositionHistory,
+          as: "employeePositionHistory",
+          include: [
+            {
+              model: Position,
+            },
+          ],
+        },
+        {
+          model: ImmunityLog,
+          where: {
+            date: {
+              [Op.between]: [
+                new Date(req.params.year, req.params.month - 1, 1),
+                new Date(req.params.year, req.params.month, 0, 23, 59, 59, 999), // Set the end of the last day
+              ],
+            },
+          },
+          required: false,
+        },
+        {
+          model: Attendance,
+          where: {
+            date: {
+              [Op.between]: [
+                new Date(req.params.year, req.params.month - 1, 1),
+                new Date(req.params.year, req.params.month, 0, 23, 59, 59, 999), // Set the end of the last day
+              ],
+            },
+          },
+          required: false,
+        }
+      ],
+      order: [
+        [
+          { model: EmployeePositionHistory, as: "employeePositionHistory" },
+          "createdAt",
+          "DESC",
+        ],
+      ],
+    })
+    const employeeJSON = employee.toJSON();
+    const totalRevenuePoint = employeeJSON.immunityLogs.reduce(
+      (total, log) => total + log.revenuePoint,
+      0
+    );
+    const totalHours = employeeJSON.attendances.reduce(
+      (totals, attendance) => {
+        totals.totalWorkingHours += attendance.workingHour;
+        totals.totalReimbursedHours += attendance.reimbursedHour;
+        return totals;
+      },
+      { totalWorkingHours: 0, totalReimbursedHours: 0 }
+    );
+    employeeJSON.totalRevenuePoint = totalRevenuePoint;
+    employeeJSON.totalHours = totalHours;
+    res.status(200).json(employeeJSON);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+  
+}
 
 export const getAllEmployeeId = async (req, res) => {
   try {

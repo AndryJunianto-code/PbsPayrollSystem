@@ -29,6 +29,7 @@ const PayslipView = () => {
     isSuccess: payslipSuccess,
     refetch: refetchPayslip,
   } = useQuery(["getAllPayslip"], getAllPayslip, { retryDelay: 3000 });
+  
   return (
     <ViewFirstBox openDrawer={openDrawer}>
         <Box

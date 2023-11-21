@@ -3,6 +3,7 @@ import puppeteer from "puppeteer";
 
 const Payslip = db.payslip;
 const Employee = db.employee;
+const Adjustment = db.adjustment;
 
 export const generatePayslipPdf = async (req, res) => {
   try {
@@ -40,8 +41,10 @@ export const getAllPayslip = async (req, res) => {
       include: [
         {
           model: Employee,
-          as: "employee",
         },
+        {
+          model: Adjustment,
+        }
       ],
     });
 
@@ -50,23 +53,27 @@ export const getAllPayslip = async (req, res) => {
         id,
         date,
         basicSalary,
-        totalCommision,
-        totalDeduction,
+        commision,
+        deduction,
         netSalary,
         status,
         employee,
+        adjustments
       } = log;
+      let netAdjustment = adjustments.reduce((total,adj)=> total + adj.amount,0)
       return {
         id,
         date,
         basicSalary,
-        totalCommision,
-        totalDeduction,
+        commision,
+        deduction,
         netSalary,
         status,
         employeeId: employee.id,
         employeeName: employee.name,
         phoneNumber:employee.phoneNumber,
+        netAdjustment,
+        adjustments,
       };
     });
     res.status(200).json(flattenedData);

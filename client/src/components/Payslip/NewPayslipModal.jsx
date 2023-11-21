@@ -3,13 +3,16 @@ import {
   Button,
   Divider,
   FormControl,
+  IconButton,
   InputAdornment,
   InputLabel,
   MenuItem,
   Modal,
   OutlinedInput,
+  Paper,
   Select,
   Stack,
+  TextField,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -19,57 +22,129 @@ import { useMutation, useQuery } from "react-query";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { createPayslip, getAllPayslip } from "../../requests/payslipRequest";
+import useGetSingleEmployeeTrackRecordsOnMonth from "../../hooks/useGetSingleEmployeeTrackRecordsOnMonth";
 import dayjs from "dayjs";
+import { AddOutlined } from "@mui/icons-material";
+import { bulkCreateAdjustment } from "../../requests/adjustmentRequest";
 
-const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }) => {
-  const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
-  const [deductedAmount, setDeductedAmount] = useState(0);
-  const [date, setDate] = useState("");
+const NewPayslipModal = ({
+  refetchPayslip,
+  openPayslipModal,
+  setOpenPayslipModal,
+}) => {
+  const [selectedEmployeeId, setSelectedEmployeeId] = useState('');
+  const [inputDate, setInputDate] = useState("");
+  const [formattedDate, setFormattedDate] = useState({ year: "", month: "" });
+  const inputAdjustmentInitial = {name:"",amount:""}
+  const [inputAdjustment, setInputAdjustment] = useState(inputAdjustmentInitial);
+  const [tempAdjustment,setTempAdjustment] = useState([])
+  const [employeeTrackRecords, setEmployeeTrackRecords] = useState({});
 
   const handleClosePayslipModal = () => setOpenPayslipModal(false);
 
   const handleSelectEmployeeId = (e) => {
     setSelectedEmployeeId(e.target.value);
   };
+  const handleInputDate = (value) => {
+    let tempDate = dayjs(value);
+    let formattedDate = tempDate.format("DD MM YYYY").split(" ");
+    setInputDate(tempDate);
+    setFormattedDate({ year: formattedDate[2], month: formattedDate[1] });
+  };
+  const handleInputAdjustment = (e) => {
+    setInputAdjustment({ ...inputAdjustment, [e.target.name]: e.target.value });
+  };
+  const handleTempAddAdjustment = () => {
+    if(inputAdjustment.name !== "" && inputAdjustment.amount !== "") {
+      setTempAdjustment([...tempAdjustment,inputAdjustment])
+      setInputAdjustment(inputAdjustmentInitial)
+    }
+  }
+  const countTotalAdjustment = () => tempAdjustment.reduce((total,adjustment)=> total + Math.floor(adjustment.amount), 0);
 
-  const {
-    data: employeeData,
-    isSuccess: employeeSuccess,
-  } = useQuery(["getAllEmployee"], getAllEmployee, { retryDelay: 3000 });
+  const { data: employeeData, isSuccess: employeeSuccess } = useQuery(
+    ["getAllEmployee"],
+    getAllEmployee,
+    { retryDelay: 3000 }
+  );
+  const resetPaySlipModal = () => {
+    setEmployeeTrackRecords({})
+    setSelectedEmployeeId("")
+    setTempAdjustment([])
+  }
 
   const { mutate: mutateCreatePayslip } = useMutation(createPayslip);
+  const {mutate: mutateBulkCreateAdjustment} = useMutation(bulkCreateAdjustment);
   const handleCreatePayslip = () => {
-    if (selectedEmployee) {
-      mutateCreatePayslip(
-        {
-          date: dayjs(date).format("DD MMM YYYY"),
-          basicSalary: selectedEmployee?.position.salary,
-          totalCommision: 0,
-          totalDeduction: deductedAmount,
-          netSalary: selectedEmployee?.position?.salary - deductedAmount,
-          employeeId: selectedEmployee?.id,
-        },
-        {
-          onSuccess: (data) => {
-            handleClosePayslipModal();
-            refetchPayslip();
-          },
+    if(Object.keys(employeeTrackRecords).length > 0) {
+      const {basicSalary,commision,deduction,netSalary} = employeeTrackRecords;
+      let monthYear = dayjs(inputDate).format('MMMYYYY');
+      mutateCreatePayslip({employeeId:selectedEmployeeId,date:inputDate,monthYear,basicSalary,commision,deduction,netSalary}, {
+        onSuccess: (data) => {
+          let finalAdjustment = tempAdjustment.map(adj=>({...adj,payslipId:data?.id}))
+          mutateBulkCreateAdjustment(finalAdjustment, {
+            onSuccess: () => {
+              handleClosePayslipModal();
+              refetchPayslip();
+              resetPaySlipModal();
+            }
+          })
         }
-      );
+      })
     }
   };
 
 
+  const { data: employeeTrackRecordsData, refetch ,error} =
+    useGetSingleEmployeeTrackRecordsOnMonth(
+      selectedEmployeeId,
+      formattedDate.year,
+      formattedDate.month
+    );
+    
   useEffect(() => {
-    if (employeeSuccess && employeeData !== null) {
-      let selected = employeeData.filter(
-        (employee) => employee.id === selectedEmployeeId
-      )[0];
-      setSelectedEmployee(selected);
+    if (selectedEmployeeId !== '' && formattedDate.year !== "") {
+      refetch();
     }
-  }, [selectedEmployeeId, employeeData]);
+  }, [selectedEmployeeId, formattedDate]);
 
+  useEffect(() => {
+    console.log(employeeTrackRecordsData)
+    if (employeeTrackRecordsData) {
+      let position =
+        employeeTrackRecordsData.employeePositionHistory[0].position;
+      let commisionPercent =
+        employeeTrackRecordsData.totalRevenuePoint >=
+        position.monthlyCommisionSecondTier
+          ? 3
+          : employeeTrackRecordsData.totalRevenuePoint >=
+            position.monthlyCommisionFirstTier
+          ? 1
+          : 0;
+      
+      let championAward =
+        employeeTrackRecords.totalRevenuePoint >= 30000 ? 1000000 : 0;
+      let commision = ((employeeTrackRecordsData.totalRevenuePoint * commisionPercent) / 100) * 1000 + championAward;
+      let totalHours = employeeTrackRecordsData.totalHours;
+      let workingHours =
+        totalHours.totalWorkingHours + totalHours.totalReimbursedHours;
+        let salaryHours = Math.floor((workingHours / 270) * position.salary)
+      let deduction = position.salary - salaryHours;
+      let adjustment = countTotalAdjustment();
+      setEmployeeTrackRecords({
+        positionTitle: position.title,
+        basicSalary: position.salary,
+        totalRevenuePoint: employeeTrackRecordsData.totalRevenuePoint,
+        netSalary: position.salary + commision - deduction + adjustment,
+        commision,
+        commisionPercent,
+        championAward,
+        workingHours,
+        salaryHours,
+        deduction,
+      });
+    }
+  }, [employeeTrackRecordsData,tempAdjustment]);
   return (
     <Modal
       open={openPayslipModal}
@@ -88,7 +163,7 @@ const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }
           sx={{ flex: 2, height: "90%" }}
         >
           <Box sx={{ width: "50%", pr: "2rem" }}>
-            <Stack direction="column">
+            <Stack direction="row">
               <FormControl sx={{ flex: 1, mr: "1rem" }}>
                 <InputLabel id="demo-simple-select-label">Employee</InputLabel>
                 <Select
@@ -96,6 +171,7 @@ const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }
                   onChange={handleSelectEmployeeId}
                   value={selectedEmployeeId}
                 >
+                  <MenuItem value={''}></MenuItem>
                   {employeeSuccess &&
                     employeeData !== null &&
                     employeeData.map((employee) => (
@@ -105,116 +181,251 @@ const NewPayslipModal = ({refetchPayslip,openPayslipModal, setOpenPayslipModal }
                     ))}
                 </Select>
               </FormControl>
-              <Stack direction={"column"} mt="2rem">
-                <Typography>Position</Typography>
-                <Box
-                  sx={{
-                    mt: "0.5rem",
-                    backgroundColor: "green",
-                    color: "white",
-                    padding: "0.5rem",
-                    width: "150px",
-                    letterSpacing: "1px",
-                    fontSize: "13px",
-                    textAlign: "center",
-                    borderRadius: "4px",
-                  }}
-                >
-                  {selectedEmployee
-                    ? selectedEmployee?.position?.title
-                    : "Probation"}
-                </Box>
-              </Stack>
-
-              <Box mt={"3rem"} mb="2rem">
+              <Box sx={{ flex: 1 }}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    onChange={(value) =>
-                      setDate(dayjs(value).format("DD MMM YYYY"))
-                    }
-                    value={date}
+                    onChange={(value) => handleInputDate(value)}
+                    value={inputDate}
                     label={"Date*"}
                     format="DD MMM YYYY"
                   />
                 </LocalizationProvider>
               </Box>
-
-              <FormControl required sx={{ flex: 2 }}>
-                <InputLabel htmlFor="outlined-adornment-amount">
-                  Deduction Amount
-                </InputLabel>
-                <OutlinedInput
-                  type="number"
-                  onChange={(e) => setDeductedAmount(e.target.value)}
-                  id="outlined-adornment-amount"
-                  startAdornment={
-                    <InputAdornment position="start">Rp</InputAdornment>
-                  }
-                  label="Deduction Amount"
-                  name="salary"
-                />
-              </FormControl>
             </Stack>
+
+            <Paper
+              sx={{
+                backgroundColor: "#fccfa4",
+                padding: "2rem",
+                mt: "1.5rem",
+                color: "#3d4a63",
+                height: "19.5rem",
+              }}
+            >
+              <Stack direction={"column"}>
+                <Stack direction="row" alignItems={"start"}>
+                  <Typography fontSize={"16px"} flex={1}>
+                    Basic Salary
+                  </Typography>
+                  <Typography fontSize={"16px"} flex={1} fontWeight={"bold"}>
+                    Rp {employeeTrackRecords.basicSalary}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems={"start"} my="1.5rem">
+                  <Typography fontSize={"16px"} flex={1}>
+                    Total Commision
+                  </Typography>
+                  <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
+                    Rp {employeeTrackRecords.commision}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems={"start"}>
+                  <Typography fontSize={"16px"} flex={1}>
+                    Total Deduction
+                  </Typography>
+                  <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
+                    Rp {employeeTrackRecords.deduction}
+                    
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems={"start"} my="1.5rem">
+                  <Typography fontSize={"16px"} flex={1}>
+                    Net Adjustment
+                  </Typography>
+                  <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
+                    Rp {countTotalAdjustment()}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems={"start"}>
+                  <Typography fontSize={"16px"} flex={1}>
+                    Net Salary
+                  </Typography>
+                  <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
+                    Rp {employeeTrackRecords.netSalary}
+                  </Typography>
+                </Stack>
+              </Stack>
+            </Paper>
           </Box>
 
           <Divider orientation="vertical" flexItem />
 
           <Box sx={{ width: "50%", pl: "2rem" }}>
-            <Stack direction="row" alignItems={"start"}>
-              <Typography variant="h6" mr="5rem">
-                Basic Salary
-              </Typography>
-              <Stack direction="column" justifyContent={"start"}>
-                <Typography variant="h6" color="#8bc34a">
-                  Rp{" "}
-                  {selectedEmployee
-                    ? selectedEmployee?.position.salary
-                    : "7000000"}
-                </Typography>
-                <Typography color={"#616161"}>
-                  {selectedEmployee
-                    ? selectedEmployee?.position?.title
-                    : "Probation"}
-                </Typography>
-              </Stack>
+            <Stack direction="row" alignItems={'center'}>
+              <TextField
+                label="Adjustment"
+                name="name"
+                value={inputAdjustment.name}
+                onChange={handleInputAdjustment}
+              />
+              <FormControl onChange={handleInputAdjustment} sx={{ mx: "1rem" }}>
+                <InputLabel htmlFor="outlined-adornment-amount">
+                  Amount
+                </InputLabel>
+                <OutlinedInput
+                  value={inputAdjustment.amount}
+                  type="number"
+                  id="outlined-adornment-amount"
+                  startAdornment={
+                    <InputAdornment position="start">Rp</InputAdornment>
+                  }
+                  label="Amount"
+                  name="amount"
+                />
+              </FormControl>
+              <IconButton
+              onClick={handleTempAddAdjustment}
+                sx={{
+                  width: "30px",
+                  height:'30px',
+                  borderRadius: "50px",
+                  border:'1px solid #42d2bf'
+                }}
+              >
+                <AddOutlined sx={{ color: "#3d4a63",width:'18px',height:'18px' }} />
+              </IconButton>
             </Stack>
-            <Stack direction="row" alignItems={"start"} my="1.5rem">
-              <Typography variant="h6" mr="2.4rem">
-                Total Commision
-              </Typography>
-              <Stack direction="column" justifyContent={"start"}>
-                <Typography variant="h6" fontWeight={"bold"} color={"blue"}>
-                  Rp 0
+
+            <Paper
+              sx={{
+                mt: "1.5rem",
+                backgroundColor: "#3f4d67",
+                padding: "1rem 2rem",
+                color: "white",
+                height: "19.5rem",
+                maxHeight: "19.5rem",
+                overflowY: "auto",
+              }}
+            >
+              <Box mb="1rem">
+                <Typography color="#86d9d3" mb="0.5rem">
+                  Basic Salary
                 </Typography>
-                <Typography color={"#616161"}>RP 30000 x 1% x 1000</Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" alignItems={"start"} mb="1.5rem">
-              <Typography variant="h6" mr="2.7rem">
-                Total Deduction
-              </Typography>
-              <Stack direction={"column"}>
-                <Typography variant="h6" fontWeight={"bold"} color={"red"}>
-                  Rp {deductedAmount}
+                <Stack direction={"row"}>
+                  <Typography fontSize={"14px"} ml="1rem" flex={3}>
+                    {employeeTrackRecords.positionTitle} Salary
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                    Rp {employeeTrackRecords.basicSalary}
+                  </Typography>
+                </Stack>
+                <Stack direction={"row"}>
+                  <Typography fontSize={"14px"} ml="1rem" flex={3}>
+                    Working Hour
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                    {employeeTrackRecords.workingHours} h
+                  </Typography>
+                </Stack>
+                <Stack direction={"row"}>
+                  <Typography
+                    fontSize={"14px"}
+                    ml="1rem"
+                    flex={3}
+                    fontWeight={"bold"}
+                  >
+                    WH / SWH x Salary
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                    Rp {employeeTrackRecords.salaryHours}
+                  </Typography>
+                </Stack>
+              </Box>
+
+              <Box mb="1rem">
+                <Typography color="#86d9d3" mb="0.5rem">
+                  Total Commision
                 </Typography>
-                <Typography color={"#616161"}>Late 3x</Typography>
-              </Stack>
-            </Stack>
-            <Stack direction="row" alignItems={"center"}>
-              <Typography variant="h6" mr="5.7rem">
-                Net Salary
-              </Typography>
-              <Typography variant="h6" fontWeight={"bold"} color={"green"}>
-                Rp{" "}
-                {(selectedEmployee
-                  ? selectedEmployee?.position?.salary
-                  : 7000000) - deductedAmount}
-              </Typography>
-            </Stack>
+                <Stack direction="row">
+                  <Typography fontSize={"14px"} flex={3} ml="1rem">
+                    Total Revenue Point
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                    {employeeTrackRecords.totalRevenuePoint ? employeeTrackRecords.totalRevenuePoint : 0}
+                  </Typography>
+                </Stack>
+                <Stack direction="row">
+                  <Typography fontSize={"14px"} flex={3} ml="1rem">
+                    Champion Award
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                  Rp  {employeeTrackRecords.championAward}
+                  </Typography>
+                </Stack>
+                <Stack direction="row">
+                  <Typography
+                    fontSize={"14px"}
+                    flex={3}
+                    ml="1rem"
+                    fontWeight={"bold"}
+                  >
+                    (TRP x {employeeTrackRecords.commisionPercent}% x 1000) + CA
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                    {employeeTrackRecords.commision ? employeeTrackRecords.commision : 0}
+                  </Typography>
+                </Stack>
+              </Box>
+
+              <Box mb="1rem">
+                <Typography color="#86d9d3" mb="0.5rem">
+                  Adjustment
+                </Typography>
+                {tempAdjustment.length > 0 && tempAdjustment.map((adjustment,index)=> (
+                  <Stack direction={"row"} key={index}>
+                  <Typography fontSize={"14px"} ml="1rem" flex={3}>
+                    {adjustment.name}
+                  </Typography>
+                  <Typography
+                    fontSize={"14px"}
+                    flex={1}
+                    color="#86d9d3"
+                    fontStyle={"italic"}
+                  >
+                  Rp {adjustment.amount}
+                  </Typography>
+                </Stack>
+                ))}
+              </Box>
+            </Paper>
             <Button
               onClick={handleCreatePayslip}
               variant="contained"
-              sx={{ mt: "2.4rem", textTransform: "capitalize", float: "right" }}
+              sx={{ mt: "1rem", textTransform: "capitalize", float: "right" }}
             >
               Create
             </Button>
