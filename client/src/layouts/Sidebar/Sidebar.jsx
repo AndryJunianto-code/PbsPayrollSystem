@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SidebarItem from "./SidebarItem";
-import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines} from '@mui/icons-material';
+import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines, AnalyticsOutlined, FaceRetouchingNaturalOutlined, BookOutlined} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
 
 const drawerWidth = 220;
@@ -85,7 +85,7 @@ const Drawer = styled(MuiDrawer, {
 
 const Sidebar = () => {
   const theme = useTheme();
-  const {setToDashboard,setToEmployee,setToPosition,setToSales,setToImmunityLog,setToPayslip,setToAttendance,setToAttendanceSummary,selectedView,setOpenDrawer,openDrawer} = useViewContext();
+  const {setToSalesDashboard,setToEmployeeDashboard,setToEmployee,setToPosition,setToSales,setToImmunityLog,setToPayslip,setToAttendance,selectedView,setOpenDrawer,setToJournal,openDrawer} = useViewContext();
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -129,13 +129,16 @@ const Sidebar = () => {
         </DrawerHeader>
         <Divider /> 
         <List>
-          <SidebarItem open={openDrawer} name={'Dashboard'} icon={<Dashboard/>} handleView={setToDashboard} />
-          <SidebarItem open={openDrawer} name={'Employee'} icon={<BadgeOutlined />} handleView={setToEmployee}/>
+          <SidebarItem open={openDrawer} name={'Sales Board'} icon={<Dashboard/>} handleView={setToSalesDashboard} />
+          <SidebarItem open={openDrawer} name={'Employee Board'} icon={<AnalyticsOutlined/>} handleView={setToEmployeeDashboard} />
+          <Divider sx={{my:'0.5rem'}}/>
+          <SidebarItem open={openDrawer} name={'Employee'} icon={<FaceRetouchingNaturalOutlined />} handleView={setToEmployee}/>
           <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
           <SidebarItem open={openDrawer} name={'Sales'} icon={<SellOutlined/>} handleView={setToSales}/>
           <SidebarItem open={openDrawer} name={'Immunity Log'} icon={<Vaccines/>} handleView={setToImmunityLog}/>
           <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>} handleView={setToPayslip}/>
           <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToRegOutlined/>} handleView={setToAttendance}/>
+          <SidebarItem open={openDrawer} name={'Journal'} icon={<BookOutlined/>} handleView={setToJournal}/>
         </List>
       </Drawer>
     </Box>

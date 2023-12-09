@@ -21,11 +21,12 @@ import { getAllEmployee } from "../../requests/employeeRequest";
 import { useMutation, useQuery } from "react-query";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { createPayslip, getAllPayslip } from "../../requests/payslipRequest";
+import { createPayslip } from "../../requests/payslipRequest";
 import useGetSingleEmployeeTrackRecordsOnMonth from "../../hooks/useGetSingleEmployeeTrackRecordsOnMonth";
 import dayjs from "dayjs";
 import { AddOutlined } from "@mui/icons-material";
 import { bulkCreateAdjustment } from "../../requests/adjustmentRequest";
+import getCurrency from '../../utils/getCurrency';
 
 const NewPayslipModal = ({
   refetchPayslip,
@@ -95,7 +96,7 @@ const NewPayslipModal = ({
   };
 
 
-  const { data: employeeTrackRecordsData, refetch ,error} =
+  const { data: employeeTrackRecordsData, refetch} =
     useGetSingleEmployeeTrackRecordsOnMonth(
       selectedEmployeeId,
       formattedDate.year,
@@ -208,7 +209,7 @@ const NewPayslipModal = ({
                     Basic Salary
                   </Typography>
                   <Typography fontSize={"16px"} flex={1} fontWeight={"bold"}>
-                    Rp {employeeTrackRecords.basicSalary}
+                    Rp{getCurrency(employeeTrackRecords?.basicSalary)}
                   </Typography>
                 </Stack>
 
@@ -217,7 +218,7 @@ const NewPayslipModal = ({
                     Total Commision
                   </Typography>
                   <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
-                    Rp {employeeTrackRecords.commision}
+                    Rp{getCurrency(employeeTrackRecords?.commision)}
                   </Typography>
                 </Stack>
 
@@ -226,7 +227,7 @@ const NewPayslipModal = ({
                     Total Deduction
                   </Typography>
                   <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
-                    Rp {employeeTrackRecords.deduction}
+                    Rp{getCurrency(employeeTrackRecords?.deduction)}
                     
                   </Typography>
                 </Stack>
@@ -236,7 +237,7 @@ const NewPayslipModal = ({
                     Net Adjustment
                   </Typography>
                   <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
-                    Rp {countTotalAdjustment()}
+                    Rp{getCurrency(countTotalAdjustment())}
                   </Typography>
                 </Stack>
 
@@ -245,7 +246,7 @@ const NewPayslipModal = ({
                     Net Salary
                   </Typography>
                   <Typography fontSize={"16px"} fontWeight={"bold"} flex={1}>
-                    Rp {employeeTrackRecords.netSalary}
+                    Rp{getCurrency(employeeTrackRecords?.netSalary)}
                   </Typography>
                 </Stack>
               </Stack>
@@ -396,7 +397,7 @@ const NewPayslipModal = ({
                     color="#86d9d3"
                     fontStyle={"italic"}
                   >
-                    {employeeTrackRecords.commision ? employeeTrackRecords.commision : 0}
+                    Rp {employeeTrackRecords.commision ? employeeTrackRecords.commision : 0}
                   </Typography>
                 </Stack>
               </Box>

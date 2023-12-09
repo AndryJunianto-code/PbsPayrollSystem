@@ -1,4 +1,5 @@
 import db from "../models/index.js";
+import { Op } from "sequelize";
 
 const Sales = db.sales;
 const Employee = db.employee;
@@ -12,13 +13,23 @@ export const addSales = async (req, res) => {
   }
 };
 
-export const getAllSales = async (req, res) => {
+export const getAllSalesByMonth = async (req, res) => {
+  console.log(req.params)
   try {
     const allSales = await Sales.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.year, req.params.month - 1, 1),
+            new Date(req.params.year, req.params.month, 0, 23, 59, 59, 999), // Set the end of the last day
+          ],
+        }
+      },
       include: [
         {
           model: Employee,
           as: "employee",
+          required:false
         },
       ],
     });
@@ -26,7 +37,7 @@ export const getAllSales = async (req, res) => {
     const flattenedData = allSales.map((log) => {
       const {
         id,
-        salesDate,
+        date,
         salesWeek,
         customerName,
         companyName,
@@ -38,7 +49,7 @@ export const getAllSales = async (req, res) => {
       } = log;
       return {
         id,
-        salesDate,
+        date,
         salesWeek,
         customerName,
         companyName,

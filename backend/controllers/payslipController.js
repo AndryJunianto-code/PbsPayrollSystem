@@ -35,15 +35,20 @@ export const addPayslip = async (req, res) => {
   }
 };
 
-export const getAllPayslip = async (req, res) => {
+export const getAllPayslipByMonth = async (req, res) => {
   try {
     const allPayslip = await Payslip.findAll({
+      where: {
+        monthYear:req.params.monthYear
+      },
       include: [
         {
           model: Employee,
+          required:false,
         },
         {
           model: Adjustment,
+          required:false,
         }
       ],
     });
@@ -81,3 +86,36 @@ export const getAllPayslip = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+export const getTotalIncomeByMonth = async (req, res) => {
+  try {
+    const allPayslip = await Payslip.findAll({
+      where: {
+        monthYear:req.params.monthYear
+      },
+    });
+
+    const totalNetSalary = allPayslip.reduce((total,payslip)=>total + payslip.netSalary,0);
+    const totalCommision = allPayslip.reduce((total,payslip)=>total + payslip.commision,0);
+    const totalBaseSalary = totalNetSalary-totalCommision
+    res.status(200).json({totalNetSalary,totalCommision,totalBaseSalary});
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export const deletePayslip = async (req, res) => {
+  try {
+    await Payslip.destroy({
+      where: {
+        id: req.params.id
+      },
+    });
+
+    res.status(200).json("Success: Record deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+

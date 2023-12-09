@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import React from 'react'
 import { useViewContext } from '../../context/ViewContext';
 import dayjs from 'dayjs';
+import getCurrency from '../../utils/getCurrency';
 
 const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
   const {openDrawer} = useViewContext();
@@ -30,37 +31,70 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
         {
           field: "basicSalary",
           headerName: "Basic Salary",
-          width: openDrawer ? 130 : 150,
           headerClassName: "super-app-theme--header",
+          align:'right',
+          renderCell: (cellValues) => {
+            return (
+              <Typography>{getCurrency(cellValues.row.basicSalary)}</Typography>
+            )
+          }
         },
         {
           field: "commision",
           headerName: "Total Commision",
           width: openDrawer ? 150 : 160,
           headerClassName: "super-app-theme--header",
+          headerAlign:'right',
+          align:'right',
+          renderCell: (cellValues) => {
+            return (
+              <Typography>{getCurrency(cellValues.row.commision)}</Typography>
+            )
+          }
         },
         {
           field: "deduction",
           headerName: "Total Deduction",
           width: openDrawer ? 150 : 170,
           headerClassName: "super-app-theme--header",
+          headerAlign:'right',
+          align:'right',
+          renderCell: (cellValues) => {
+            return (
+              <Typography>{getCurrency(cellValues.row.deduction)}</Typography>
+            )
+          }
         },
         {
           field: "netAdjustment",
           headerName: "Adjustment",
-          width: openDrawer ? 130 : 160,
+          width: openDrawer ? 125 : 155,
           headerClassName: "super-app-theme--header",
+          headerAlign:'right',
+          align:'right',
+          renderCell: (cellValues) => {
+            return (
+              <Typography>{getCurrency(cellValues.row.netAdjustment)}</Typography>
+            )
+          }
         },
         {
           field: "netSalary",
           headerName: "Net Salary",
-          width: openDrawer ? 140 : 160,
+          width: openDrawer ? 135 : 155,
           headerClassName: "super-app-theme--header",
+          headerAlign:'right',
+          align:'right',
+          renderCell: (cellValues) => {
+            return (
+              <Typography>{getCurrency(cellValues.row.netSalary)}</Typography>
+            )
+          }
         },
         {
           field: "status",
           headerName: "Status",
-          width: openDrawer ? 100 : 120,
+          width: openDrawer ? 110 : 130,
           headerClassName: "super-app-theme--header",
         },
         {
@@ -72,7 +106,7 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
             return (
               <Button
                 variant="contained"
-                color="primary"
+                color="secondary"
                 sx={{ textTransform: "capitalize" }}
                 onClick={(e)=>handleOpenActionMenu(e,cellValues)}
               >

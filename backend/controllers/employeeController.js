@@ -8,6 +8,7 @@ const Position = db.position;
 const ImmunityLog = db.immunityLog;
 const Sales = db.sales;
 const Attendance = db.attendance;
+const Payslip = db.payslip;
 const EmployeePositionHistory = db.employeePositionHistory;
 
 export const addEmployee = async (req, res) => {
@@ -219,3 +220,92 @@ export const updateEmployee = async (req, res) => {
   });
   res.status(200).json(updatedEmployee);
 };
+
+export const getAllJournal = async (req,res)=> {
+  try {
+    const allPayslip = await Payslip.findAll()
+
+    const aggPayslip = allPayslip.reduce((map,payslip)=> {
+      const {monthYear,commision,netSalary,date,id} = payslip;
+      if(!map.has(monthYear)) {
+        map.set(monthYear, {
+          id:id,
+          date: date,
+          commision: 0,
+          netSalary: 0,
+        });
+      }
+      
+      const aggValues = map.get(monthYear);
+      aggValues.commision += commision;
+      aggValues.netSalary += netSalary;
+      return map;
+    }, new Map());
+
+    const aggregatedPayslips = [...aggPayslip.entries()].map(([monthYear, values]) => ({
+      monthYear,
+      id:values.id,
+      date: values.date,
+      commision: values.commision,
+      netSalary: values.netSalary,
+    }));
+
+    const allSales = await Sales.findAll()
+    const combinedArray = [...aggregatedPayslips, ...allSales];
+    combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    res.status(200).json(combinedArray)
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+}
+
+export const getAllJournalFilter = async (req,res)=> {
+  try {
+    const allPayslip = await Payslip.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.fromDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+            new Date(req.params.toDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+          ],
+        },
+      }
+    })
+
+    const aggPayslip = allPayslip.reduce((map,payslip)=> {
+      const {monthYear,commision,netSalary,date,id} = payslip;
+      if(!map.has(monthYear)) {
+        map.set(monthYear, {
+          id:id,
+          date: date,
+          commision: 0,
+          netSalary: 0,
+        });
+      }
+      
+      const aggValues = map.get(monthYear);
+      aggValues.commision += commision;
+      aggValues.netSalary += netSalary;
+      return map;
+    }, new Map());
+
+    const aggregatedPayslips = [...aggPayslip.entries()].map(([monthYear, values]) => ({
+      monthYear,
+      id:values.id,
+      date: values.date,
+      commision: values.commision,
+      netSalary: values.netSalary,
+    }));
+
+    const allSales = await Sales.findAll()
+    const combinedArray = [...aggregatedPayslips, ...allSales];
+    combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+    res.status(200).json(combinedArray)
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+}

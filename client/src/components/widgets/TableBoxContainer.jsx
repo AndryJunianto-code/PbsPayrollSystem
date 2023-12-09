@@ -12,8 +12,11 @@ const TableBoxContainer = ({ children }) => {
         },
         backgroundColor: "white",
         "& .super-app-theme--header": {
-          backgroundColor: "rgb(63, 77, 103)",
-          color: "white",
+          backgroundColor: "white",
+          color: "#8a93b1",
+          fontWeight:'600',
+          fontFamily: 'Poppins, sans-serif',
+          fontSize:'14px',
         },
       }}
     >

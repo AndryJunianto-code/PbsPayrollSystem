@@ -24,7 +24,7 @@ const styles = {
     marginTop: '8px',
   },
   payDate: {
-    fontSize: '14px',
+    fontSize: '14px', 
     marginTop: '8px',
   },
   employeeInfo: {

@@ -1,7 +1,8 @@
 import axios from "axios";
 
-export const getAllSales = async (obj) => {
-  const { data } = await axios.get("/sales/getAllSales");
+export const getAllSalesByMonth = async (obj) => {
+  let date = obj.queryKey[1].split(' ');
+  const { data } = await axios.get(`/sales/getAllSalesByMonth/${date[0]}/${date[1]}`);
   return data;
 };
 

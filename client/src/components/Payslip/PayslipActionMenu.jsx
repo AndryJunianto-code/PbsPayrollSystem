@@ -12,7 +12,7 @@ import {
   PictureAsPdfOutlined,
 } from "@mui/icons-material";
 import { useMutation } from "react-query";
-import { generatePayslipPdf } from "../../requests/payslipRequest";
+import { deletePayslip, generatePayslipPdf } from "../../requests/payslipRequest";
 import PayslipPdf from "./PayslipPdf";
 import { renderToStaticMarkup } from 'react-dom/server'; 
 
@@ -25,8 +25,9 @@ const PayslipActionMenu = ({
   handleCloseActionMenu,
 }) => {
   const { mutate: mutateGeneratePayslip } = useMutation(generatePayslipPdf);
+  const {mutate:mutateDeletePayslip} = useMutation(deletePayslip);
+
   const handleDownloadPdf = async () => {
-   
     const htmlContent = renderToStaticMarkup(<PayslipPdf payslipData={selectedRow.row}/>);
     mutateGeneratePayslip(
       {
@@ -48,6 +49,12 @@ const PayslipActionMenu = ({
     );
   };
 
+  const handleDeletePayslip = async() => {
+     mutateDeletePayslip({id:selectedRow.row.id}, {onSuccess: ()=> {
+      refetchPayslip();
+      handleCloseActionMenu();
+     }})
+  }
   return (
     <Paper>
       <Menu
@@ -67,7 +74,7 @@ const PayslipActionMenu = ({
           </ListItemIcon>
           <ListItemText>Update</ListItemText>
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleDeletePayslip}>
           <ListItemIcon>
             <DeleteOutlineOutlined fontSize="small" />
           </ListItemIcon>

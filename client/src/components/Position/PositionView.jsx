@@ -81,8 +81,9 @@ const PositionView = () => {
         return (
           <Box
             sx={{
-              backgroundColor:'orange',
-              color: "white",
+              fontWeight:'bold',
+              border:'1px solid orange',
+              color: "darkOrange",
               padding: "0.5rem",
               width: "150px",
               letterSpacing: "1px",
@@ -105,8 +106,9 @@ const PositionView = () => {
         return (
           <Box
             sx={{
-              backgroundColor:'red',
-              color: "white",
+              fontWeight:'bold',
+              border:'1px solid red',
+              color: "red",
               padding: "0.5rem",
               width: "150px",
               letterSpacing: "1px",
@@ -129,8 +131,9 @@ const PositionView = () => {
         return (
           <Box
             sx={{
-              backgroundColor:'#207af7',
-              color: "white",
+              fontWeight:'bold',
+              border:'1px solid #207af7',
+              color: "#207af7",
               padding: "0.5rem",
               width: "150px",
               letterSpacing: "1px",
@@ -153,8 +156,9 @@ const PositionView = () => {
         return (
           <Box
             sx={{
-              backgroundColor:'#b222f0',
-              color: "white",
+              fontWeight:'bold',
+              border:'1px solid #b222f0',
+              color: "#b222f0",
               padding: "0.5rem",
               width: "150px",
               letterSpacing: "1px",
@@ -170,7 +174,7 @@ const PositionView = () => {
     },
     {
       field: "button",
-      headerName: "",
+      headerName: "Action",
       width: 100,
 
       headerClassName: "super-app-theme--header",
@@ -178,7 +182,7 @@ const PositionView = () => {
         return (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             sx={{ textTransform: "capitalize" }}
             onClick={()=>handleOpenPosUpdateModal(cellValues.row)}
           >
@@ -192,8 +196,8 @@ const PositionView = () => {
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
-          mt:'2.5rem',
-          mb:'0.5rem',
+          mt:'2rem',
+          mb:'1rem',
         }}
       >
         <Stack direction="row" alignItems={"center"}>

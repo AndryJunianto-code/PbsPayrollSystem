@@ -59,7 +59,7 @@ const ImmunityLogTable = ({immunityLogData,immunityLogSuccess,handleOpenActionMe
         return (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             sx={{ textTransform: "capitalize" }}
             onClick={(e)=>handleOpenActionMenu(e,cellValues)}
           >

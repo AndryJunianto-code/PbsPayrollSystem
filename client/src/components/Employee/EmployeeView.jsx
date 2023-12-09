@@ -158,7 +158,7 @@ const EmployeeView = () => {
         return (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             sx={{ textTransform: "capitalize" }}
             onClick={(e) => handleOpenActionMenu(e, cellValues)}
           >
@@ -173,8 +173,8 @@ const EmployeeView = () => {
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
-          mt: "2.5rem",
-          mb: "0.5rem",
+          mt: "2rem",
+          mb: "1rem",
         }}
       >
         <Stack direction="row" alignItems={"center"}>

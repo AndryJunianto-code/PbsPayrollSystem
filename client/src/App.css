@@ -4,6 +4,10 @@
     padding: 0;
  }
 
+ .tableHeader {
+  font-weight: bold;
+ }
+
  .success {
   color: #34be8d;
  }

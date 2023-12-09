@@ -10,8 +10,8 @@ export default (sequelize, DataTypes) => {
           return generateId();
         }
       },
-      salesDate: {
-        type: DataTypes.STRING,
+      date: {
+        type: DataTypes.DATE,
         allowNull:false,
         required:true
       },

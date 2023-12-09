@@ -1,22 +1,30 @@
 import React, { useState } from "react";
 import ViewFirstBox from "../widgets/ViewFirstBox";
-import { Box, Button, Stack } from "@mui/material";
-import { AddOutlined } from "@mui/icons-material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import { AddOutlined, SummarizeOutlined } from "@mui/icons-material";
 import { useViewContext } from "../../context/ViewContext";
 import { useQuery } from "react-query";
-import { getAllSales } from "../../requests/salesRequest";
+import { getAllSalesByMonth } from "../../requests/salesRequest";
 import { DataGrid } from "@mui/x-data-grid";
 import SalesActionMenu from "./SalesActionMenu";
 import NewSalesModal from "./NewSalesModal";
 import TableBoxContainer from "../widgets/TableBoxContainer";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
+import SecondaryButton from "../widgets/SecondaryButton";
+import SalesJournalModal from "./SalesJournalModal";
 
 const SalesView = () => {
   const { openDrawer } = useViewContext();
   const [openSalesModal, setOpenSalesModal] = useState(false);
+  const [openViewJournalModal, setOpenViewJournalModal] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(dayjs().format("MMM YYYY"));
   const [actionAnchor,setActionAnchor] = useState(null);
   const isActionMenuOpen = Boolean(actionAnchor);
 
   const handleOpenSalesModal = () => setOpenSalesModal(true);
+  const handleOpenViewJournalModal = () => setOpenViewJournalModal(true);
   const handleOpenActionMenu = (e) => setActionAnchor(e.currentTarget);
   const handleCloseActionMenu = () => setActionAnchor(null);
 
@@ -25,14 +33,22 @@ const SalesView = () => {
     data: salesData,
     isSuccess: salesSuccess,
     refetch: refetchSales,
-  } = useQuery(["getAllSales"], getAllSales, { retryDelay: 3000 });
+  } = useQuery(["getAllSalesByMonth", dayjs(selectedDate).format('MM YYYY')], getAllSalesByMonth, { retryDelay: 3000 });
 
   const columns = [
     {
-      field: "salesDate",
-      headerName: "Sales Date",
+      field: "date",
+      headerName: "Date",
       width: openDrawer ? 140 : 160,
       headerClassName: "super-app-theme--header",
+      renderCell: (cellValues) => {
+        return (
+          <Typography
+          >
+            {dayjs(cellValues.row.date).format('DD MMM YYYY')}
+          </Typography>
+        );
+      },
     },
     {
       field: "employeeName",
@@ -79,7 +95,7 @@ const SalesView = () => {
         return (
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             sx={{ textTransform: "capitalize" }}
             onClick={handleOpenActionMenu}
           >
@@ -93,11 +109,32 @@ const SalesView = () => {
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
-          mt: "2.5rem",
+          mt: "1rem",
           mb: "0.5rem",
+          width: openDrawer ? "80vw" : "91vw"
         }}
       >
-        <Stack direction="row" alignItems={"center"}>
+        <Stack direction="row" alignItems="center" justifyContent={'space-between'}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              onChange={(value) =>
+                setSelectedDate(dayjs(value).format("DD MMM YYYY"))
+              }
+              value={dayjs(selectedDate)}
+              format="MMM YYYY"
+            />
+          </LocalizationProvider>
+          <Stack direction='row' alignItems={'center'}>
+          <SecondaryButton
+              sx={{
+                borderRadius: "50px",
+                mr: "1rem",
+              }}
+              startIcon={<SummarizeOutlined />}
+              onClick={handleOpenViewJournalModal}
+            >
+              View Journal
+            </SecondaryButton>
           <Button
             aria-label="add"
             variant="contained"
@@ -110,6 +147,7 @@ const SalesView = () => {
           >
             Add
           </Button>
+          </Stack>
         </Stack>
       </Box>
       <TableBoxContainer>
@@ -126,6 +164,7 @@ const SalesView = () => {
       </TableBoxContainer>
       <SalesActionMenu actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
       <NewSalesModal openSalesModal={openSalesModal} setOpenSalesModal={setOpenSalesModal} refetchSales={refetchSales}/>
+      <SalesJournalModal salesData={salesData} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>
     </ViewFirstBox>
   );
 };

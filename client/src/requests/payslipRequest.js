@@ -11,8 +11,18 @@ export const generatePayslipPdf = async(obj) => {
     return data;
 }
 
-export const getAllPayslip = async(obj) => {
-    const {data} = await axios.get('/payslip/getAllPayslip')
+export const getAllPayslipByMonth = async(obj) => {
+    const {data} = await axios.get(`/payslip/getAllPayslipByMonth/${obj.queryKey[1]}`)
+    return data;
+}
+
+export const getTotalIncomeByMonth = async(obj) => {
+    const {data} = await axios.get(`/payslip/getTotalIncomeByMonth/${obj.queryKey[1]}`)
+    return data;
+}
+
+export const deletePayslip = async(obj) => {
+    const {data} = await axios.delete(`/payslip/${obj.id}`);
     return data;
 }
 

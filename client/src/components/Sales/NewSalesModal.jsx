@@ -24,7 +24,7 @@ import getWeekNumber from '../../utils/getWeekNumber';
 
 const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
   const initialState = {
-    salesDate: "",
+    date: "",
     productName: "Business Loan",
   };
   const [input, setInput] = useState(initialState);
@@ -46,7 +46,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
   const handleSalesDate = (selectedDate) => {
     setInput({
       ...input,
-      salesDate: dayjs(selectedDate).format("DD MMM YYYY"),
+      date: dayjs(selectedDate).format("DD MMM YYYY"),
     })
     setWeekNumber(getWeekNumber(selectedDate));
   }
@@ -65,7 +65,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
       phoneNumber,
       remarks,
       salesAmount,
-      salesDate,
+      date,
       productName,
     } = input;
     mutateSales(
@@ -75,7 +75,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
         phoneNumber,
         remarks,
         salesAmount,
-        salesDate,
+        date,
         salesWeek : weekNumber,
         productName,
         employeeId:selectedEmployeeId
@@ -148,7 +148,7 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 onChange={(value) => handleSalesDate(value)}
-                value={dayjs(input.salesDate).format("DD MMM YYYY")}
+                value={dayjs(input.date).format("DD MMM YYYY")}
                 label={"Date*"}
                 format="DD MMM YYYY"
               />
