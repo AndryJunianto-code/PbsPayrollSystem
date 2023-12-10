@@ -5,7 +5,8 @@ const ViewContext = React.createContext({});
 
 
 const ViewContextProvider = ({ children }) => {
-  const [selectedView, setSelectedView] = useState('Journal');
+  const [isAuthenticated,setIsAuthenticated] = useState(true);
+  const [selectedView, setSelectedView] = useState('Sales Board');
   const [openDrawer, setOpenDrawer] = useState(true);
 
   const setToSalesDashboard = () => setSelectedView(VIEW_ENUM.SALES_DASHBOARD_VIEW);
@@ -18,7 +19,7 @@ const ViewContextProvider = ({ children }) => {
   const setToAttendance = () => setSelectedView(VIEW_ENUM.ATTENDANCE_VIEW);
   const setToJournal = () => setSelectedView(VIEW_ENUM.JOURNAL_VIEW);
   return (
-    <ViewContext.Provider value={{ setToSalesDashboard,setToEmployeeDashboard,setToEmployee,setToPosition,setToImmunityLog,setToSales,setToPayslip,setToAttendance,setToJournal,selectedView,openDrawer,setOpenDrawer }}>
+    <ViewContext.Provider value={{isAuthenticated,setIsAuthenticated,setToSalesDashboard,setToEmployeeDashboard,setToEmployee,setToPosition,setToImmunityLog,setToSales,setToPayslip,setToAttendance,setToJournal,selectedView,openDrawer,setOpenDrawer }}>
       {children}
     </ViewContext.Provider>
   );

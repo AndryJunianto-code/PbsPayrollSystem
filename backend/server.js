@@ -9,6 +9,7 @@ import immunityLogRouter from './routes/immunityLogRouter.js';
 import payslipRouter from './routes/payslipRouter.js';
 import adjustmentRouter from './routes/adjustmentRouter.js';
 import employeePositionHistoryRouter from './routes/employeePositionHistoryRouter.js';
+import userRouter from './routes/userRouter.js';
 import dotenv from 'dotenv'
 
 const app = express();
@@ -27,6 +28,7 @@ app.use('/api/immunityLog', immunityLogRouter);
 app.use('/api/payslip', payslipRouter);
 app.use('/api/adjustment', adjustmentRouter);
 app.use('/api/employeePositionHistory', employeePositionHistoryRouter);
+app.use('/api/user', userRouter);
 
 app.listen(8800, () => {
     console.log('connected');

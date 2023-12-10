@@ -3,6 +3,7 @@ import { Op } from "sequelize";
 
 const Sales = db.sales;
 const Employee = db.employee;
+const sequelize = db.sequelize;
 
 export const addSales = async (req, res) => {
   try {
@@ -26,8 +27,33 @@ export const deleteSales = async (req, res) => {
   }
 };
 
+export const getTotalSalesYearly = async(req,res)=> {
+  try {
+    const allSales = await Sales.findAll({
+      attributes: [
+        [sequelize.fn('SUM', sequelize.col('salesAmount')), 'totalSales'],
+        [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
+      ],
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.year, 0, 1),
+            new Date(req.params.year, 11, 31, 23, 59, 59, 999), // Set the end of the last day
+          ],
+        }
+      },
+      group: [sequelize.fn('MONTH', sequelize.col('date'))],
+      raw: true, // Ensure raw results
+      order: sequelize.literal('month ASC'), // Use sequelize.literal for ordering
+    });
+   
+    res.status(200).json(allSales);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 export const getAllSalesByMonth = async (req, res) => {
-  console.log(req.params)
   try {
     const allSales = await Sales.findAll({
       where: {

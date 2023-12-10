@@ -1,14 +1,14 @@
-import { Outlet, Navigate } from "react-router-dom";
-import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React from 'react';
+import { Navigate, Route } from 'react-router-dom';
+import { useViewContext } from '../context/ViewContext';
 
-const ProtectedRoute = () => {
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-  if (isAuthenticated) {
-    return <Outlet />;
-  } else {
-    return <Navigate to={loginWithRedirect()} />;
-  }
+const ProtectedRoute = ({ element }) => {
+  const {isAuthenticated} = useViewContext();
+  return isAuthenticated ? (
+    element
+  ) : (
+    <Navigate to="/" replace state={{ from: '/admin' }} />
+  );
 };
 
 export default ProtectedRoute;

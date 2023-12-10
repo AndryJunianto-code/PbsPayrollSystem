@@ -13,8 +13,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SidebarItem from "./SidebarItem";
-import {Badge,Eject,AttachMoney,HowToReg,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines, AnalyticsOutlined, FaceRetouchingNaturalOutlined, BookOutlined} from '@mui/icons-material';
+import {Badge,Eject,AttachMoney,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines, AnalyticsOutlined, FaceRetouchingNaturalOutlined, BookOutlined} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
+import pbsLogo from '../../assets/images/pbslogo.jpg';
+import { Avatar } from "@mui/material";
+
 
 const drawerWidth = 220;
 
@@ -119,6 +122,8 @@ const Sidebar = () => {
       </AppBar>
       <Drawer variant="permanent" open={openDrawer} sx={{display: {md:'block',xs:openDrawer ? 'block' : 'none'}}}>
         <DrawerHeader>
+          <Avatar sx={{mr:'1rem'}} src={pbsLogo} />
+          <Typography mr='3.5rem'>Admin</Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />

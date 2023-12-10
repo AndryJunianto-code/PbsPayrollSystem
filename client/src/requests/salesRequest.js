@@ -11,6 +11,11 @@ export const getSalesByWeek = async (obj) => {
   return data;
 };
 
+export const getTotalSalesYearly = async(obj) => {
+  const {data} = await axios.get(`/sales/getTotalSalesYearly/${obj.queryKey[1]}`);
+  return data;
+}
+
 export const createSales = async (obj) => {
   const { data } = await axios.post("/sales", obj);
   return data;
