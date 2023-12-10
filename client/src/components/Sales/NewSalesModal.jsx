@@ -26,6 +26,12 @@ const NewSalesModal = ({ openSalesModal, setOpenSalesModal,refetchSales }) => {
   const initialState = {
     date: "",
     productName: "Business Loan",
+    salesWeek:"",
+    customerName:"",
+    companyName:"",
+    phoneNumber:"",
+    salesAmount: "",
+    remarks: ""
   };
   const [input, setInput] = useState(initialState);
   const [weekNumber,setWeekNumber] = useState("");

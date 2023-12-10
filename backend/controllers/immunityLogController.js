@@ -13,6 +13,20 @@ export const addImmunityLog = async (req, res) => {
     }
 }
 
+export const updateImmunityLog = async (req, res) => {
+  try {
+    let id = req.params.id;
+    console.log(req.body)
+    const updatedImmunityLog = await ImmunityLog.update(req.body, {
+      where: { id },
+      returning: true,
+    });
+    res.status(200).json(updatedImmunityLog);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
+
 export const addBulkImmunityLog = async(req,res)=> {
   console.log(req.body)
   try{

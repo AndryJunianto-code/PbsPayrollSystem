@@ -35,6 +35,20 @@ export const addPayslip = async (req, res) => {
   }
 };
 
+export const updatePayslip = async (req, res) => {
+  try {
+    let id = req.params.id;
+  const updatedPayslip = await Payslip.update(req.body, {
+    where: { id },
+    returning: true,
+  });
+  res.status(200).json(updatedPayslip);
+  } catch(err) {
+    res.status(500).json('Duplicate')
+  }
+  
+};
+
 export const getAllPayslipByMonth = async (req, res) => {
   try {
     const allPayslip = await Payslip.findAll({

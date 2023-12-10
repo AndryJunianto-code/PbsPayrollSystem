@@ -51,7 +51,7 @@ export const generateEmployeePdf = async (obj) => {
 };
 
 export const updateEmployee = async (obj) => {
-  const { name, gender, nik, dob, phoneNumber, joinedDate, positionId } = obj;
+  const { name, gender, nik, dob, phoneNumber, joinedDate, positionId ,status} = obj;
   const { data } = await axios.put(`/employee/${obj.id}`, {
     name,
     gender,
@@ -59,13 +59,13 @@ export const updateEmployee = async (obj) => {
     dob,
     phoneNumber,
     joinedDate,
+    status
   });
   return data;
 };
 
 export const getAllJournal = async (obj) => {
   let data;
-  console.log(obj.queryKey[1])
   if(Array.isArray(obj.queryKey[1]) && obj.queryKey[1].includes(null)) {
     const { data: tempData } = await axios.get(`/employee/getAllJournal`);
     data = tempData;

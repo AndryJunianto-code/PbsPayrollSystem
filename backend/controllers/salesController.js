@@ -13,6 +13,19 @@ export const addSales = async (req, res) => {
   }
 };
 
+export const deleteSales = async (req, res) => {
+  try {
+    await Sales.destroy({
+      where: {
+        id: req.params.id
+      },
+    });
+    res.status(200).json("Success: Record deleted");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 export const getAllSalesByMonth = async (req, res) => {
   console.log(req.params)
   try {

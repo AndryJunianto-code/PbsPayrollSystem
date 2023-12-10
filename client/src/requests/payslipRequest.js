@@ -26,5 +26,10 @@ export const deletePayslip = async(obj) => {
     return data;
 }
 
+export const updatePayslip = async(obj) => {
+    const {data} = await axios.put(`/payslip/${obj.id}`, obj);
+    return data;
+}
+
 
 

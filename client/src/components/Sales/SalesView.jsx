@@ -14,19 +14,38 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import SecondaryButton from "../widgets/SecondaryButton";
 import SalesJournalModal from "./SalesJournalModal";
+import UpdateSalesModal from "./UpdateSalesModal";
+import SalesRemarksModal from "./SalesRemarksModal";
 
 const SalesView = () => {
   const { openDrawer } = useViewContext();
   const [openSalesModal, setOpenSalesModal] = useState(false);
+  const [openSalesUpdateModal, setOpenSalesUpdateModal] = useState(false);
+  const [openSalesRemarksModal, setOpenSalesRemarksModal] = useState(false);
   const [openViewJournalModal, setOpenViewJournalModal] = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
   const [selectedDate, setSelectedDate] = useState(dayjs().format("MMM YYYY"));
   const [actionAnchor,setActionAnchor] = useState(null);
   const isActionMenuOpen = Boolean(actionAnchor);
 
   const handleOpenSalesModal = () => setOpenSalesModal(true);
-  const handleOpenViewJournalModal = () => setOpenViewJournalModal(true);
-  const handleOpenActionMenu = (e) => setActionAnchor(e.currentTarget);
   const handleCloseActionMenu = () => setActionAnchor(null);
+  const handleOpenSalesUpdateModal = () => {
+    handleCloseActionMenu();
+    setOpenSalesUpdateModal(true);
+  }
+  const handleOpenSalesRemarksModal = () => {
+    handleCloseActionMenu();
+    setOpenSalesRemarksModal(true);
+  }
+  const handleOpenViewJournalModal = () => {
+    handleCloseActionMenu();
+    setOpenViewJournalModal(true);
+  }
+  const handleOpenActionMenu = (e,data) => {
+    setActionAnchor(e.currentTarget);
+    setSelectedRow(data.row);
+  }
 
 
   const {
@@ -37,9 +56,15 @@ const SalesView = () => {
 
   const columns = [
     {
+      field: "id",
+      headerName: "ID",
+      width: 80,
+      headerClassName: "super-app-theme--header",
+    },
+    {
       field: "date",
       headerName: "Date",
-      width: openDrawer ? 140 : 160,
+      width: openDrawer ? 110 : 120,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {
         return (
@@ -53,38 +78,45 @@ const SalesView = () => {
     {
       field: "employeeName",
       headerName: "Employee",
-      width: openDrawer ? 180 : 200,
+      width: openDrawer ? 170 : 200,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "customerName",
       headerName: "Customer Name",
-      width: openDrawer ? 170 : 190,
+      width: openDrawer ? 160 : 180,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "companyName",
       headerName: "Company Name",
-      width: openDrawer ? 180 : 255,
+      width: openDrawer ? 170 : 245,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
-      width: 170,
+      width: 160,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "productName",
       headerName: "Product Name",
-      width: openDrawer ? 160 : 190,
+      width: openDrawer ? 150 : 180,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "salesAmount",
-      headerName: "Sales Amount",
+      headerName: "Sales Amount ($)",
       width: 140,
       headerClassName: "super-app-theme--header",
+      align:'right',
+      headerAlign:'right',
+      renderCell: (cellValues) => {
+        return (
+          <Typography>{cellValues.row.salesAmount.toLocaleString()}</Typography>
+        )
+      }
     },
     {
       field: "Action",
@@ -97,7 +129,7 @@ const SalesView = () => {
             variant="contained"
             color="secondary"
             sx={{ textTransform: "capitalize" }}
-            onClick={handleOpenActionMenu}
+            onClick={(e) => handleOpenActionMenu(e,cellValues)}
           >
             Action
           </Button>
@@ -125,16 +157,6 @@ const SalesView = () => {
             />
           </LocalizationProvider>
           <Stack direction='row' alignItems={'center'}>
-          <SecondaryButton
-              sx={{
-                borderRadius: "50px",
-                mr: "1rem",
-              }}
-              startIcon={<SummarizeOutlined />}
-              onClick={handleOpenViewJournalModal}
-            >
-              View Journal
-            </SecondaryButton>
           <Button
             aria-label="add"
             variant="contained"
@@ -162,9 +184,11 @@ const SalesView = () => {
         />
         )}
       </TableBoxContainer>
-      <SalesActionMenu actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu}/>
+      <SalesActionMenu selectedRow={selectedRow} handleOpenViewJournalModal={handleOpenViewJournalModal} handleOpenSalesRemarksModal={handleOpenSalesRemarksModal} handleOpenSalesUpdateModal={handleOpenSalesUpdateModal} actionAnchor={actionAnchor} isActionMenuOpen={isActionMenuOpen} handleCloseActionMenu={handleCloseActionMenu} refetchSales={refetchSales}/>
       <NewSalesModal openSalesModal={openSalesModal} setOpenSalesModal={setOpenSalesModal} refetchSales={refetchSales}/>
-      <SalesJournalModal salesData={salesData} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>
+      <UpdateSalesModal selectedRow={selectedRow} openSalesUpdateModal={openSalesUpdateModal} setOpenSalesUpdateModal={setOpenSalesUpdateModal} refetchSales={refetchSales}/>
+      {selectedRow && <SalesJournalModal selectedRow={selectedRow} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>}
+      {selectedRow && <SalesRemarksModal selectedRow={selectedRow} setOpenSalesRemarksModal={setOpenSalesRemarksModal} openSalesRemarksModal={openSalesRemarksModal}/>}
     </ViewFirstBox>
   );
 };

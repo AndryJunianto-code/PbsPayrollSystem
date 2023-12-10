@@ -253,8 +253,16 @@ export const getAllJournal = async (req,res)=> {
     const allSales = await Sales.findAll()
     const combinedArray = [...aggregatedPayslips, ...allSales];
     combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    res.status(200).json(combinedArray)
+
+    let totalExpenses = 0;
+    combinedArray.forEach(entry=> {
+      if(entry.salesAmount) {
+        totalExpenses += entry.salesAmount * 10100
+      } else {
+        totalExpenses += entry.netSalary
+      }
+    })
+    res.status(200).json({result:combinedArray,totalExpenses})
   }
   catch (err) {
     res.status(500).json(err);
@@ -302,8 +310,16 @@ export const getAllJournalFilter = async (req,res)=> {
     const allSales = await Sales.findAll()
     const combinedArray = [...aggregatedPayslips, ...allSales];
     combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-    res.status(200).json(combinedArray)
+
+    let totalExpenses = 0;
+    combinedArray.forEach(entry=> {
+      if(entry.salesAmount) {
+        totalExpenses += entry.salesAmount * 10100
+      } else {
+        totalExpenses += entry.netSalary
+      }
+    })
+    res.status(200).json({result:combinedArray,totalExpenses})
   }
   catch (err) {
     res.status(500).json(err);

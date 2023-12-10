@@ -152,15 +152,15 @@ const AttendanceView = () => {
         <Table>
           <TableHead>
             <TableRow className="sticky-header" sx={{ backgroundColor: "#3f4d67"}}>
-              <AttendanceTableCell width={ openDrawer ? '200px' : '250px'} isWhite={true}>Date</AttendanceTableCell>
-              <AttendanceTableCell width={openDrawer ? '290px' : '340px'} isWhite={true}>Name</AttendanceTableCell>
-              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>
+              <AttendanceTableCell width={ openDrawer ? '200px' : '250px'}>Date</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '290px' : '340px'}>Name</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'}>
                 Working Hour
               </AttendanceTableCell>
-              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'}>
                 Reimbursed Hour
               </AttendanceTableCell>
-              <AttendanceTableCell width={openDrawer ? '250px' : '280px'} isWhite={true}>Status</AttendanceTableCell>
+              <AttendanceTableCell width={openDrawer ? '250px' : '280px'}>Status</AttendanceTableCell>
             </TableRow>
           </TableHead>
           <TableBody>

@@ -16,6 +16,7 @@ const ImmunityLogActionMenu = ({
   actionAnchor,
   isActionMenuOpen,
   handleCloseActionMenu,
+  handleOpenImmunityLogUpdateModal
 }) => {
   const { mutate: mutateDeleteImmunityLog } = useMutation(deleteImmunityLog);
 
@@ -39,7 +40,7 @@ const ImmunityLogActionMenu = ({
         open={isActionMenuOpen}
         onClose={handleCloseActionMenu}
       >
-        <MenuItem>
+        <MenuItem onClick={handleOpenImmunityLogUpdateModal}>
           <ListItemIcon>
             <UpgradeOutlined fontSize="small" />
           </ListItemIcon>

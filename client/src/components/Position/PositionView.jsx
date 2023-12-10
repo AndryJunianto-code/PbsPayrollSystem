@@ -11,7 +11,7 @@ import {
 import { AddOutlined, PeopleOutlineOutlined, Boy } from "@mui/icons-material";
 import { getAllPosition } from "../../requests/positionRequest";
 import { DataGrid } from "@mui/x-data-grid";
-import { useQuery } from "react-query";
+import getCurrency from '../../utils/getCurrency';
 import NewPositionModal from "./NewPositionModal";
 import { useViewContext } from "../../context/ViewContext";
 import UpdatePositionModal from "./UpdatePositionModal";
@@ -51,19 +51,28 @@ const PositionView = () => {
     {
       field: "title",
       headerName: "Title",
-      width:  openDrawer ? 170 : 180,
+      width:  openDrawer ? 160 : 170,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "salary",
-      headerName: "Salary",
+      headerName: "Salary (Rp)",
       width: 120,
       headerClassName: "super-app-theme--header",
+      align:'right',
+      headerAlign:'right',
+      renderCell: (cellValues) => {
+        return (
+          <Typography>
+            {getCurrency(cellValues.row.salary)}
+          </Typography>
+        )
+      }
     },
     {
       field: "target",
       headerName: "Target",
-      width: openDrawer ? 100 : 115,
+      width: openDrawer ? 110 : 125,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -92,7 +101,7 @@ const PositionView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.monthlyCommisionFirstTier}
+            {getCurrency(cellValues.row.monthlyCommisionFirstTier)}
           </Box>
         )
       }
@@ -117,7 +126,7 @@ const PositionView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.monthlyCommisionSecondTier}
+            {getCurrency(cellValues.row.monthlyCommisionSecondTier)}
           </Box>
         )
       }
@@ -142,7 +151,7 @@ const PositionView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.quarterBonusFirstTier}
+            {getCurrency(cellValues.row.quarterBonusFirstTier)}
           </Box>
         )
       }
@@ -167,7 +176,7 @@ const PositionView = () => {
               borderRadius: "4px",
             }}
           >
-            {cellValues.row.quarterBonusSecondTier}
+            {getCurrency(cellValues.row.quarterBonusSecondTier)}
           </Box>
         )
       }

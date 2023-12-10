@@ -35,6 +35,7 @@ import { createEmployeePositionHistory } from "../../requests/employeePositionHi
       phoneNumber: "",
       joinedDate: "",
       positionId: 1,
+      status:'Active'
     };
     const initialFieldError = {name:false,nik:false,phoneNumber:false,dob:false,joinedDate:false}
     const [input, setInput] = useState(initialState);
@@ -71,9 +72,9 @@ import { createEmployeePositionHistory } from "../../requests/employeePositionHi
   
       if(!hasErrors) {
       e.preventDefault();
-      const { name, gender, nik, dob, phoneNumber, joinedDate, positionId } = input;
+      const { name, gender, nik, dob, phoneNumber, joinedDate, positionId,status} = input;
       mutateEmployee(
-        {id:selectedRow?.id, name, gender, nik, dob, phoneNumber, joinedDate },
+        {id:selectedRow?.id, name, gender, nik, dob, phoneNumber, joinedDate,status},
         {
           onSuccess: () => {
             handleCloseEmpUpdateModal();
@@ -108,7 +109,13 @@ import { createEmployeePositionHistory } from "../../requests/employeePositionHi
             Update Employee
           </Typography>
           <Box mt="2rem">
+            <Stack
+              direction="row"
+              justifyContent={"space-between"}
+              sx={{flex:6}}
+            >
             <TextField
+            sx={{flex:3.5, mr:'1rem'}}
               required
               error={fieldError.name}
               id="outlined-required"
@@ -118,6 +125,22 @@ import { createEmployeePositionHistory } from "../../requests/employeePositionHi
               onChange={handleInput}
               value={input.name}
             />
+            <FormControl             sx={{flex:2.5}}>
+            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={input.status}
+                  label="Status"
+                  name="status"
+                  onChange={handleInput}
+                >
+                    <MenuItem value={'Active'}>Active</MenuItem>
+                    <MenuItem value={'Resigned'}>Resigned</MenuItem>
+                    <MenuItem value={'Terminated'}>Terminated</MenuItem>
+                </Select>
+                </FormControl>
+          </Stack>
             <Stack
               direction="row"
               justifyContent={"space-between"}

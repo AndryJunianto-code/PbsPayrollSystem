@@ -32,6 +32,8 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
           field: "basicSalary",
           headerName: "Basic Salary",
           headerClassName: "super-app-theme--header",
+          width: openDrawer ? 120 : 130,
+          headerAlign:'right',
           align:'right',
           renderCell: (cellValues) => {
             return (
@@ -42,7 +44,7 @@ const PayslipTable = ({payslipData,payslipSuccess,handleOpenActionMenu}) => {
         {
           field: "commision",
           headerName: "Total Commision",
-          width: openDrawer ? 150 : 160,
+          width: openDrawer ? 160 : 170,
           headerClassName: "super-app-theme--header",
           headerAlign:'right',
           align:'right',

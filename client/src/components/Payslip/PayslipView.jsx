@@ -13,24 +13,32 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import SecondaryButton from "../widgets/SecondaryButton";
 import PayslipJournalModal from "./PayslipJournalModal";
+import UpdatePayslipModal from "./UpdatePayslipModal";
 import useGetTotalPayslipAmount from "../../hooks/useGetTotalPayslipAmount";
 
 const PayslipView = () => {
   const { openDrawer } = useViewContext();
   const [openPayslipModal, setOpenPayslipModal] = useState(false);
+  const [openPayslipUpdateModal, setOpenPayslipUpdateModal] = useState(false);
   const [openViewJournalModal,setOpenViewJournalModal] = useState(false);
   const [selectedRow, setSelectedRow] = useState({});
   const [selectedDate, setSelectedDate] = useState(dayjs().format("DD MMM YYYY"));
   const [actionAnchor, setActionAnchor] = useState(null);
   const isActionMenuOpen = Boolean(actionAnchor);
 
-  const handleOpenPayslipModal = () => setOpenPayslipModal(true);
-  const handleOpenViewJournalModal = () => setOpenViewJournalModal(true);
   const handleOpenActionMenu = (e, data) => {
     setActionAnchor(e.currentTarget);
     setSelectedRow(data);
   };
   const handleCloseActionMenu = () => setActionAnchor(null);
+
+  const handleOpenPayslipModal = () => setOpenPayslipModal(true);
+  const handleOpenPayslipUpdateModal = () => {
+    handleCloseActionMenu();
+    setOpenPayslipUpdateModal(true);
+  }
+  const handleOpenViewJournalModal = () => setOpenViewJournalModal(true);
+
 
   const {
     data: payslipData,
@@ -95,19 +103,21 @@ const PayslipView = () => {
             payslipSuccess={payslipSuccess}
           />
         </TableBoxContainer>
-      <NewPayslipModal
+     {openPayslipModal && <NewPayslipModal
         refetchPayslip={refetchPayslip}
         openPayslipModal={openPayslipModal}
         setOpenPayslipModal={setOpenPayslipModal}
-      />
+      />}
+      {openPayslipUpdateModal && <UpdatePayslipModal selectedRow={selectedRow} refetchPayslip={refetchPayslip} openPayslipUpdateModal={openPayslipUpdateModal} setOpenPayslipUpdateModal={setOpenPayslipUpdateModal}/>}
       <PayslipActionMenu
         selectedRow={selectedRow}
         actionAnchor={actionAnchor}
         refetchPayslip={refetchPayslip}
         isActionMenuOpen={isActionMenuOpen}
         handleCloseActionMenu={handleCloseActionMenu}
+        handleOpenPayslipUpdateModal={handleOpenPayslipUpdateModal}
       />
-      <PayslipJournalModal incomeData={incomeData} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>
+      {openViewJournalModal && <PayslipJournalModal incomeData={incomeData} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>}
     </ViewFirstBox>
   );
 };

@@ -151,7 +151,7 @@ const EmployeeView = () => {
     },
     {
       field: "button",
-      headerName: "",
+      headerName: "Action",
       width: 100,
       headerClassName: "super-app-theme--header",
       renderCell: (cellValues) => {

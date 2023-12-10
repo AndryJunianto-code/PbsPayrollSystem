@@ -11,6 +11,11 @@ export const bulkCreateImmunityLog = async(obj) => {
     return data;
 }
 
+export const updateImmunityLog = async(obj) => {
+    const { data } = await axios.put(`/immunityLog/${obj.id}`, obj);
+    return data;
+  }
+
 export const getImmunityLogOnWeek = async(obj) => {
     const {data} = await axios.get(`/immunityLog/onWeek/${obj.queryKey[1]}`);
     return data;

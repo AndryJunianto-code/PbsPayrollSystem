@@ -12,6 +12,20 @@ export const basicModalStyle = {
     p: 5,
   };
 
+  export const smallModalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -55%)",
+    width: { xs: "90vw", md: "40rem", lg: "40rem" },
+    bgcolor: "background.paper",
+    borderRadius: "4px",
+    outline: "none",
+    height: { xs: "25rem", lg: "15rem" },
+    boxShadow: 24,
+    p: 5,
+  };
+
   export const mediumModalStyle = {
     position: "absolute",
     top: "50%",
@@ -63,8 +77,8 @@ export const basicModalStyle = {
     bgcolor: "#fafafa",
     borderRadius: "4px",
     outline: "none",
-    height: { xs: "42rem", lg: "35rem" },
-    boxShadow: 24,
+    height: { xs: "37rem", lg: "28rem" },
+    boxShadow: 30,
     p: 4,
   };
 

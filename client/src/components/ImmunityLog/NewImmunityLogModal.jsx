@@ -10,7 +10,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { mediumModalStyle } from "../../assets/styles/styles";
 import { getAllEmployeeId } from "../../requests/employeeRequest";
 import { useMutation, useQuery } from "react-query";
@@ -18,7 +18,6 @@ import { createImmunityLog } from "../../requests/immunityLogRequest";
 import dayjs from "dayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import useGetImmunityLog from "../../hooks/useGetImmunityLog";
 import getWeekNumber from "../../utils/getWeekNumber";
 
 const NewImmunityLogModal = ({

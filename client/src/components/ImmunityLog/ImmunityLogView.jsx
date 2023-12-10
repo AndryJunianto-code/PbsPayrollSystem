@@ -13,10 +13,13 @@ import TableBoxContainer from "../widgets/TableBoxContainer";
 import useGetImmunityLog from "../../hooks/useGetImmunityLog";
 import GenerateImmunityLogModal from "./GenerateImmunityLogModal";
 import SecondaryButton from "../widgets/SecondaryButton";
+import UpdateImmunityLogModal from "./UpdateImmunityLogModal";
 
 const ImmunityLogView = () => {
   const { openDrawer } = useViewContext();
   const [openImmunityLogModal, setOpenImmunityLogModal] = useState(false);
+  const [openImmunityLogUpdateModal, setOpenImmunityLogUpdateModal] =
+    useState(false);
   const [openGenerateImmunityLogModal, setOpenGenerateImmunityLogModal] =
     useState(false);
   const [selectedDate, setSelectedDate] = useState(
@@ -26,14 +29,18 @@ const ImmunityLogView = () => {
   const [actionAnchor, setActionAnchor] = useState(null);
   const isActionMenuOpen = Boolean(actionAnchor);
 
+  const handleCloseActionMenu = () => setActionAnchor(null);
   const handleOpenImmunityLogModal = () => setOpenImmunityLogModal(true);
+  const handleOpenImmunityLogUpdateModal = () => {
+    handleCloseActionMenu();
+    setOpenImmunityLogUpdateModal(true);
+  };
   const handleOpenGenerateImmunityLogModal = () =>
     setOpenGenerateImmunityLogModal(true);
   const handleOpenActionMenu = (e, data) => {
     setActionAnchor(e.currentTarget);
     setSelectedRow(data);
   };
-  const handleCloseActionMenu = () => setActionAnchor(null);
 
   const {
     data: immunityLogData,
@@ -92,10 +99,18 @@ const ImmunityLogView = () => {
           handleOpenActionMenu={handleOpenActionMenu}
         />
       </TableBoxContainer>
-      <NewImmunityLogModal
-        openImmunityLogModal={openImmunityLogModal}
-        setOpenImmunityLogModal={setOpenImmunityLogModal}
+      {openImmunityLogModal && (
+        <NewImmunityLogModal
+          openImmunityLogModal={openImmunityLogModal}
+          setOpenImmunityLogModal={setOpenImmunityLogModal}
+          refetchImmunityLog={refetchImmunityLog}
+        />
+      )}
+      <UpdateImmunityLogModal
+        openImmunityLogUpdateModal={openImmunityLogUpdateModal}
+        setOpenImmunityLogUpdateModal={setOpenImmunityLogUpdateModal}
         refetchImmunityLog={refetchImmunityLog}
+        selectedRow={selectedRow}
       />
       <GenerateImmunityLogModal
         openGenerateImmunityLogModal={openGenerateImmunityLogModal}
@@ -108,6 +123,7 @@ const ImmunityLogView = () => {
         actionAnchor={actionAnchor}
         isActionMenuOpen={isActionMenuOpen}
         handleCloseActionMenu={handleCloseActionMenu}
+        handleOpenImmunityLogUpdateModal={handleOpenImmunityLogUpdateModal}
       />
     </ViewFirstBox>
   );

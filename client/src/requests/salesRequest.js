@@ -15,3 +15,13 @@ export const createSales = async (obj) => {
   const { data } = await axios.post("/sales", obj);
   return data;
 };
+
+export const updateSales = async(obj) => {
+  const { data } = await axios.put(`/sales/${obj.id}`, obj);
+  return data;
+}
+
+export const deleteSales = async(obj) => {
+  const {data} = await axios.delete(`/sales/${obj.id}`);
+  return data;
+}
