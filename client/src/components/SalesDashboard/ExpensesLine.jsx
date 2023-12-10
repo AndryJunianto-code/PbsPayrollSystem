@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -9,22 +8,33 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Box, Paper, Stack, Typography } from "@mui/material";
+import { Paper, Stack, Typography } from "@mui/material";
+import { useQuery } from 'react-query';
+import { getTotalPayslipYearly } from '../../requests/payslipRequest';
+
 const months = [
   "Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
 ];
-const data = [];
-months.map(month=> {
-  const obj = {
-    name: month,
-    business: Math.floor(Math.random() * (50000-5000 +1) + 5000),
-    loan: Math.floor(Math.random() * (50000-5000 +1) + 5000)  ,
-    amt: Math.floor(Math.random() * (50000-5000 +1) + 5000)
-  }
-  data.push(obj)
-})
 const RevenueLine = () => {
+  const [data,setData] = useState([])
+  const {
+    data: totalPayslipData,
+  } = useQuery(["getTotalPayslipYearly", 2023], getTotalPayslipYearly, { retryDelay: 3000 });
+
+  useEffect(()=> {
+    if(totalPayslipData !== null) {
+      months.map((month,index)=> {
+      const includedMonth = totalPayslipData?.filter(item => item.month === index+1);
+      if(includedMonth?.length > 0) {
+        setData((prev)=> [...prev,{name:month,2023:includedMonth[0]?.totalSalary,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
+      } else {
+        setData((prev)=> [...prev,{name:month,2023:0,2022:Math.floor(Math.random() * (100000000-5000 +1) + 5000)}])
+      }
+     })
+    }
+    return () => setData([])
+  },[totalPayslipData])
   return (
     <Paper sx={{mt:'2rem', padding:'1rem',backgroundColor:'white', height:'500px'}}>
         <Typography fontSize={'18px'}>Expenses</Typography>
@@ -43,10 +53,10 @@ const RevenueLine = () => {
        data={data}>
         <CartesianGrid vertical={false}/>
         <XAxis dataKey={'name'} fontWeight={'600'} fontSize={'14px'}/>
-        <YAxis fontWeight={'600'} fontSize={'14px'}/>
+        <YAxis fontWeight={'600'} fontSize={'11px'}/>
         <Tooltip/>
-          <Line type="monotone" dataKey="business" stroke="#ff4961"  strokeWidth={3} />
-          <Line type="monotone" dataKey="loan" stroke="#c2c2c2" strokeWidth={3} strokeDasharray={"7 7"}/>
+          <Line type="monotone" dataKey="2023" stroke="#ff4961"  strokeWidth={3} />
+          <Line type="monotone" dataKey="2022" stroke="#c2c2c2" strokeWidth={3} strokeDasharray={"7 7"}/>
         </LineChart>
         </ResponsiveContainer>
         </Paper>

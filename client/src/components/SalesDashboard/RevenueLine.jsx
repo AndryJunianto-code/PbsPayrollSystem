@@ -22,7 +22,6 @@ const RevenueLine = () => {
   const [data,setData] = useState([])
   const {
     data: totalSalesData,
-    isSuccess: totalSalesSuccess
   } = useQuery(["getTotalSalesYearly", 2023], getTotalSalesYearly, { retryDelay: 3000 });
 
   useEffect(()=> {
@@ -30,14 +29,14 @@ const RevenueLine = () => {
       months.map((month,index)=> {
       const includedMonth = totalSalesData?.filter(item => item.month === index+1);
       if(includedMonth.length > 0) {
-        setData((prev)=> [...prev,{name:month,2023:includedMonth[0].totalSales,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
+        setData((prev)=> [...prev,{name:month,2023:includedMonth[0].totalSales*10100,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
       } else {
-        setData((prev)=> [...prev,{name:month,2023:0,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
+        setData((prev)=> [...prev,{name:month,2023:0,2022:Math.floor(Math.random() * (200000000-5000 +1) + 5000)}])
       }
      })
     }
     return () => setData([])
-  },[totalSalesData,totalSalesSuccess])
+  },[totalSalesData])
   return (
     <Paper sx={{mt:'2rem', padding:'1rem',backgroundColor:'white', height:'500px'}}>
         <Typography fontSize={'18px'}>Revenue</Typography>
@@ -56,7 +55,7 @@ const RevenueLine = () => {
        data={data}>
         <CartesianGrid vertical={false}/>
         <XAxis dataKey={'name'} fontWeight={'600'} fontSize={'14px'}/>
-        <YAxis fontWeight={'600'} fontSize={'14px'}/>
+        <YAxis fontWeight={'600'} fontSize={'11px'}/>
         <Tooltip/>
           <Line type="monotone" dataKey="2023" stroke="#42d2bf"  strokeWidth={3} />
           <Line type="monotone" dataKey="2022" stroke="#c2c2c2" strokeWidth={3} strokeDasharray={"7 7"}/>

@@ -1,9 +1,11 @@
 import db from "../models/index.js";
 import puppeteer from "puppeteer";
+import { Op } from "sequelize";
 
 const Payslip = db.payslip;
 const Employee = db.employee;
 const Adjustment = db.adjustment;
+const sequelize = db.sequelize;
 
 export const generatePayslipPdf = async (req, res) => {
   try {
@@ -117,6 +119,33 @@ export const getTotalIncomeByMonth = async (req, res) => {
     res.status(500).json(err);
   }
 };
+
+export const getTotalPayslipYearly = async(req,res)=> {
+  try {
+    const allPayslip = await Payslip.findAll({
+      attributes: [
+        [sequelize.fn('SUM', sequelize.col('netSalary')), 'totalSalary'],
+        [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
+      ],
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.year, 0, 1),
+            new Date(req.params.year, 11, 31, 23, 59, 59, 999), // Set the end of the last day
+          ],
+        }
+      },
+      group: [sequelize.fn('MONTH', sequelize.col('date'))],
+      raw: true, // Ensure raw results
+      order: sequelize.literal('month ASC'), 
+      logging:console.log,  
+    });
+   
+    res.status(200).json(allPayslip);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+}
 
 export const deletePayslip = async (req, res) => {
   try {
