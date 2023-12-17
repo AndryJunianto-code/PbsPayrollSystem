@@ -12,6 +12,21 @@ const theme = createTheme({
       secondary: {
         main:"#fccfa4",
         hover:"#d1ac88"
+      },
+      basicGreen: {
+        main: "#259c8a"
+      },
+      basicPink: {
+        main: "#fe7096"
+      },
+      basicLightBlue: {
+        main: '#3699e8'
+      },
+      basicPurple: {
+        main: "#5c5bec"
+      },
+      basicPeach: {
+        main: "#ffb396"
       }
     },
   });

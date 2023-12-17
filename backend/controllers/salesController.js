@@ -34,7 +34,7 @@ export const getTotalSalesYearly = async(req,res)=> {
         [sequelize.fn('SUM', sequelize.col('salesAmount')), 'totalSales'],
         [sequelize.fn('MONTH', sequelize.col('date')), 'month'],
       ],
-      where: {
+      where: {  
         date: {
           [Op.between]: [
             new Date(req.params.year, 0, 1),

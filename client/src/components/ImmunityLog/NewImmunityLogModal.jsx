@@ -35,12 +35,51 @@ const NewImmunityLogModal = ({
     promotionPoint: 0,
     revenuePoint: 0,
   };
+  const initialFieldError = {
+    date: false,
+    immunity:false,
+    lead:false,
+    coreWallet:false,
+    supplementWallet:false,
+    promotionPoint:false,
+    revenuePoint:false
+  };
   const [input, setInput] = useState(initialState);
+  const [fieldError, setFieldError] = useState(initialFieldError);
   const [weekNumber, setWeekNumber] = useState("");
 
   const handleCloseImmunityLogModal = () => setOpenImmunityLogModal(false);
   const handleInput = (e) =>
     setInput({ ...input, [e.target.name]: e.target.value });
+
+    const validateField = () => {
+      const errors = {};
+      if (
+        input.date.toString().trim() === "" ||
+        input.date.toString() === "Invalid Date"
+      ) {
+        errors.date = true;
+      }
+      if (input.immunity.toString().trim() === "") {
+        errors.immunity = true;
+      }
+      if (input.lead.toString().trim() === "" || parseInt(input.lead) < 0 ) {
+        errors.lead = true;
+      }
+      if (input.coreWallet.toString().trim() === "" || parseInt(input.coreWallet) < 0 ) {
+        errors.coreWallet = true;
+      }
+      if (input.supplementWallet.toString().trim() === "" || parseInt(input.supplementWallet) < 0 ) {
+        errors.supplementWallet = true;
+      }
+      if (input.promotionPoint.toString().trim() === "" ) {
+        errors.promotionPoint = true;
+      }
+      if (input.revenuePoint.toString().trim() === "" || parseInt(input.revenuePoint) < 0 ) {
+        errors.revenuePoint = true;
+      }
+      return errors;
+    };
 
   const { data: employeeIdData, isSuccess: employeeIdSuccess } = useQuery(
     ["getAllEmployeeId"],
@@ -50,35 +89,41 @@ const NewImmunityLogModal = ({
 
   const { mutate: mutateImmunityLog } = useMutation(createImmunityLog);
   const handleCreateImmunityLog = () => {
-    const {
-      employeeId,
-      date,
-      immunity,
-      coreWallet,
-      supplementWallet,
-      promotionPoint,
-      revenuePoint,
-      lead,
-    } = input;
-    mutateImmunityLog(
-      {
+    const errors = validateField();
+    setFieldError(errors);
+    const hasErrors = Object.values(errors).some((error) => error === true);
+
+    if(!hasErrors) {
+      const {
         employeeId,
         date,
-        week: weekNumber,
         immunity,
         coreWallet,
         supplementWallet,
         promotionPoint,
         revenuePoint,
         lead,
-      },
-      {
-        onSuccess: (data) => {
-          refetchImmunityLog();
-          handleCloseImmunityLogModal();
+      } = input;
+      mutateImmunityLog(
+        {
+          employeeId,
+          date,
+          week: weekNumber,
+          immunity,
+          coreWallet,
+          supplementWallet,
+          promotionPoint,
+          revenuePoint,
+          lead,
         },
-      }
-    );
+        {
+          onSuccess: (data) => {
+            refetchImmunityLog();
+            handleCloseImmunityLogModal();
+          },
+        }
+      );
+    }
   };
 
 
@@ -131,7 +176,8 @@ const NewImmunityLogModal = ({
                   handleImmunityLogDate(value);
                 }}
                 value={dayjs(input.date)}
-                label={"Date"}
+                error={fieldError.date}
+                label={"Date*"}
                 name="date"
                 format="DD MMM YYYY"
               />
@@ -147,6 +193,7 @@ const NewImmunityLogModal = ({
                 Immunity
               </InputLabel>
               <OutlinedInput
+                error={fieldError.immunity}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Immunity"
@@ -156,6 +203,7 @@ const NewImmunityLogModal = ({
             <FormControl required onChange={handleInput} sx={{ flex: 1 }}>
               <InputLabel htmlFor="outlined-adornment-amount">Lead</InputLabel>
               <OutlinedInput
+                error={fieldError.lead}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Lead"
@@ -174,6 +222,7 @@ const NewImmunityLogModal = ({
                 Core Wallet
               </InputLabel>
               <OutlinedInput
+                error={fieldError.coreWallet}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Core Wallet"
@@ -185,6 +234,7 @@ const NewImmunityLogModal = ({
                 Supplement Wallet
               </InputLabel>
               <OutlinedInput
+                error={fieldError.supplementWallet}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Supplement Wallet"
@@ -203,6 +253,7 @@ const NewImmunityLogModal = ({
                 Promotion Point
               </InputLabel>
               <OutlinedInput
+                error={fieldError.promotionPoint}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Promotion Point"
@@ -214,6 +265,7 @@ const NewImmunityLogModal = ({
                 Revenue Point
               </InputLabel>
               <OutlinedInput
+                error={fieldError.revenuePoint}
                 type="number"
                 id="outlined-adornment-amount"
                 label="Revenue Point"

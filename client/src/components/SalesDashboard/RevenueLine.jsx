@@ -28,8 +28,8 @@ const RevenueLine = () => {
     if(totalSalesData !== null) {
       months.map((month,index)=> {
       const includedMonth = totalSalesData?.filter(item => item.month === index+1);
-      if(includedMonth.length > 0) {
-        setData((prev)=> [...prev,{name:month,2023:includedMonth[0].totalSales*10100,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
+      if(includedMonth?.length > 0) {
+        setData((prev)=> [...prev,{name:month,2023:includedMonth[0]?.totalSales*10100,2022:Math.floor(Math.random() * (30000-5000 +1) + 5000)}])
       } else {
         setData((prev)=> [...prev,{name:month,2023:0,2022:Math.floor(Math.random() * (200000000-5000 +1) + 5000)}])
       }

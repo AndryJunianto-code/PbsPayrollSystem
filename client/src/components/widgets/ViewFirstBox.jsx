@@ -8,7 +8,7 @@ const ViewFirstBox = ({ children, openDrawer }) => {
       sx={{
         flexGrow: 1,
         pt: "4rem",
-        pr: { xs: "1rem", lg: openDrawer ? "2rem" : "12rem" },
+        pr: { xs: "1rem", lg: openDrawer ? "2.5rem" : "12rem" },
         pl: { xs: "1rem", lg: openDrawer ? "16rem" : "6rem" },
         backgroundColor: "#f4f4f4",
         minHeight: "100vh",

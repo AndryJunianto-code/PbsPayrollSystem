@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material'
 import React from 'react'
 import { SubheaderTypography } from './DashboardCustomWidget'
 
-const Minibar = ({title,content,contentColor,icon,fromColor,toColor}) => {
+const Minibar = ({title,content,icon,fromColor,toColor}) => {
   return (
     <Paper sx={{mt:'2rem', padding:'1.2rem',background:`linear-gradient(180deg, ${fromColor}, ${toColor});`,width:'285px', height:'95px', display:'flex', alignItems:'center', justifyContent:'space-between'}}>
       <Box>

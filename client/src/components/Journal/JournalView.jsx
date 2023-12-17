@@ -167,8 +167,8 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                 <TableCell sx={{ width: "10%",borderLeft:'1px solid #ccc' }}>Ref</TableCell>
                 <TableCell sx={{ width: "10%",borderLeft:'1px solid #ccc' }}>Source</TableCell>
                 <TableCell sx={{ width: "25%",borderLeft:'1px solid #ccc'}}>Account</TableCell>
-                <TableCell sx={{ width: "8%",borderLeft:'1px solid #ccc' }}>Debit (IDR)</TableCell>
-                <TableCell sx={{ width: "8%",borderLeft:'1px solid #ccc',borderRight:'1px solid #ccc' }}>Credit (IDR)</TableCell>
+                <TableCell sx={{ width: "8%",borderLeft:'1px solid #ccc',textAlign:'right' }}>Debit (IDR)</TableCell>
+                <TableCell sx={{ width: "8%",borderLeft:'1px solid #ccc',borderRight:'1px solid #ccc',textAlign:'right'}}>Credit (IDR)</TableCell>
               </TableRow>
             </TableHead>
             {journalSuccess &&
@@ -193,7 +193,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{journal.id}</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Sales</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}> Beban Gaji</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",}}>
+                          <TableCell sx={{borderLeft: "1px solid #ccc",textAlign:'right'}}>
                             {getCurrency(journal.netSalary - journal.commision)}
                           </TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc",}}>{null}</TableCell>
@@ -213,7 +213,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
                           <TableCell sx={{ borderLeft:'1px solid #ccc'  }}>Piutang Gaji</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc",}}>
+                          <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc",textAlign:'right'}}>
                             {getCurrency(journal.netSalary - journal.commision)}
                           </TableCell>
                         </TableRow>
@@ -232,7 +232,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>Beban Komisi</TableCell>
-                            <TableCell sx={{borderLeft: "1px solid #ccc",}}>
+                            <TableCell sx={{borderLeft: "1px solid #ccc",textAlign:'right'}}>
                               {getCurrency(journal.commision)}
                             </TableCell >
                             <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc"}}>{null}</TableCell>
@@ -254,7 +254,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>Piutang Komisi</TableCell>
                             <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
-                            <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc"}}> 
+                            <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc",textAlign:'right'}}> 
                               {getCurrency(journal.commision)}
                             </TableCell>
                           </TableRow>
@@ -281,7 +281,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{journal.id}</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Payslip</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>Kas</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",}}> 
+                          <TableCell sx={{borderLeft: "1px solid #ccc",textAlign:'right'}}> 
                             {getCurrency(journal.salesAmount * 10100)}
                           </TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc"}}>{null}</TableCell>
@@ -301,7 +301,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>Piutang</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{null}</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc"}}>
+                          <TableCell sx={{borderLeft: "1px solid #ccc",borderRight: "1px solid #ccc",textAlign:'right'}}>
                             {getCurrency(journal.salesAmount * 10100)}
                           </TableCell>
                         </TableRow>
@@ -315,8 +315,8 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                 <TableCell sx={{borderLeft: "1px solid #ccc",borderTop:'1px solid #ccc'}}>{null}</TableCell>
                 <TableCell sx={{borderLeft: "1px solid #ccc",borderTop:'1px solid #ccc'}}>{null}</TableCell>
                 <TableCell sx={{borderLeft: "1px solid #ccc",borderTop:'1px solid #ccc',fontWeight:'bold',fontSize:'16px'}}>Total</TableCell>
-                <TableCell sx={{borderLeft: "1px solid #ccc",borderTop:'1px solid #ccc',fontWeight:'bold',fontSize:'16px'}}>{journalData && getCurrency(journalData.totalExpenses)}</TableCell>
-                <TableCell sx={{borderLeft: "1px solid #ccc",borderTop: "1px solid #ccc",borderRight:'1px solid #ccc',fontWeight:'bold',fontSize:'16px'}}>
+                <TableCell sx={{borderLeft: "1px solid #ccc",borderTop:'1px solid #ccc',fontWeight:'bold',fontSize:'16px',textAlign:'right'}}>{journalData && getCurrency(journalData.totalExpenses)}</TableCell>
+                  <TableCell sx={{borderLeft: "1px solid #ccc",borderTop: "1px solid #ccc",borderRight:'1px solid #ccc',fontWeight:'bold',fontSize:'16px',textAlign:'right'}}>
                   {journalData && getCurrency(journalData.totalExpenses)}
                 </TableCell>
               </TableRow>

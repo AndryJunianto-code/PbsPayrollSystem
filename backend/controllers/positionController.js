@@ -31,9 +31,14 @@ export const getOnePosition = async(req,res)=> {
 
 export const updatePosition = async (req, res) => {
   let id = req.params.id;
-  const updatedPosition = await Position.update(req.body, {
-    where: { id },
-    returning: true,
-  });
-  res.status(200).json(updatedPosition);
+  try {
+    const updatedPosition = await Position.update(req.body, {
+      where: { id },
+      returning: true,
+    });
+    res.status(200).json(updatedPosition);
+  } catch(err) {
+    res.status(500).json(err);
+  }
+ 
 };

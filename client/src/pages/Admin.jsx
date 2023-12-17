@@ -19,7 +19,7 @@ const Admin = () => {
     <>
         <Sidebar/>
         {selectedView === VIEW_ENUM.SALES_DASHBOARD_VIEW && <DashboardView/>}
-        {selectedView === VIEW_ENUM.SALES_DASHBOARD_VIEW && <EmployeeDashboardView/>}
+        {selectedView === VIEW_ENUM.EMPLOYEE_DASHBOARD_VIEW && <EmployeeDashboardView/>}
         {selectedView === VIEW_ENUM.EMPLOYEE_VIEW && <EmployeeView/>}
         {selectedView === VIEW_ENUM.POSITION_VIEW && <PositionView/>}
         {selectedView === VIEW_ENUM.IMMUNITY_LOG_VIEW && <ImmunityLogView/>}

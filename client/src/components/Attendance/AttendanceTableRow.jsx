@@ -87,6 +87,7 @@ const AttendanceTableRow = ({attendance,setIsChanged,setAttendanceInput,isConfir
                       <Select fullWidth name='status' onChange={handleInput} value={input.status}>
                         <MenuItem value='Present'>Present</MenuItem>
                         <MenuItem value='Paid Leave'>Paid Leave</MenuItem>
+                        <MenuItem value='Unpaid Leave'>Unpaid Leave</MenuItem>
                         <MenuItem value='MC'>MC</MenuItem>
                       </Select>
                     </AttendanceTableCell>

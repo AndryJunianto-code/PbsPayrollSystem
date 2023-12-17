@@ -36,11 +36,50 @@ import {
       promotionPoint: 0,
       revenuePoint: 0,
     };
+    const initialFieldError = {
+      date: false,
+      immunity:false,
+      lead:false,
+      coreWallet:false,
+      supplementWallet:false,
+      promotionPoint:false,
+      revenuePoint:false
+    };
     const [input, setInput] = useState(initialState);
+    const [fieldError, setFieldError] = useState(initialFieldError);
   
     const handleCloseImmunityLogUpdateModal = () => setOpenImmunityLogUpdateModal(false);
     const handleInput = (e) =>
       setInput({ ...input, [e.target.name]: e.target.value });
+
+      const validateField = () => {
+        const errors = {};
+        if (
+          input.date.toString().trim() === "" ||
+          input.date.toString() === "Invalid Date"
+        ) {
+          errors.date = true;
+        }
+        if (input.immunity.toString().trim() === "") {
+          errors.immunity = true;
+        }
+        if (input.lead.toString().trim() === "" || parseInt(input.lead) < 0 ) {
+          errors.lead = true;
+        }
+        if (input.coreWallet.toString().trim() === "" || parseInt(input.coreWallet) < 0 ) {
+          errors.coreWallet = true;
+        }
+        if (input.supplementWallet.toString().trim() === "" || parseInt(input.supplementWallet) < 0 ) {
+          errors.supplementWallet = true;
+        }
+        if (input.promotionPoint.toString().trim() === "" ) {
+          errors.promotionPoint = true;
+        }
+        if (input.revenuePoint.toString().trim() === "" || parseInt(input.revenuePoint) < 0 ) {
+          errors.revenuePoint = true;
+        }
+        return errors;
+      };
   
     const { data: employeeIdData, isSuccess: employeeIdSuccess } = useQuery(
       ["getAllEmployeeId"],
@@ -50,12 +89,18 @@ import {
         
     const { mutate: mutateImmunityLog } = useMutation(updateImmunityLog);
     const handleUpdateImmunityLog = () => {
+      const errors = validateField();
+      setFieldError(errors);
+      const hasErrors = Object.values(errors).some((error) => error === true);
+
+      if(!hasErrors) {
         mutateImmunityLog({id:selectedRow?.row.id, ...input}, {
             onSuccess: ()=> {
               handleCloseImmunityLogUpdateModal();
               refetchImmunityLog();
             }
           })
+      }
     };
   
   
@@ -108,6 +153,7 @@ import {
               </FormControl>
               <LocalizationProvider dateAdapter={AdapterDayjs} sx={{ flex: 1 }}>
                 <DatePicker
+                  error={fieldError.date}
                   onChange={(value) => {
                     handleImmunityLogDate(value);
                   }}
@@ -128,6 +174,7 @@ import {
                   Immunity
                 </InputLabel>
                 <OutlinedInput
+                  error={fieldError.immunity}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Immunity"
@@ -138,6 +185,7 @@ import {
               <FormControl required onChange={handleInput} sx={{ flex: 1 }}>
                 <InputLabel htmlFor="outlined-adornment-amount">Lead</InputLabel>
                 <OutlinedInput
+                  error={fieldError.lead}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Lead"
@@ -157,6 +205,7 @@ import {
                   Core Wallet
                 </InputLabel>
                 <OutlinedInput
+                  error={fieldError.coreWallet}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Core Wallet"
@@ -169,6 +218,7 @@ import {
                   Supplement Wallet
                 </InputLabel>
                 <OutlinedInput
+                  error={fieldError.supplementWallet}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Supplement Wallet"
@@ -188,6 +238,7 @@ import {
                   Promotion Point
                 </InputLabel>
                 <OutlinedInput
+                  error={fieldError.promotionPoint}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Promotion Point"
@@ -200,6 +251,7 @@ import {
                   Revenue Point
                 </InputLabel>
                 <OutlinedInput
+                  error={fieldError.revenuePoint}
                   type="number"
                   id="outlined-adornment-amount"
                   label="Revenue Point"

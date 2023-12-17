@@ -4,7 +4,7 @@ import { getSingleEmployeeTrackRecordsOnMonth } from "../requests/employeeReques
 const useGetSingleEmployeeTrackRecordsOnMonth = (employeeId,year,month) => {
     const data = useQuery(["getSingleEmployeeTrackRecordsOnMonth", employeeId,year,month], getSingleEmployeeTrackRecordsOnMonth, {
         retryDelay: 3000,
-        enabled:false
+        enabled:true
       });
     return data;
 }

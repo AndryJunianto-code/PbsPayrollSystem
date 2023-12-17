@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ViewFirstBox from "../widgets/ViewFirstBox";
 import { useViewContext } from "../../context/ViewContext";
 import RevenueLine from "./RevenueLine";
@@ -13,9 +13,19 @@ import {
 import TeamTargetPieChart from "./TeamTargetPieChart";
 import EmployeePieChart from "./EmployeePieChart";
 import TopProducerList from "./TopProducerList";
+import useGetSalesByWeek from "../../hooks/useGetSalesByWeek";
 
 const DashboardView = () => {
   const { openDrawer } = useViewContext();
+  const [totalSalesWeekly,setTotalSalesWeekly] = useState("0");
+
+  const {data:salesData} = useGetSalesByWeek(new Date());
+  useEffect(()=> {
+    if(salesData !== null) {
+      const sum = salesData?.reduce((total,sales)=> total + sales.salesAmount,0)
+      setTotalSalesWeekly(sum?.toLocaleString());
+    }
+  },[salesData])
   return (
       <Box sx={{ pb: "2rem",pt:'4rem',pl: { xs: "1rem", lg: openDrawer ? "16rem" : "6rem" },pr: { xs: "1rem", lg:"2rem" }, }}>
         <Grid container columnSpacing={4}>
@@ -30,7 +40,7 @@ const DashboardView = () => {
             <Grid item xs={1}>
               <Minibar
                 title={"Total Sales / Week"}
-                content={"$82,102"}
+                content={`$${totalSalesWeekly}`}
                 contentColor={"#34be8d"}
                 fromColor={'#3ad2bc'}
                 toColor={'#86d9d3'}
@@ -58,7 +68,7 @@ const DashboardView = () => {
             <Grid item xs={1}>
               <Minibar
                 title={"Total Closure / Week"}
-                content={"6"}
+                content={salesData !== null ? salesData?.length : 0}
                 contentColor={"#1880ff"}
                 fromColor={'#fe8a96'}
                 toColor={'#ffbc96'}

@@ -22,6 +22,7 @@ const NewPositionModal = ({
 }) => {
   const initialState = {
     title: "",
+    rank: "",
     salary: "",
     target: 0,
     promotionTarget: "",
@@ -30,7 +31,7 @@ const NewPositionModal = ({
     quarterBonusFirstTier: "",
     quarterBonusSecondTier: "",
   };
-  const initialFieldError = { title: false, salary: false };
+  const initialFieldError = { title: false, salary: false, rank:false};
   const [input, setInput] = useState(initialState);
   const [fieldError, setFieldError] = useState(initialFieldError);
 
