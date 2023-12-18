@@ -316,7 +316,16 @@ export const getAllJournal = async (req,res)=> {
       netSalary: values.netSalary,
     }));
 
-    const allSales = await Sales.findAll()
+    const allSales = await Sales.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.fromDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+            new Date(req.params.toDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+          ],
+        },
+      }
+    })
     const combinedArray = [...aggregatedPayslips, ...allSales];
     combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
 
@@ -347,7 +356,6 @@ export const getAllJournalFilter = async (req,res)=> {
         },
       }
     })
-
     const aggPayslip = allPayslip.reduce((map,payslip)=> {
       const {monthYear,commision,netSalary,date,id} = payslip;
       if(!map.has(monthYear)) {
@@ -358,13 +366,11 @@ export const getAllJournalFilter = async (req,res)=> {
           netSalary: 0,
         });
       }
-      
       const aggValues = map.get(monthYear);
       aggValues.commision += commision;
       aggValues.netSalary += netSalary;
       return map;
     }, new Map());
-
     const aggregatedPayslips = [...aggPayslip.entries()].map(([monthYear, values]) => ({
       monthYear,
       id:values.id,
@@ -373,10 +379,19 @@ export const getAllJournalFilter = async (req,res)=> {
       netSalary: values.netSalary,
     }));
 
-    const allSales = await Sales.findAll()
+    const allSales = await Sales.findAll({
+      where: {
+        date: {
+          [Op.between]: [
+            new Date(req.params.fromDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+            new Date(req.params.toDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
+          ],
+        },
+      }
+    })
     const combinedArray = [...aggregatedPayslips, ...allSales];
     combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
-
+    
     let totalExpenses = 0;
     combinedArray.forEach(entry=> {
       if(entry.salesAmount) {

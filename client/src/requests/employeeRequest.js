@@ -75,20 +75,20 @@ export const updateEmployee = async (obj) => {
 };
 
 export const getAllJournal = async (obj) => {
-  let data;
   if(Array.isArray(obj.queryKey[1]) && obj.queryKey[1].includes(null)) {
+    console.log(1);
     const { data: tempData } = await axios.get(`/employee/getAllJournal`);
-    data = tempData;
+    return tempData;
   } else if (obj.queryKey[1] !== null) {    
+    console.log(2);
     const { data: tempData } = await axios.get(
       `/employee/getAllJournalFilter/${obj.queryKey[1][0]}/${obj.queryKey[1][1]}`
     );
-    data = tempData;
+    return tempData;
   } 
   else {
-    
+    console.log(3);
     const { data: tempData } = await axios.get(`/employee/getAllJournal`);
-    data = tempData;
+    return tempData;
   }
-  return data;
 };

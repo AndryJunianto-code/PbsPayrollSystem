@@ -1,6 +1,7 @@
 // Payslip.js
 
 import React from 'react';
+import dayjs from 'dayjs';
 
 const styles = {
   payslip: {
@@ -67,7 +68,7 @@ const PayslipPdf = ({payslipData}) => {
       <div style={styles.header}>
         <div style={styles.company}>Cv. Permata Batam Suksesindo</div>
         <div style={styles.payslipId}>Payslip ID: {id}</div>
-        <div style={styles.payDate}>Pay Date: {date}</div>
+        <div style={styles.payDate}>Pay Date: {dayjs(date).format('DD MMM YYYY')}</div>
       </div>
       <div style={styles.employeeInfo}>
         <div style={styles.name}>Employee Name: {employeeName}</div>

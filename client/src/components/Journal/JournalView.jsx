@@ -36,7 +36,7 @@ const JournalView = () => {
     getAllJournal,
     { retryDelay: 3000 }
   );
-
+console.log(journalData)
   const exportToExcel = () => {
   const workbook = XLSX.utils.book_new();
 const worksheet = XLSX.utils.aoa_to_sheet([]);
