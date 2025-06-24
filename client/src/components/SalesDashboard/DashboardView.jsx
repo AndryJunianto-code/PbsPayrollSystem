@@ -14,6 +14,7 @@ import TeamTargetPieChart from "./TeamTargetPieChart";
 import EmployeePieChart from "./EmployeePieChart";
 import TopProducerList from "./TopProducerList";
 import useGetSalesByWeek from "../../hooks/useGetSalesByWeek";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const DashboardView = () => {
   const { openDrawer } = useViewContext();
@@ -27,6 +28,8 @@ const DashboardView = () => {
     }
   },[salesData])
   return (
+    <>
+      <Sidebar/>
       <Box sx={{ pb: "2rem",pt:'4rem',pl: { xs: "1rem", lg: openDrawer ? "16rem" : "6rem" },pr: { xs: "1rem", lg:"2rem" }, }}>
         <Grid container columnSpacing={4}>
           <Grid item xs={6}>
@@ -91,6 +94,7 @@ const DashboardView = () => {
           </Grid>
         </Grid>
       </Box>
+    </>
   );
 };
 

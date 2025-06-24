@@ -16,6 +16,7 @@ import SecondaryButton from "../widgets/SecondaryButton";
 import SalesJournalModal from "./SalesJournalModal";
 import UpdateSalesModal from "./UpdateSalesModal";
 import SalesRemarksModal from "./SalesRemarksModal";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const SalesView = () => {
   const { openDrawer } = useViewContext();
@@ -90,13 +91,13 @@ const SalesView = () => {
     {
       field: "companyName",
       headerName: "Company Name",
-      width: openDrawer ? 170 : 245,
+      width: openDrawer ? 200 : 275,
       headerClassName: "super-app-theme--header",
     },
     {
       field: "phoneNumber",
       headerName: "Phone Number",
-      width: 160,
+      width: 130,
       headerClassName: "super-app-theme--header",
     },
     {
@@ -138,6 +139,8 @@ const SalesView = () => {
     }
   ]
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
@@ -190,6 +193,7 @@ const SalesView = () => {
       {selectedRow && <SalesJournalModal selectedRow={selectedRow} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>}
       {selectedRow && <SalesRemarksModal selectedRow={selectedRow} setOpenSalesRemarksModal={setOpenSalesRemarksModal} openSalesRemarksModal={openSalesRemarksModal}/>}
     </ViewFirstBox>
+    </>
   );
 };
 

@@ -41,11 +41,11 @@ const RevenueLine = () => {
         <Stack direction='row' mb='1rem'>
           <Stack direction='column' mr='3rem'>
             <Typography color={"#7a7e8f"}>Current year</Typography>
-            <Typography color={'#ff4961'} fontSize={'24px'}>$50,124</Typography>
+            <Typography color={'#ff4961'} fontSize={'24px'}>Rp13.230.200</Typography>
           </Stack>
           <Stack direction='column'>
             <Typography color={"#7a7e8f"}>Previous year</Typography>
-            <Typography color={'#7a7e8f'} fontSize={'24px'}>$48,102</Typography>
+            <Typography color={'#7a7e8f'} fontSize={'24px'}>Rp113.230.200</Typography>
           </Stack>
         </Stack>
       <ResponsiveContainer height={'80%'}>

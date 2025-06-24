@@ -14,6 +14,7 @@ import useGetImmunityLog from "../../hooks/useGetImmunityLog";
 import GenerateImmunityLogModal from "./GenerateImmunityLogModal";
 import SecondaryButton from "../widgets/SecondaryButton";
 import UpdateImmunityLogModal from "./UpdateImmunityLogModal";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const ImmunityLogView = () => {
   const { openDrawer } = useViewContext();
@@ -48,6 +49,8 @@ const ImmunityLogView = () => {
     refetch: refetchImmunityLog,
   } = useGetImmunityLog(selectedDate);
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{ mt: "1rem", mb: "0.5rem", width: openDrawer ? "80vw" : "91vw" }}
@@ -67,7 +70,7 @@ const ImmunityLogView = () => {
             />
           </LocalizationProvider>
           <Stack direction="row" alignItems={"center"}>
-            <SecondaryButton
+            {/* <SecondaryButton
               sx={{
                 borderRadius: "50px",
                 mr: "1rem",
@@ -76,7 +79,7 @@ const ImmunityLogView = () => {
               onClick={handleOpenGenerateImmunityLogModal}
             >
               Auto Generate
-            </SecondaryButton>
+            </SecondaryButton> */}
             <Button
               aria-label="add"
               variant="contained"
@@ -126,6 +129,7 @@ const ImmunityLogView = () => {
         handleOpenImmunityLogUpdateModal={handleOpenImmunityLogUpdateModal}
       />
     </ViewFirstBox>
+    </>
   );
 };
 

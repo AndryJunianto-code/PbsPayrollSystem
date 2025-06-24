@@ -15,6 +15,7 @@ import { useViewContext } from "../../context/ViewContext";
 import ViewFirstBox from "../widgets/ViewFirstBox";
 import TableBoxContainer from '../widgets/TableBoxContainer';
 import EmployeeActionMenu from "./EmployeeActionMenu";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const EmployeeView = () => {
   const { openDrawer } = useViewContext();
@@ -170,6 +171,8 @@ const EmployeeView = () => {
   ];
 
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
@@ -223,6 +226,7 @@ const EmployeeView = () => {
         selectedRow={selectedRow}
       />
     </ViewFirstBox>
+    </>
   );
 };
 

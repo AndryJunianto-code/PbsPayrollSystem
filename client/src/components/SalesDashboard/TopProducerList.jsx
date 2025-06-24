@@ -34,7 +34,7 @@ const TopProducerList = () => {
         </Stack>
         <Divider sx={{my:'1rem'}}/>
         <Stack flex={3} direction={"row"} px='1rem'  alignItems={'center'} >
-            <Typography flex={1} color={'#6b6f82'} fontWeight={'bold'}>Joen</Typography>
+            <Typography flex={1} color={'#6b6f82'} fontWeight={'bold'}>Vanessa</Typography>
             <Button flex={1}  variant="outlined" sx={{borderRadius:'20px', textTransform:'capitalize', fontSize:'12px', fontWeight:600, py:'1px'}}>Pro</Button>
             <Typography textAlign={'end'} flex={1} color={'#6b6f82'} fontWeight={'400'}>$3,800</Typography>
         </Stack>

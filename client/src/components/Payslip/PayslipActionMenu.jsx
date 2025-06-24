@@ -63,17 +63,17 @@ const PayslipActionMenu = ({
         open={isActionMenuOpen}
         onClose={handleCloseActionMenu}
       >
-        <MenuItem onClick={handleOpenPayslipUpdateModal}>
-          <ListItemIcon>
-            <UpgradeOutlined fontSize="small" />
-          </ListItemIcon>
-          <ListItemText>Update</ListItemText>
-        </MenuItem>
         <MenuItem onClick={handleDownloadPdf}>
           <ListItemIcon>
             <PictureAsPdfOutlined fontSize="small" />
           </ListItemIcon>
           <ListItemText>Download PDF</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleOpenPayslipUpdateModal}>
+          <ListItemIcon>
+            <UpgradeOutlined fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Update</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleDeletePayslip}>
           <ListItemIcon>

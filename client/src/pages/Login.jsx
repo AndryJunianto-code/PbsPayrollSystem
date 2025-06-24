@@ -38,7 +38,7 @@ const Login = () => {
     if(data) {
       if(data.password === input.password) {
         setIsAuthenticated(true)
-        navigate('/admin');
+        navigate('/employeeboard');
       } else {
         setFieldError({...fieldError,password:true})
       }

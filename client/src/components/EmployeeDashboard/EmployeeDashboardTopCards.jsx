@@ -3,7 +3,8 @@ import React from 'react'
 import EmployeeDashboardLongCard from './EmployeeDashboardLongCard'
 import VaccinesOutlinedIcon from "@mui/icons-material/VaccinesOutlined";
 
-const EmployeeDashboardTopCards = () => {
+const EmployeeDashboardTopCards = ({employee}) => {
+  const ownedImmunityLogs = employee.immunityLogs.length > 0;
   return (
     <Grid container spacing={3}>
             <Grid item xs={6}>
@@ -13,7 +14,7 @@ const EmployeeDashboardTopCards = () => {
                   <VaccinesOutlinedIcon sx={{ color: "white" }} />
                 }
                 backgroundColor="#259c8a"
-                content="2"
+                content={ownedImmunityLogs ? employee?.immunityLogs[0].immunity : '8'}
               />
             </Grid>
             <Grid item xs={6}>
@@ -23,7 +24,7 @@ const EmployeeDashboardTopCards = () => {
                   <VaccinesOutlinedIcon sx={{ color: "white" }} />
                 }
                 backgroundColor="#3699e8"
-                content="20,000"
+                content={ownedImmunityLogs ? employee?.immunityLogs[0].promotionPoint : '3'}
               />
             </Grid>
             <Grid item xs={6}>
@@ -33,7 +34,7 @@ const EmployeeDashboardTopCards = () => {
                   <VaccinesOutlinedIcon sx={{ color: "white" }} />
                 }
                 backgroundColor="#ffb396"
-                content="2"
+                content={ownedImmunityLogs ? employee?.immunityLogs[0].coreWallet : '800'}
               />
             </Grid>
             <Grid item xs={6}>
@@ -43,7 +44,7 @@ const EmployeeDashboardTopCards = () => {
                   <VaccinesOutlinedIcon sx={{ color: "white" }} />
                 }
                 backgroundColor="#5c5bec"
-                content="2"
+                content={ownedImmunityLogs ? employee?.immunityLogs[0].revenuePoint : '0'}
               />
             </Grid>
           </Grid>

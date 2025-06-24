@@ -18,6 +18,7 @@ import UpdatePositionModal from "./UpdatePositionModal";
 import ViewFirstBox from "../widgets/ViewFirstBox";
 import TableBoxContainer from "../widgets/TableBoxContainer";
 import useGetAllPosition from "../../hooks/useGetAllPosition";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const PositionView = () => {
   const {openDrawer} = useViewContext();
@@ -202,6 +203,8 @@ const PositionView = () => {
     },
   ];
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
@@ -248,6 +251,7 @@ const PositionView = () => {
       data={prevUpdatedData}
       />
     </ViewFirstBox>
+    </>
   );
 };
 

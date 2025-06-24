@@ -14,7 +14,7 @@ const EmployeeDashboardLeave = () => {
           }}
         >
           <Typography textAlign={'center'} letterSpacing={'1px'} fontSize={'17px'} mb='2rem'>Paid Leave Left</Typography>
-          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>3</Typography>
+          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>{Math.floor(Math.random() * (5 - 1 + 1)) + 1}</Typography>
         </Paper>
       </Grid>
       <Grid item xs={4}>
@@ -27,7 +27,7 @@ const EmployeeDashboardLeave = () => {
           }}
         >
           <Typography textAlign={'center'} letterSpacing={'1px'} fontSize={'17px'} mb='2rem'>MC Left</Typography>
-          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>3</Typography>
+          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>{Math.floor(Math.random() * (5 - 1 + 1)) + 1}</Typography>
         </Paper>
       </Grid>
       <Grid item xs={4}>
@@ -40,7 +40,7 @@ const EmployeeDashboardLeave = () => {
           }}
         >
           <Typography textAlign={'center'} letterSpacing={'1px'} fontSize={'17px'} mb='2rem'>Unpaid Leave Taken</Typography>
-          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>11</Typography>
+          <Typography textAlign={'center'} fontSize={'30px'} fontWeight={'bold'}>{Math.floor(Math.random() * (5 - 1 + 1)) + 1}</Typography>
         </Paper>
       </Grid>
     </Grid>

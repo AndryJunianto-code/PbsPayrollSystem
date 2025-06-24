@@ -26,7 +26,7 @@ const styles = {
 };
 
 const EmployeePdf = ({employeeData}) => {
-  const {
+ /*  const {
     id,
     name,
     gender,
@@ -35,10 +35,11 @@ const EmployeePdf = ({employeeData}) => {
     phoneNumber,
     joinedDate,
     status
-  } = employeeData;
+  } = employeeData; */
+  console.log(employeeData)
   return (
     <div style={styles.container}>
-      <h2 style={styles.header}>Employee Details</h2>
+    {/*   <h2 style={styles.header}>Employee Details</h2>
       <h2 style={styles.subheader}>Personal</h2>
       <div style={styles.attribute}>
         <strong>ID:</strong> {id}
@@ -88,7 +89,7 @@ const EmployeePdf = ({employeeData}) => {
       </div>
       <div style={styles.attribute}>
         <strong>Account number:</strong> 9282938392
-      </div>
+      </div> */}
     </div>
   );
 };

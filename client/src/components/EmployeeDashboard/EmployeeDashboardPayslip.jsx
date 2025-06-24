@@ -1,19 +1,27 @@
 import { Box, Paper, Typography } from '@mui/material';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer, Text, Tooltip } from 'recharts';
+import getCurrency from '../../utils/getCurrency';
 
-const EmployeeDashboardPayslip = () => {
-    
-const data = [
-    { name: 'Basic Salary', value: 10000000 },
-    { name: 'Commision', value: 2000000 },
-    { name: 'Deduction', value: 1000000 },
-  ];
+const EmployeeDashboardPayslip = ({employee}) => {
+const [data,setData] = useState([]);
+console.log(employee.payslips)
+useEffect(()=> {
+  if(employee?.payslips.length > 0) {
+    const latestPasyslip = employee?.payslips[0];
+    setData([
+      { name: 'Basic Salary', value: latestPasyslip.basicSalary },
+      { name: 'Commision', value: latestPasyslip.commision },
+      { name: 'Deduction', value: latestPasyslip.deduction < 0 ? latestPasyslip.deduction * -1 : latestPasyslip.deduction },
+    ])
+  }
+},[employee])
+
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
   return (
     <Paper sx={{height:'500px', backgroundColor:'white', padding:'1rem',paddingTop:'1.5rem',position:'relative'}}>
     <Typography fontSize={'18px'} letterSpacing={'1px'}  textAlign={'center'}>Latest Payslip</Typography>
-    <Typography fontSize={'14px'} letterSpacing={'1px'} sx={{mb:'1rem'}} textAlign={'center'}>Nov 2023</Typography>
+    <Typography fontSize={'14px'} letterSpacing={'1px'} sx={{mb:'1rem'}} textAlign={'center'}>Dec 2023</Typography>
     <ResponsiveContainer width={'100%'} height={'100%'}>
     <PieChart width={400} height={400} >
          <Pie
@@ -31,7 +39,7 @@ const data = [
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
           ))}
         </Pie>
-        <Tooltip/>
+        <Tooltip position={'absolute'} top='200px'/>
     </PieChart>
     </ResponsiveContainer>
     <Box
@@ -43,7 +51,7 @@ const data = [
             textAlign: "center",
           }}
         >
-          <Typography fontSize={'20px'} fontWeight={'bold'}>Rp12.100.000</Typography>
+          <Typography fontSize={'20px'} fontWeight={'bold'}>Rp{employee?.payslips.length > 0 && getCurrency(employee?.payslips[0].netSalary)}</Typography>
       </Box>
     </Paper>
   )

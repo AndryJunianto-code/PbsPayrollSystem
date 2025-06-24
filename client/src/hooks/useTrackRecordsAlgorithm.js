@@ -38,14 +38,14 @@ const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDa
             currentImmunity += immunityEarned;
             currentPromotion += immunityEarned;
 
-            if(currentPromotion >= emp.position.promotionTarget) {
+            /* if(currentPromotion >= emp.position.promotionTarget) {
               rank -= 1;
               promotionStatus = 'Promote'
               currentImmunity = 4;
               currentPromotion = 0;
               coreWallet = 0;
-            }
-          } else if(totalMoney < emp.position.target) { //got sales but no hit
+            } */
+          } /* else if(totalMoney < emp.position.target) { //got sales but no hit
               currentImmunity -= 1;
               currentPromotion = currentPromotion - 1 < 0 ? 0 : currentPromotion - 1;
               if(currentImmunity === 0 && emp.position.title !== 'Probation') {
@@ -54,7 +54,7 @@ const useTrackRecordsAlgorithm = (employeeTrackRecordsData,weekNumber,selectedDa
                 currentImmunity = 4;
                 currentPromotion = 0;
               }
-          }
+          } */
       }
       data.push ({
         name:emp.name,

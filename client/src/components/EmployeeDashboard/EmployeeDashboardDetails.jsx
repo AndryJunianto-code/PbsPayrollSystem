@@ -25,7 +25,7 @@ const EmployeeDashboardDetails = ({employee}) => {
               borderRadius: "4px",
             }}
           >
-            Active
+            {employee.status}
           </Box>
         </Stack>
         <Typography
@@ -34,7 +34,7 @@ const EmployeeDashboardDetails = ({employee}) => {
           fontWeight={"bold"}
           letterSpacing={"0.8px"}
         >
-          Junior Consultant
+          {employee.employeePositionHistory[0].position.title}
         </Typography>
       </Box>
       <Divider sx={{ my: "1rem" }} />
@@ -42,37 +42,37 @@ const EmployeeDashboardDetails = ({employee}) => {
         <Grid item xs={4}>
             <Stack direction='column'>
                 <Typography color='#898989' fontSize={'10px'}>FULL NAME</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>Andry Junianto</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.name}</Typography>
             </Stack>
         </Grid>
         <Grid item xs={4}>
             <Stack direction='column'>
               <Typography color='#898989' fontSize={'10px'}>JOINED DATE</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>22 Feb 2022</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.joinedDate}</Typography>
             </Stack>
         </Grid>
         <Grid item xs={4}>
             <Stack direction='column'>
             <Typography color='#898989' fontSize={'10px'}>STATUS</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>Active</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.status}</Typography>
             </Stack>
         </Grid>
         <Grid item xs={4}>
             <Stack direction='column'>
             <Typography color='#898989' fontSize={'10px'}>GENDER</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>Male</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.gender}</Typography>
             </Stack>
         </Grid>
         <Grid item xs={4}>
             <Stack direction='column'>
             <Typography color='#898989' fontSize={'10px'}>DOB</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>22 Feb 2022</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.dob}</Typography>
             </Stack>
         </Grid>
         <Grid item xs={4}>
             <Stack direction='column'>
             <Typography color='#898989' fontSize={'10px'}>PHONE NUMBER</Typography>
-                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>0812 6603 1112</Typography>
+                <Typography sx={{fontWeight:'800', fontSize:'15px'}}>{employee.phoneNumber}</Typography>
             </Stack>
         </Grid>
       </Grid>

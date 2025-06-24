@@ -13,10 +13,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import SidebarItem from "./SidebarItem";
-import {Badge,Eject,AttachMoney,Dashboard,Sell,SummarizeOutlined,VaccinesOutlined, SellOutlined, EjectOutlined, BadgeOutlined, DashboardOutlined, HowToRegOutlined, Vaccines, AnalyticsOutlined, FaceRetouchingNaturalOutlined, BookOutlined} from '@mui/icons-material';
+import {Eject,AttachMoney,Dashboard, SellOutlined, HowToRegOutlined, Vaccines, AnalyticsOutlined, FaceRetouchingNaturalOutlined, BookOutlined} from '@mui/icons-material';
 import { useViewContext } from "../../context/ViewContext";
 import pbsLogo from '../../assets/images/pbslogo.jpg';
 import { Avatar } from "@mui/material";
+import {Link} from 'react-router-dom'
 
 
 const drawerWidth = 220;
@@ -134,16 +135,16 @@ const Sidebar = () => {
         </DrawerHeader>
         <Divider /> 
         <List>
-          <SidebarItem open={openDrawer} name={'Sales Board'} icon={<Dashboard/>} handleView={setToSalesDashboard} />
-          <SidebarItem open={openDrawer} name={'Employee Board'} icon={<AnalyticsOutlined/>} handleView={setToEmployeeDashboard} />
+          {/* <Link to='/salesboard'><SidebarItem open={openDrawer} name={'Sales Board'} icon={<Dashboard/>} handleView={setToSalesDashboard} /></Link> */}
+          <Link to='/employeeboard'><SidebarItem open={openDrawer} name={'Employee Board'} icon={<AnalyticsOutlined/>} handleView={setToEmployeeDashboard} /></Link>
           <Divider sx={{my:'0.5rem'}}/>
-          <SidebarItem open={openDrawer} name={'Employee'} icon={<FaceRetouchingNaturalOutlined />} handleView={setToEmployee}/>
-          <SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/>
-          <SidebarItem open={openDrawer} name={'Sales'} icon={<SellOutlined/>} handleView={setToSales}/>
-          <SidebarItem open={openDrawer} name={'Immunity Log'} icon={<Vaccines/>} handleView={setToImmunityLog}/>
-          <SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>} handleView={setToPayslip}/>
-          <SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToRegOutlined/>} handleView={setToAttendance}/>
-          <SidebarItem open={openDrawer} name={'Journal'} icon={<BookOutlined/>} handleView={setToJournal}/>
+          <Link to='/employee'><SidebarItem open={openDrawer} name={'Employee'} icon={<FaceRetouchingNaturalOutlined />} handleView={setToEmployee}/></Link>
+          <Link to='/position'><SidebarItem open={openDrawer} name={'Position'} icon={<Eject/>} handleView={setToPosition}/></Link>
+          <Link to='/sales'><SidebarItem open={openDrawer} name={'Sales'} icon={<SellOutlined/>} handleView={setToSales}/></Link>
+          <Link to='/immunitylog'><SidebarItem open={openDrawer} name={'Immunity Log'} icon={<Vaccines/>} handleView={setToImmunityLog}/></Link>
+          <Link to='/payslip'><SidebarItem open={openDrawer} name={'Payslip'} icon={<AttachMoney/>} handleView={setToPayslip}/></Link>
+          <Link to='/attendance'><SidebarItem open={openDrawer} name={'Attendance'} icon={<HowToRegOutlined/>} handleView={setToAttendance}/></Link>
+          <Link to='/journal'><SidebarItem open={openDrawer} name={'Journal'} icon={<BookOutlined/>} handleView={setToJournal}/></Link>
         </List>
       </Drawer>
     </Box>

@@ -22,6 +22,7 @@ import EmployeeDashboardCommisionTarget from "./EmployeeDashboardCommisionTarget
 import EmployeeDashboardLeave from "./EmployeeDashboardLeave";
 import EmployeeDashboardAttendance from "./EmployeeDashboardAttendance";
 import EmployeeDashboardPayslip from "./EmployeeDashboardPayslip";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const EmployeeDashboardView = () => {
   const { openDrawer } = useViewContext();
@@ -48,6 +49,7 @@ const EmployeeDashboardView = () => {
   },[employeeData])
   return (
     <>
+        <Sidebar/>
       {employeeDashboardData && (
         <Box
           sx={{
@@ -79,15 +81,15 @@ const EmployeeDashboardView = () => {
               <EmployeeDashboardDetails employee={employeeDashboardData}/>
             </Grid>
             <Grid item xs={6}>
-              <EmployeeDashboardTopCards />
+              <EmployeeDashboardTopCards employee={employeeDashboardData}/>
             </Grid>
-            <Grid item xs={9} >
+           {/*  <Grid item xs={9} >
               <EmployeeDashboardWeeklySales/>
               <EmployeeDashboardLeave/>
             </Grid>
             
             <Grid item xs={3}>
-              <EmployeeDashboardCommisionTarget/>
+              <EmployeeDashboardCommisionTarget employee={employeeDashboardData}/>
             </Grid>
            
            <Grid item xs={6}>
@@ -95,8 +97,8 @@ const EmployeeDashboardView = () => {
            </Grid>
 
            <Grid item xs={6}>
-              <EmployeeDashboardPayslip/>
-           </Grid>
+              <EmployeeDashboardPayslip employee={employeeDashboardData}/>
+           </Grid> */}
           </Grid>
         </Box>
       )}

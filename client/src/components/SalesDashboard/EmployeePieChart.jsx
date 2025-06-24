@@ -4,13 +4,13 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 
 const EmployeePieChart = () => {
   const data01 = [
-    { name: "Probation", value: 6 },
-    { name: "Junior Consultant", value: 3 },
+    { name: "Probation", value: 1 },
+    { name: "Junior Consultant", value: 1 },
     { name: "Senior Consultant", value: 1 },
   ];
   const data02 = [
-    { name: "Male", value: 7 },
-    { name: "Female", value: 3 },
+    { name: "Male", value: 1 },
+    { name: "Female", value: 2 },
   ];
   const COLORS = ["#3699e8", "#fe8c96"];
   const COLORSPOSITION = ["#3fc7b5","#fe7096","#65bcee"]

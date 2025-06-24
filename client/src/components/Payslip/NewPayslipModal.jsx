@@ -129,7 +129,7 @@ const NewPayslipModal = ({
       let totalHours = employeeTrackRecordsData.totalHours;
       let workingHours =
         totalHours.totalWorkingHours + totalHours.totalReimbursedHours;
-        let salaryHours = Math.floor((workingHours / 270) * position.salary)
+        let salaryHours = Math.floor((workingHours / 279) * position.salary)
       let deduction = position.salary - salaryHours;
       let adjustment = countTotalAdjustment();
       setEmployeeTrackRecords({

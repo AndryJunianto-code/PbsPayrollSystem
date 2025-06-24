@@ -5,46 +5,32 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis, Tool
 const EmployeeDashboardWeeklySales = () => {
     const data = [
         {
-            name: 'Week 41',
-            amount: 4000,
-            pv: 2400,
-            amt: 2400,
-          },
-          {
-            name: 'Week 42',
-            amount: 3000,
-            pv: 1398,
-            amt: 2210,
-          },
-          {
-            name: 'Week 43',
-            amount: 2000,
-            pv: 9800,
-            amt: 2290,
-          },
-          {
             name: 'Week 44',
-            amount: 2780,
-            pv: 3908,
-            amt: 2000,
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
           },
           {
             name: 'Week 45',
-            amount: 1890,
-            pv: 4800,
-            amt: 2181,
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
           },
           {
             name: 'Week 46',
-            amount: 2390,
-            pv: 3800,
-            amt: 2500,
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
           },
           {
             name: 'Week 47',
-            amount: 3490,
-            pv: 4300,
-            amt: 2100,
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
+          },
+          {
+            name: 'Week 48',
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
+          },
+          {
+            name: 'Week 49',
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
+          },
+          {
+            name: 'Week 50',
+            amount: Math.floor(Math.random() * (10000 - 1000 + 1)) + 1000,
           },
     ]
   return (

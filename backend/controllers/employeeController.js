@@ -236,6 +236,18 @@ export const getSingleEmployeeDashboard = async(req,res)=> {
             },
           },
           required: false,
+        },
+        {
+          model: Payslip,
+          where: {
+            date: {
+              [Op.between]: [
+                new Date(req.params.year, req.params.month - 1, 1),
+                new Date(req.params.year, req.params.month, 0, 23, 59, 59, 999), // Set the end of the last day
+              ],
+            },
+          },
+          required: false,
         }
       ],
       order: [
@@ -244,6 +256,16 @@ export const getSingleEmployeeDashboard = async(req,res)=> {
           "createdAt",
           "DESC",
         ],
+        [
+          { model: ImmunityLog, as: "immunityLogs" },
+          "date",
+          "DESC",
+        ],
+        [
+          { model: Payslip, as: "payslips" },
+          "date",
+          "DESC",
+        ]
       ],
     })
     const employeeJSON = employee.toJSON();
@@ -316,16 +338,7 @@ export const getAllJournal = async (req,res)=> {
       netSalary: values.netSalary,
     }));
 
-    const allSales = await Sales.findAll({
-      where: {
-        date: {
-          [Op.between]: [
-            new Date(req.params.fromDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
-            new Date(req.params.toDate).toISOString().replace('T', ' ').replace(/\..+/, ''),
-          ],
-        },
-      }
-    })
+    const allSales = await Sales.findAll()
     const combinedArray = [...aggregatedPayslips, ...allSales];
     combinedArray.sort((a, b) => new Date(a.date) - new Date(b.date));
 

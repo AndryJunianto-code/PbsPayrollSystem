@@ -25,6 +25,7 @@ import {
   getAttendanceOnDate,
   updateAllAttendance,
 } from "../../requests/attendanceRequest";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const AttendanceView = () => {
   const { openDrawer } = useViewContext();
@@ -108,6 +109,8 @@ const AttendanceView = () => {
     handleCreateAttendance();
   }, [attendanceData, attendanceSuccess, employeeIdSuccess]);
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
@@ -180,6 +183,7 @@ const AttendanceView = () => {
         </Table>
       </TableContainer>
     </ViewFirstBox>
+    </>
   );
 };
 

@@ -15,6 +15,7 @@ import SecondaryButton from "../widgets/SecondaryButton";
 import PayslipJournalModal from "./PayslipJournalModal";
 import UpdatePayslipModal from "./UpdatePayslipModal";
 import useGetTotalPayslipAmount from "../../hooks/useGetTotalPayslipAmount";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const PayslipView = () => {
   const { openDrawer } = useViewContext();
@@ -52,6 +53,8 @@ const PayslipView = () => {
     if(payslipSuccess) refetchIncomeData();
   },[payslipData])
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
         <Box
           sx={{
@@ -119,6 +122,7 @@ const PayslipView = () => {
       />
       {openViewJournalModal && <PayslipJournalModal incomeData={incomeData} selectedDate={selectedDate} openViewJournalModal={openViewJournalModal} setOpenViewJournalModal={setOpenViewJournalModal}/>}
     </ViewFirstBox>
+    </>
   );
 };
 

@@ -34,12 +34,12 @@ const EmployeeActionMenu = ({selectedRow,actionAnchor,isActionMenuOpen,handleClo
   return (
     <Paper>
     <Menu anchorEl={actionAnchor} open={isActionMenuOpen} onClose={handleCloseActionMenu}>
-      <MenuItem onClick={handleDownloadPdf}>
+      {/* <MenuItem onClick={handleDownloadPdf}>
           <ListItemIcon>
             <PictureAsPdfOutlined fontSize="small" />
           </ListItemIcon>
           <ListItemText>Download PDF</ListItemText>
-        </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleOpenEmpUpdateModal}>
         <ListItemIcon>
           <UpgradeOutlined fontSize="small" />

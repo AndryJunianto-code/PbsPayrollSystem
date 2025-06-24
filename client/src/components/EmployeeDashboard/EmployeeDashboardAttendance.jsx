@@ -4,15 +4,15 @@ import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAx
 
 const EmployeeDashboardAttendance = () => {
   const data =  [
-    { name: 'Jan', paidLeave: 4, unpaidLeave: 1, mc: 0, present: 26 },
-    { name: 'Feb', paidLeave: 3, unpaidLeave: 1, mc: 1, present: 23 },
-    { name: 'Mar', paidLeave: 4, unpaidLeave: 2, mc: 0, present: 25 },
-    { name: 'Apr', paidLeave: 1, unpaidLeave: 1, mc: 2, present: 26 },
-    { name: 'May', paidLeave: 0, unpaidLeave: 1, mc: 0, present: 30 },
+    { name: 'Jan', paidLeave: 1, unpaidLeave: 1, mc: 0, present: 29 },
+    { name: 'Feb', paidLeave: 2, unpaidLeave: 1, mc: 1, present: 25 },
+    { name: 'Mar', paidLeave: 0, unpaidLeave: 2, mc: 1, present: 28 },
+    { name: 'Apr', paidLeave: 1, unpaidLeave: 0, mc: 2, present: 27 },
+    { name: 'May', paidLeave: 0, unpaidLeave: 0, mc: 0, present: 31 },
     { name: 'Jun', paidLeave: 0, unpaidLeave: 0, mc: 2, present: 28 },
-    { name: 'Jul', paidLeave: 3, unpaidLeave: 2, mc: 0, present: 26 },
+    { name: 'Jul', paidLeave: 3, unpaidLeave: 0, mc: 0, present: 28 },
     { name: 'Aug', paidLeave: 0, unpaidLeave: 0, mc: 0, present: 31 },
-    { name: 'Sep', paidLeave: 0, unpaidLeave: 0, mc: 0, present: 30 },
+    { name: 'Sep', paidLeave: 0, unpaidLeave: 0, mc: 1, present: 29 },
     { name: 'Oct', paidLeave: 0, unpaidLeave: 0, mc: 0, present: 31 },
     { name: 'Nov', paidLeave: 1, unpaidLeave: 0, mc: 0, present: 29 },
     { name: 'Dec', paidLeave: 0, unpaidLeave: 1, mc: 2, present: 28 },
@@ -36,10 +36,10 @@ const EmployeeDashboardAttendance = () => {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="present" stackId="a" fill="#0088fe" />
-          <Bar dataKey="paidLeave" stackId="a" fill="#feb930" />
-          <Bar dataKey="unpaidLeave" stackId="a" fill="#00c49f" />
-          <Bar dataKey="mc" stackId="a" fill="#ff0051" />
+          <Bar dataKey="present" stackId="a" fill="#259c8a" />
+          <Bar dataKey="paidLeave" stackId="a" fill="#3699e8" />
+          <Bar dataKey="unpaidLeave" stackId="a" fill="#5c5bec" />
+          <Bar dataKey="mc" stackId="a" fill="#fe7096" />
         </BarChart>
         </ResponsiveContainer>
     </Paper>

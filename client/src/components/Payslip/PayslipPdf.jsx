@@ -2,6 +2,7 @@
 
 import React from 'react';
 import dayjs from 'dayjs';
+import getCurrency from '../../utils/getCurrency';
 
 const styles = {
   payslip: {
@@ -45,10 +46,14 @@ const styles = {
     padding: '8px',
     border: '1px solid #333',
   },
+  amountDetail: {
+    padding: '8px',
+    border: '1px solid #333',
+    textAlign: 'right',
+  },
   netSalary: {
     backgroundColor: '#eee',
     fontWeight: 'bold',
-    textAlign: 'right',
   },
 };
 const PayslipPdf = ({payslipData}) => {
@@ -58,8 +63,8 @@ const PayslipPdf = ({payslipData}) => {
     employeeName,
     phoneNumber,
     basicSalary,
-    totalCommision,
-    totalDeduction,
+    commision,
+    deduction,
     netSalary,
   } = payslipData;
 
@@ -78,19 +83,19 @@ const PayslipPdf = ({payslipData}) => {
         <tbody>
           <tr>
             <td style={styles.salaryDetail}>Basic Salary:</td>
-            <td style={styles.salaryDetail}>{basicSalary}</td>
+            <td style={styles.amountDetail}>Rp{getCurrency(basicSalary)}</td>
           </tr>
           <tr>
             <td style={styles.salaryDetail}>Total Commission:</td>
-            <td style={styles.salaryDetail}>{totalCommision}</td>
+            <td style={styles.amountDetail}>Rp{getCurrency(commision)}</td>
           </tr>
           <tr>
             <td style={styles.salaryDetail}>Total Deduction:</td>
-            <td style={styles.salaryDetail}>{totalDeduction}</td>
+            <td style={styles.amountDetail}>Rp{getCurrency(deduction)}</td>
           </tr>
           <tr>
             <td style={{ ...styles.salaryDetail, ...styles.netSalary }}>Net Salary:</td>
-            <td style={{ ...styles.salaryDetail, ...styles.netSalary }}>{netSalary}</td>
+            <td style={{ ...styles.salaryDetail, ...styles.netSalary, ...styles.amountDetail }}>Rp{getCurrency(netSalary)}</td>
           </tr>
         </tbody>
       </table>

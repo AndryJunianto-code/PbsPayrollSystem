@@ -123,13 +123,6 @@ import getMonthYear from "../../utils/getMonthYear";
           </TableBody>
           ))}
         </TableContainer>
-        <Button
-              onClick={handleDownloadPdf}
-              variant="contained"
-              sx={{ mt: "2.5rem", textTransform: "capitalize", float: "right" }}
-            >
-              Download PDF
-        </Button>
         </Box>
       </Modal>
     );

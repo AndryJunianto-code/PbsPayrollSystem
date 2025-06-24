@@ -6,7 +6,7 @@ const ViewContext = React.createContext({});
 
 const ViewContextProvider = ({ children }) => {
   const [isAuthenticated,setIsAuthenticated] = useState(true);
-  const [selectedView, setSelectedView] = useState('Sales Board');
+  const [selectedView, setSelectedView] = useState('Employee Board');
   const [openDrawer, setOpenDrawer] = useState(true);
 
   const setToSalesDashboard = () => setSelectedView(VIEW_ENUM.SALES_DASHBOARD_VIEW);

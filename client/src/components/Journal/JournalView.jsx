@@ -26,6 +26,7 @@ import * as XLSX from "xlsx";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { FileDownloadOutlined } from "@mui/icons-material";
+import Sidebar from "../../layouts/Sidebar/Sidebar";
 
 const JournalView = () => {
   const { openDrawer } = useViewContext();
@@ -78,8 +79,10 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
       );
     }
   };
-
+console.log(selectedDate)
   return (
+    <>
+    <Sidebar/>
     <ViewFirstBox openDrawer={openDrawer}>
       <Box
         sx={{
@@ -137,15 +140,23 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
           </Box>
         </Stack>
         <Paper ref={tableRef} sx={{ minHeight: "35rem", padding: "1rem 2rem" }}>
+        <Typography
+            textAlign={"center"}
+            fontSize={"20px"}
+            fontWeight={"bold"}
+            letterSpacing={"1px"}
+          >
+              CV.PERMATA BATAM SUKSESINDO
+          </Typography>
           <Typography
             textAlign={"center"}
-            fontSize={"18px"}
+            fontSize={"15px"}
             color="red"
             fontWeight={"bold"}
             letterSpacing={"1px"}
             mb='1rem'
           >
-            Adjusting Journal Entries
+              Adjusting Journal Entries {selectedDate !== null && selectedDate[0] !== null && selectedDate[1] !== null && `${dayjs(selectedDate[0]).format("DD MMM YYYY")} - ${dayjs(selectedDate[1]).format("DD MMM YYYY")}`}
           </Typography>
           <TableContainer
             id="table"
@@ -191,7 +202,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                             {dayjs(journal.date).format("DD MMM")}
                           </TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{journal.id}</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Sales</TableCell>
+                          <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Payslip</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}> Beban Gaji</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",textAlign:'right'}}>
                             {getCurrency(journal.netSalary - journal.commision)}
@@ -279,7 +290,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
                             {dayjs(journal.date).format("DD MMM")}
                           </TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>{journal.id}</TableCell>
-                          <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Payslip</TableCell>
+                          <TableCell sx={{borderLeft: "1px solid #ccc",fontStyle:'italic'}}>Sales</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",}}>Kas</TableCell>
                           <TableCell sx={{borderLeft: "1px solid #ccc",textAlign:'right'}}> 
                             {getCurrency(journal.salesAmount * 10100)}
@@ -324,6 +335,7 @@ XLSX.writeFile(workbook, "Adjusting_Journal_Entries.xlsx");
         </Paper>
       </Box>
     </ViewFirstBox>
+    </>
   );
 };
 
