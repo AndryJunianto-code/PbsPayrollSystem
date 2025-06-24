@@ -1,6 +1,4 @@
-# Your Project Name
-
-![Project Logo](link-to-your-logo) <!-- Optional: Add a logo or image -->
+# Payroll Management System
 
 ## Description
 
